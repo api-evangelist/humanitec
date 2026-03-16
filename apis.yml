@@ -1,0 +1,58 @@
+aid: humanitec
+name: Humanitec
+description: >-
+  Humanitec is a platform engineering platform that provides Internal Developer
+  Platform capabilities. The Humanitec Platform API enables teams to manage
+  applications, deployments, environments, and resources through a developer
+  self-service platform.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Platform Engineering
+  - Internal Developer Platform
+  - DevOps
+  - Deployments
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/apis.yml
+created: '2026-03-16'
+modified: '2026-03-16'
+specificationVersion: '0.19'
+apis:
+  - aid: humanitec:humanitec-api
+    name: Humanitec Platform API
+    description: >-
+      The Humanitec Platform API provides programmatic access to manage
+      applications, deployments, environments, workloads, resources, and
+      other platform components within the Humanitec Internal Developer Platform.
+    humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+    baseURL: https://api.humanitec.io
+    tags:
+      - Platform Engineering
+      - Deployments
+    properties:
+      - type: Documentation
+        url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+      - type: OpenAPI
+        url: https://api.humanitec.io/openapi.json
+      - type: Getting Started
+        url: https://developer.humanitec.com/introduction/overview/
+common:
+  - type: Portal
+    url: https://developer.humanitec.com/
+  - type: Website
+    url: https://humanitec.com/
+  - type: Documentation
+    url: https://developer.humanitec.com/
+  - type: Sign Up
+    url: https://app.humanitec.io/sign-up
+  - type: Blog
+    url: https://humanitec.com/blog
+  - type: GitHub Organization
+    url: https://github.com/humanitec
+  - type: Terms of Service
+    url: https://humanitec.com/terms-of-service
+  - type: Privacy Policy
+    url: https://humanitec.com/privacy-policy
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
