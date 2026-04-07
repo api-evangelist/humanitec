@@ -8,10 +8,10 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Platform Engineering
-  - Internal Developer Platform
-  - DevOps
   - Deployments
+  - DevOps
+  - Internal Developer Platform
+  - Platform Engineering
 url: >-
   https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/apis.yml
 created: '2026-03-16'
@@ -27,8 +27,8 @@ apis:
     humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
     baseURL: https://api.humanitec.io
     tags:
-      - Platform Engineering
       - Deployments
+      - Platform Engineering
     properties:
       - type: Documentation
         url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
