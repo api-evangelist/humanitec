@@ -1,0 +1,87 @@
+aid: humanitec
+name: Humanitec Rules
+description: >-
+  Operational rules and guardrails for working with the Humanitec Platform
+  Orchestrator API. Codifies authentication, organization scoping, resource
+  lifecycle, deployment safety, and write-action policies for agents and
+  integrations.
+modified: '2026-04-28'
+rules:
+  - id: humanitec-auth-bearer
+    name: Bearer Token Authentication
+    description: >-
+      All requests to the Humanitec Platform Orchestrator API must include a
+      valid API token via the Authorization header (Bearer scheme). Tokens
+      are scoped to a service user or human user within an organization and
+      must never be embedded in source control or logs.
+    applies_to:
+      - humanitec:humanitec-platform-orchestrator-api
+    severity: required
+  - id: humanitec-org-scope
+    name: Organization Scoping
+    description: >-
+      Most resources are scoped under an `orgId`. Verify the target
+      organization before issuing write operations and never rely on a
+      defaulted or guessed organization identifier.
+    applies_to:
+      - humanitec:humanitec-platform-orchestrator-api
+    severity: required
+  - id: humanitec-deployment-confirm
+    name: Confirm Deployments
+    description: >-
+      Triggering a deployment, deploying a delta, or rolling back an
+      environment changes running infrastructure. Agents must surface the
+      target environment, application, and delta summary, and require
+      explicit user confirmation before executing.
+    applies_to:
+      - humanitec:humanitec-platform-orchestrator-api
+    severity: required
+  - id: humanitec-destructive-confirm
+    name: Confirm Destructive Actions
+    description: >-
+      Deleting applications, environments, resource definitions, accounts,
+      service users, or pipelines requires explicit user confirmation.
+      Agents must not issue DELETE requests against production-tagged or
+      shared resources without authorization.
+    applies_to:
+      - humanitec:humanitec-platform-orchestrator-api
+    severity: required
+  - id: humanitec-resource-definitions
+    name: Resource Definition Hygiene
+    description: >-
+      Resource definitions are platform-wide primitives. Modifications can
+      affect every workload that matches a criteria. Validate matching
+      criteria and existing usage before updating or deleting a definition.
+    applies_to:
+      - humanitec:humanitec-platform-orchestrator-api
+    severity: required
+  - id: humanitec-secrets-handling
+    name: Secrets Handling
+    description: >-
+      Shared values marked as secrets and account credentials must not be
+      logged, printed, or echoed. Use the Humanitec secret store endpoints
+      and prefer references over inline secret values.
+    applies_to:
+      - humanitec:humanitec-platform-orchestrator-api
+    severity: required
+  - id: humanitec-delta-workflow
+    name: Use Delta Workflow
+    description: >-
+      Prefer the delta-and-deploy workflow for changing environments rather
+      than direct mutation. Build deltas, review the diff, and deploy
+      explicitly so changes are auditable and reversible.
+    applies_to:
+      - humanitec:humanitec-platform-orchestrator-api
+    severity: recommended
+  - id: humanitec-rate-limits
+    name: Respect Rate Limits
+    description: >-
+      Honor HTTP 429 responses and back off with exponential delay and
+      jitter. Avoid retry storms, especially around deploy and resource
+      provisioning endpoints.
+    applies_to:
+      - humanitec:humanitec-platform-orchestrator-api
+    severity: required
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
