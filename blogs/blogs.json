@@ -1,0 +1,13 @@
+{
+  "repo": "humanitec",
+  "feeds": [
+    {
+      "source": "https://humanitec.com/blog",
+      "feed_url": "https://humanitec.com/blog/rss.xml",
+      "saved": 10,
+      "title": "Humanitec Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:29:32Z"
+}
