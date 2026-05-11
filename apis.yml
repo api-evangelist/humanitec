@@ -66,6 +66,13 @@ common:
     url: https://humanitec.com/terms-of-service
   - type: Privacy Policy
     url: https://humanitec.com/privacy-policy
+  - type: Integrations
+    url: https://humanitec.com/integrations
+integrations:
+  - name: icon-aws
+  - name: icon gcp
+  - name: icon azure
+  - name: Quotation marks
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
