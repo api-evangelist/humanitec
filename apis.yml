@@ -42,7 +42,7 @@ apis:
       - type: OpenAPI
         url: >-
           https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/openapi/humanitec-openapi.yml
-      - type: Getting Started
+      - type: GettingStarted
         url: https://developer.humanitec.com/introduction/overview/
       - type: Authentication
         url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
@@ -56,15 +56,15 @@ common:
     url: https://humanitec.com/
   - type: Documentation
     url: https://developer.humanitec.com/
-  - type: Sign Up
+  - type: SignUp
     url: https://app.humanitec.io/sign-up
   - type: Blog
     url: https://humanitec.com/blog
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/humanitec
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://humanitec.com/terms-of-service
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://humanitec.com/privacy-policy
   - type: Integrations
     url: https://humanitec.com/integrations
