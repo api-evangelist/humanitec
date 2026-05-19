@@ -1,0 +1,67 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — WorkloadProfileFeatures
+  description: 'Humanitec API — WorkloadProfileFeatures. 1 operations. Lead operation: List workload profile features available
+    to the organization.. Self-contained Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - WorkloadProfileFeatures
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-workloadprofilefeatures
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — WorkloadProfileFeatures business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-workload-profile-features
+      path: /orgs/{orgId}/workload-profile-features
+      operations:
+      - name: listworkloadprofilefeatures
+        method: GET
+        description: List workload profile features available to the organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: humanitec-workloadprofilefeatures-rest
+    port: 8080
+    description: REST adapter for Humanitec API — WorkloadProfileFeatures. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/workload-profile-features
+      name: orgs-orgid-workload-profile-features
+      description: REST surface for orgs-orgId-workload-profile-features.
+      operations:
+      - method: GET
+        name: listworkloadprofilefeatures
+        description: List workload profile features available to the organization.
+        call: humanitec-workloadprofilefeatures.listworkloadprofilefeatures
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-workloadprofilefeatures-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — WorkloadProfileFeatures. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-workload-profile-features-available
+      description: List workload profile features available to the organization.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-workloadprofilefeatures.listworkloadprofilefeatures
+      outputParameters:
+      - type: object
+        mapping: $.

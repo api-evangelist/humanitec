@@ -1,0 +1,203 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — MatchingCriteria
+  description: 'Humanitec API — MatchingCriteria. 3 operations. Lead operation: Update all Matching Criteria of a Resource
+    Definition.. Self-contained Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - MatchingCriteria
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-matchingcriteria
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — MatchingCriteria business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-resources-defs-defId-criteria
+      path: /orgs/{orgId}/resources/defs/{defId}/criteria
+      operations:
+      - name: updateresourcedefinitioncriteria
+        method: PUT
+        description: Update all Matching Criteria of a Resource Definition.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: defId
+          in: path
+          type: string
+          description: The Resource Definition ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: createresourcedefinitioncriteria
+        method: POST
+        description: Add a new Matching Criteria to a Resource Definition.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: defId
+          in: path
+          type: string
+          description: The Resource Definition ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-resources-defs-defId-criteria-criteriaId
+      path: /orgs/{orgId}/resources/defs/{defId}/criteria/{criteriaId}
+      operations:
+      - name: deleteresourcedefinitioncriteria
+        method: DELETE
+        description: Delete a Matching Criteria from a Resource Definition.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: defId
+          in: path
+          type: string
+          description: The Resource Definition ID.
+          required: true
+        - name: criteriaId
+          in: path
+          type: string
+          description: The Matching Criteria ID.
+          required: true
+        - name: force
+          in: query
+          type: boolean
+          description: If set to `true`, the Matching Criteria is deleted immediately, even if this action affects existing
+            Active Resources.
+  exposes:
+  - type: rest
+    namespace: humanitec-matchingcriteria-rest
+    port: 8080
+    description: REST adapter for Humanitec API — MatchingCriteria. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/resources/defs/{defid}/criteria
+      name: orgs-orgid-resources-defs-defid-criteria
+      description: REST surface for orgs-orgId-resources-defs-defId-criteria.
+      operations:
+      - method: PUT
+        name: updateresourcedefinitioncriteria
+        description: Update all Matching Criteria of a Resource Definition.
+        call: humanitec-matchingcriteria.updateresourcedefinitioncriteria
+        with:
+          orgId: rest.orgId
+          defId: rest.defId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createresourcedefinitioncriteria
+        description: Add a new Matching Criteria to a Resource Definition.
+        call: humanitec-matchingcriteria.createresourcedefinitioncriteria
+        with:
+          orgId: rest.orgId
+          defId: rest.defId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/resources/defs/{defid}/criteria/{criteriaid}
+      name: orgs-orgid-resources-defs-defid-criteria-criteriaid
+      description: REST surface for orgs-orgId-resources-defs-defId-criteria-criteriaId.
+      operations:
+      - method: DELETE
+        name: deleteresourcedefinitioncriteria
+        description: Delete a Matching Criteria from a Resource Definition.
+        call: humanitec-matchingcriteria.deleteresourcedefinitioncriteria
+        with:
+          orgId: rest.orgId
+          defId: rest.defId
+          criteriaId: rest.criteriaId
+          force: rest.force
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-matchingcriteria-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — MatchingCriteria. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: update-all-matching-criteria-resource
+      description: Update all Matching Criteria of a Resource Definition.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-matchingcriteria.updateresourcedefinitioncriteria
+      with:
+        orgId: tools.orgId
+        defId: tools.defId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-new-matching-criteria-resource
+      description: Add a new Matching Criteria to a Resource Definition.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-matchingcriteria.createresourcedefinitioncriteria
+      with:
+        orgId: tools.orgId
+        defId: tools.defId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-matching-criteria-resource-definition
+      description: Delete a Matching Criteria from a Resource Definition.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: humanitec-matchingcriteria.deleteresourcedefinitioncriteria
+      with:
+        orgId: tools.orgId
+        defId: tools.defId
+        criteriaId: tools.criteriaId
+        force: tools.force
+      outputParameters:
+      - type: object
+        mapping: $.

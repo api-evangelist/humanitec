@@ -1,0 +1,701 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — ValueSetVersion
+  description: 'Humanitec API — ValueSetVersion. 10 operations. Lead operation: List Value Set Versions in an Environment
+    of an App. Self-contained Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - ValueSetVersion
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-valuesetversion
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — ValueSetVersion business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-apps-appId-envs-envId-value-set-versions
+      path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions
+      operations:
+      - name: get
+        method: GET
+        description: List Value Set Versions in an Environment of an App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+        - name: key_changed
+          in: query
+          type: string
+          description: (Optional) Return only value set version where the specified key changed
+    - name: orgs-orgId-apps-appId-envs-envId-value-set-versions-valueSetVersionId
+      path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}
+      operations:
+      - name: get
+        method: GET
+        description: Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000)
+          will return the latest Value Set Version.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+        - name: valueSetVersionId
+          in: path
+          type: string
+          description: The ValueSetVersion ID.
+          required: true
+    - name: orgs-orgId-apps-appId-envs-envId-value-set-versions-valueSetVersionId-purge-key
+      path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/purge/{key}
+      operations:
+      - name: post
+        method: POST
+        description: Purge the value of a specific Shared Value from the App Environment Version history.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+        - name: valueSetVersionId
+          in: path
+          type: string
+          description: The ValueSetVersion ID.
+          required: true
+        - name: key
+          in: path
+          type: string
+          description: Key of the value to be purged.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-envs-envId-value-set-versions-valueSetVersionId-restore
+      path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore
+      operations:
+      - name: post
+        method: POST
+        description: Restore a Value Set Version in an Environment of an App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+        - name: valueSetVersionId
+          in: path
+          type: string
+          description: The ValueSetVersion ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-envs-envId-value-set-versions-valueSetVersionId-restore-ke
+      path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore/{key}
+      operations:
+      - name: post
+        method: POST
+        description: Restore a specific key from the Value Set Version in an Environment of an App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+        - name: valueSetVersionId
+          in: path
+          type: string
+          description: The ValueSetVersion ID.
+          required: true
+        - name: key
+          in: path
+          type: string
+          description: Key of the value to be restored.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-value-set-versions
+      path: /orgs/{orgId}/apps/{appId}/value-set-versions
+      operations:
+      - name: get
+        method: GET
+        description: List Value Set Versions in the App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: key_changed
+          in: query
+          type: string
+          description: (Optional) Return only value set version where the specified key changed
+    - name: orgs-orgId-apps-appId-value-set-versions-valueSetVersionId
+      path: /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}
+      operations:
+      - name: get
+        method: GET
+        description: Get a single Value Set Version from the App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: valueSetVersionId
+          in: path
+          type: string
+          description: The ValueSetVersion ID.
+          required: true
+    - name: orgs-orgId-apps-appId-value-set-versions-valueSetVersionId-purge-key
+      path: /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/purge/{key}
+      operations:
+      - name: post
+        method: POST
+        description: Purge the value of a specific Shared Value from the App Version history.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: valueSetVersionId
+          in: path
+          type: string
+          description: The ValueSetVersion ID.
+          required: true
+        - name: key
+          in: path
+          type: string
+          description: Key of the value to be purged.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-value-set-versions-valueSetVersionId-restore
+      path: /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore
+      operations:
+      - name: post
+        method: POST
+        description: Restore a Value Set Version in an App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: valueSetVersionId
+          in: path
+          type: string
+          description: The ValueSetVersion ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-value-set-versions-valueSetVersionId-restore-key
+      path: /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore/{key}
+      operations:
+      - name: post
+        method: POST
+        description: Restore a specific key from the Value Set Version in an App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: valueSetVersionId
+          in: path
+          type: string
+          description: The ValueSetVersion ID.
+          required: true
+        - name: key
+          in: path
+          type: string
+          description: Key of the value to be restored.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: humanitec-valuesetversion-rest
+    port: 8080
+    description: REST adapter for Humanitec API — ValueSetVersion. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs/{envid}/value-set-versions
+      name: orgs-orgid-apps-appid-envs-envid-value-set-versions
+      description: REST surface for orgs-orgId-apps-appId-envs-envId-value-set-versions.
+      operations:
+      - method: GET
+        name: get
+        description: List Value Set Versions in an Environment of an App
+        call: humanitec-valuesetversion.get
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+          key_changed: rest.key_changed
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs/{envid}/value-set-versions/{valuesetversionid}
+      name: orgs-orgid-apps-appid-envs-envid-value-set-versions-valuesetversionid
+      description: REST surface for orgs-orgId-apps-appId-envs-envId-value-set-versions-valueSetVersionId.
+      operations:
+      - method: GET
+        name: get
+        description: Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000)
+          will return the latest Value Set Version.
+        call: humanitec-valuesetversion.get
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+          valueSetVersionId: rest.valueSetVersionId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs/{envid}/value-set-versions/{valuesetversionid}/purge/{key}
+      name: orgs-orgid-apps-appid-envs-envid-value-set-versions-valuesetversionid-purge-key
+      description: REST surface for orgs-orgId-apps-appId-envs-envId-value-set-versions-valueSetVersionId-purge-key.
+      operations:
+      - method: POST
+        name: post
+        description: Purge the value of a specific Shared Value from the App Environment Version history.
+        call: humanitec-valuesetversion.post
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+          valueSetVersionId: rest.valueSetVersionId
+          key: rest.key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs/{envid}/value-set-versions/{valuesetversionid}/restore
+      name: orgs-orgid-apps-appid-envs-envid-value-set-versions-valuesetversionid-restore
+      description: REST surface for orgs-orgId-apps-appId-envs-envId-value-set-versions-valueSetVersionId-restore.
+      operations:
+      - method: POST
+        name: post
+        description: Restore a Value Set Version in an Environment of an App
+        call: humanitec-valuesetversion.post
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+          valueSetVersionId: rest.valueSetVersionId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs/{envid}/value-set-versions/{valuesetversionid}/restore/{key}
+      name: orgs-orgid-apps-appid-envs-envid-value-set-versions-valuesetversionid-restore-ke
+      description: REST surface for orgs-orgId-apps-appId-envs-envId-value-set-versions-valueSetVersionId-restore-ke.
+      operations:
+      - method: POST
+        name: post
+        description: Restore a specific key from the Value Set Version in an Environment of an App
+        call: humanitec-valuesetversion.post
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+          valueSetVersionId: rest.valueSetVersionId
+          key: rest.key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/value-set-versions
+      name: orgs-orgid-apps-appid-value-set-versions
+      description: REST surface for orgs-orgId-apps-appId-value-set-versions.
+      operations:
+      - method: GET
+        name: get
+        description: List Value Set Versions in the App
+        call: humanitec-valuesetversion.get
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          key_changed: rest.key_changed
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/value-set-versions/{valuesetversionid}
+      name: orgs-orgid-apps-appid-value-set-versions-valuesetversionid
+      description: REST surface for orgs-orgId-apps-appId-value-set-versions-valueSetVersionId.
+      operations:
+      - method: GET
+        name: get
+        description: Get a single Value Set Version from the App
+        call: humanitec-valuesetversion.get
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          valueSetVersionId: rest.valueSetVersionId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/value-set-versions/{valuesetversionid}/purge/{key}
+      name: orgs-orgid-apps-appid-value-set-versions-valuesetversionid-purge-key
+      description: REST surface for orgs-orgId-apps-appId-value-set-versions-valueSetVersionId-purge-key.
+      operations:
+      - method: POST
+        name: post
+        description: Purge the value of a specific Shared Value from the App Version history.
+        call: humanitec-valuesetversion.post
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          valueSetVersionId: rest.valueSetVersionId
+          key: rest.key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/value-set-versions/{valuesetversionid}/restore
+      name: orgs-orgid-apps-appid-value-set-versions-valuesetversionid-restore
+      description: REST surface for orgs-orgId-apps-appId-value-set-versions-valueSetVersionId-restore.
+      operations:
+      - method: POST
+        name: post
+        description: Restore a Value Set Version in an App
+        call: humanitec-valuesetversion.post
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          valueSetVersionId: rest.valueSetVersionId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/value-set-versions/{valuesetversionid}/restore/{key}
+      name: orgs-orgid-apps-appid-value-set-versions-valuesetversionid-restore-key
+      description: REST surface for orgs-orgId-apps-appId-value-set-versions-valueSetVersionId-restore-key.
+      operations:
+      - method: POST
+        name: post
+        description: Restore a specific key from the Value Set Version in an App
+        call: humanitec-valuesetversion.post
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          valueSetVersionId: rest.valueSetVersionId
+          key: rest.key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-valuesetversion-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — ValueSetVersion. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-value-set-versions-environment
+      description: List Value Set Versions in an Environment of an App
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-valuesetversion.get
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+        key_changed: tools.key_changed
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-single-value-set-version
+      description: Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000)
+        will return the latest Value Set Version.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-valuesetversion.get
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+        valueSetVersionId: tools.valueSetVersionId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purge-value-specific-shared-value
+      description: Purge the value of a specific Shared Value from the App Environment Version history.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-valuesetversion.post
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+        valueSetVersionId: tools.valueSetVersionId
+        key: tools.key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: restore-value-set-version-environment
+      description: Restore a Value Set Version in an Environment of an App
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-valuesetversion.post
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+        valueSetVersionId: tools.valueSetVersionId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: restore-specific-key-value-set
+      description: Restore a specific key from the Value Set Version in an Environment of an App
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-valuesetversion.post
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+        valueSetVersionId: tools.valueSetVersionId
+        key: tools.key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-value-set-versions-app
+      description: List Value Set Versions in the App
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-valuesetversion.get
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        key_changed: tools.key_changed
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-single-value-set-version-2
+      description: Get a single Value Set Version from the App
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-valuesetversion.get
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        valueSetVersionId: tools.valueSetVersionId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purge-value-specific-shared-value-2
+      description: Purge the value of a specific Shared Value from the App Version history.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-valuesetversion.post
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        valueSetVersionId: tools.valueSetVersionId
+        key: tools.key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: restore-value-set-version-app
+      description: Restore a Value Set Version in an App
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-valuesetversion.post
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        valueSetVersionId: tools.valueSetVersionId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: restore-specific-key-value-set-2
+      description: Restore a specific key from the Value Set Version in an App
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-valuesetversion.post
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        valueSetVersionId: tools.valueSetVersionId
+        key: tools.key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

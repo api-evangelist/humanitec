@@ -1,0 +1,268 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — Agents
+  description: 'Humanitec API — Agents. 7 operations. Lead operation: Register a new Agent under an Organization.. Self-contained
+    Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - Agents
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-agents
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — Agents business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-agents
+      path: /orgs/{orgId}/agents
+      operations:
+      - name: createagent
+        method: POST
+        description: Register a new Agent under an Organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: listagents
+        method: GET
+        description: List all the agents in an Organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId-agents-agentId
+      path: /orgs/{orgId}/agents/{agentId}
+      operations:
+      - name: deleteagent
+        method: DELETE
+        description: Delete an Agent (and its keys) stored under an Organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: patchagent
+        method: PATCH
+        description: Update the description of an Agent.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-agents-agentId-keys
+      path: /orgs/{orgId}/agents/{agentId}/keys
+      operations:
+      - name: listkeysinagent
+        method: GET
+        description: List all the keys registered under an Agent in an Organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createkey
+        method: POST
+        description: Register a new Key under an Agent in an Organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-agents-agentId-keys-fingerprint
+      path: /orgs/{orgId}/agents/{agentId}/keys/{fingerprint}
+      operations:
+      - name: deletekeyinagent
+        method: DELETE
+        description: Delete a key registered under a Agent.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: humanitec-agents-rest
+    port: 8080
+    description: REST adapter for Humanitec API — Agents. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/agents
+      name: orgs-orgid-agents
+      description: REST surface for orgs-orgId-agents.
+      operations:
+      - method: POST
+        name: createagent
+        description: Register a new Agent under an Organization.
+        call: humanitec-agents.createagent
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listagents
+        description: List all the agents in an Organization.
+        call: humanitec-agents.listagents
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/agents/{agentid}
+      name: orgs-orgid-agents-agentid
+      description: REST surface for orgs-orgId-agents-agentId.
+      operations:
+      - method: DELETE
+        name: deleteagent
+        description: Delete an Agent (and its keys) stored under an Organization.
+        call: humanitec-agents.deleteagent
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchagent
+        description: Update the description of an Agent.
+        call: humanitec-agents.patchagent
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/agents/{agentid}/keys
+      name: orgs-orgid-agents-agentid-keys
+      description: REST surface for orgs-orgId-agents-agentId-keys.
+      operations:
+      - method: GET
+        name: listkeysinagent
+        description: List all the keys registered under an Agent in an Organization.
+        call: humanitec-agents.listkeysinagent
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createkey
+        description: Register a new Key under an Agent in an Organization.
+        call: humanitec-agents.createkey
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/agents/{agentid}/keys/{fingerprint}
+      name: orgs-orgid-agents-agentid-keys-fingerprint
+      description: REST surface for orgs-orgId-agents-agentId-keys-fingerprint.
+      operations:
+      - method: DELETE
+        name: deletekeyinagent
+        description: Delete a key registered under a Agent.
+        call: humanitec-agents.deletekeyinagent
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-agents-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — Agents. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: register-new-agent-under-organization
+      description: Register a new Agent under an Organization.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-agents.createagent
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-agents-organization
+      description: List all the agents in an Organization.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-agents.listagents
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-agent-and-its-keys
+      description: Delete an Agent (and its keys) stored under an Organization.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: humanitec-agents.deleteagent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-description-agent
+      description: Update the description of an Agent.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-agents.patchagent
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-keys-registered-under
+      description: List all the keys registered under an Agent in an Organization.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-agents.listkeysinagent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: register-new-key-under-agent
+      description: Register a new Key under an Agent in an Organization.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-agents.createkey
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-key-registered-under-agent
+      description: Delete a key registered under a Agent.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: humanitec-agents.deletekeyinagent
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,144 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — UserProfile
+  description: 'Humanitec API — UserProfile. 3 operations. Lead operation: Gets the extended profile of the current user.
+    Self-contained Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - UserProfile
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-userprofile
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — UserProfile business capability. Self-contained, no shared references.
+    resources:
+    - name: current-user
+      path: /current-user
+      operations:
+      - name: getcurrentuser
+        method: GET
+        description: Gets the extended profile of the current user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatecurrentuser
+        method: PATCH
+        description: Updates the extended profile of the current user.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-users
+      path: /orgs/{orgId}/users
+      operations:
+      - name: createserviceuserinorg
+        method: POST
+        description: Creates a new service user.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: humanitec-userprofile-rest
+    port: 8080
+    description: REST adapter for Humanitec API — UserProfile. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/current-user
+      name: current-user
+      description: REST surface for current-user.
+      operations:
+      - method: GET
+        name: getcurrentuser
+        description: Gets the extended profile of the current user
+        call: humanitec-userprofile.getcurrentuser
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatecurrentuser
+        description: Updates the extended profile of the current user.
+        call: humanitec-userprofile.updatecurrentuser
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/users
+      name: orgs-orgid-users
+      description: REST surface for orgs-orgId-users.
+      operations:
+      - method: POST
+        name: createserviceuserinorg
+        description: Creates a new service user.
+        call: humanitec-userprofile.createserviceuserinorg
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-userprofile-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — UserProfile. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: gets-extended-profile-current-user
+      description: Gets the extended profile of the current user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-userprofile.getcurrentuser
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updates-extended-profile-current-user
+      description: Updates the extended profile of the current user.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-userprofile.updatecurrentuser
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: creates-new-service-user
+      description: Creates a new service user.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-userprofile.createserviceuserinorg
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

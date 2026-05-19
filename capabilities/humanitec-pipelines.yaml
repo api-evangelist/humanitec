@@ -1,0 +1,540 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — Pipelines
+  description: 'Humanitec API — Pipelines. 14 operations. Lead operation: List the trigger matching criteria defined for Pipelines
+    in this Application.. Self-contained Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - Pipelines
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-pipelines
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — Pipelines business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-apps-appId-pipeline-criteria
+      path: /orgs/{orgId}/apps/{appId}/pipeline-criteria
+      operations:
+      - name: listpipelinecriteriainapp
+        method: GET
+        description: List the trigger matching criteria defined for Pipelines in this Application.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pipeline
+          in: query
+          type: string
+          description: An optional filter by Pipeline ID.
+        - name: match
+          in: query
+          type: object
+          description: Optional key value match filters on the criteria.
+    - name: orgs-orgId-apps-appId-pipelines
+      path: /orgs/{orgId}/apps/{appId}/pipelines
+      operations:
+      - name: listpipelines
+        method: GET
+        description: List Pipelines within an Application.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createpipeline
+        method: POST
+        description: Create a Pipeline within an Application.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: dry_run
+          in: query
+          type: boolean
+          description: Optionally validate the request but do not persist the actual Pipeline.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}
+      operations:
+      - name: getpipeline
+        method: GET
+        description: Get a Pipeline within an Application.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatepipeline
+        method: PATCH
+        description: update a Pipeline within an Application.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: dry_run
+          in: query
+          type: boolean
+          description: Optionally validate the request but do not persist the update.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletepipeline
+        method: DELETE
+        description: Delete a pipeline within an application.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId-batches-batchType
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/batches/{batchType}
+      operations:
+      - name: getbatch
+        method: GET
+        description: Read the current state of a trigger batch
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId-criteria
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria
+      operations:
+      - name: createpipelinecriteria
+        method: POST
+        description: Create a new trigger matching criteria for this Pipeline.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId-criteria-criteriaId
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria/{criteriaId}
+      operations:
+      - name: getpipelinecriteria
+        method: GET
+        description: Get the Pipeline Criteria with the given id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: criteriaId
+          in: path
+          type: string
+          description: The Criteria ID
+          required: true
+      - name: deletepipelinecriteria
+        method: DELETE
+        description: Delete the Pipeline Criteria with the given id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: criteriaId
+          in: path
+          type: string
+          description: The Criteria ID
+          required: true
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId-schema
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/schema
+      operations:
+      - name: getpipelinedefinition
+        method: GET
+        description: Get a pipeline schema.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Accept
+          in: header
+          type: string
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId-versions
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/versions
+      operations:
+      - name: listpipelineversions
+        method: GET
+        description: List all versions of the pipeline
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId-pipeline-schemas-latest
+      path: /orgs/{orgId}/pipeline-schemas/latest
+      operations:
+      - name: getlatestpipelinedefinitionschema
+        method: GET
+        description: Gets the latest pipeline schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId-pipelines
+      path: /orgs/{orgId}/pipelines
+      operations:
+      - name: listpipelinesinorg
+        method: GET
+        description: List all Pipelines within an Organization. This can be filtered by Application.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: humanitec-pipelines-rest
+    port: 8080
+    description: REST adapter for Humanitec API — Pipelines. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipeline-criteria
+      name: orgs-orgid-apps-appid-pipeline-criteria
+      description: REST surface for orgs-orgId-apps-appId-pipeline-criteria.
+      operations:
+      - method: GET
+        name: listpipelinecriteriainapp
+        description: List the trigger matching criteria defined for Pipelines in this Application.
+        call: humanitec-pipelines.listpipelinecriteriainapp
+        with:
+          pipeline: rest.pipeline
+          match: rest.match
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines
+      name: orgs-orgid-apps-appid-pipelines
+      description: REST surface for orgs-orgId-apps-appId-pipelines.
+      operations:
+      - method: GET
+        name: listpipelines
+        description: List Pipelines within an Application.
+        call: humanitec-pipelines.listpipelines
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpipeline
+        description: Create a Pipeline within an Application.
+        call: humanitec-pipelines.createpipeline
+        with:
+          dry_run: rest.dry_run
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}
+      name: orgs-orgid-apps-appid-pipelines-pipelineid
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId.
+      operations:
+      - method: GET
+        name: getpipeline
+        description: Get a Pipeline within an Application.
+        call: humanitec-pipelines.getpipeline
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatepipeline
+        description: update a Pipeline within an Application.
+        call: humanitec-pipelines.updatepipeline
+        with:
+          dry_run: rest.dry_run
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepipeline
+        description: Delete a pipeline within an application.
+        call: humanitec-pipelines.deletepipeline
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}/batches/{batchtype}
+      name: orgs-orgid-apps-appid-pipelines-pipelineid-batches-batchtype
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId-batches-batchType.
+      operations:
+      - method: GET
+        name: getbatch
+        description: Read the current state of a trigger batch
+        call: humanitec-pipelines.getbatch
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}/criteria
+      name: orgs-orgid-apps-appid-pipelines-pipelineid-criteria
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId-criteria.
+      operations:
+      - method: POST
+        name: createpipelinecriteria
+        description: Create a new trigger matching criteria for this Pipeline.
+        call: humanitec-pipelines.createpipelinecriteria
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}/criteria/{criteriaid}
+      name: orgs-orgid-apps-appid-pipelines-pipelineid-criteria-criteriaid
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId-criteria-criteriaId.
+      operations:
+      - method: GET
+        name: getpipelinecriteria
+        description: Get the Pipeline Criteria with the given id.
+        call: humanitec-pipelines.getpipelinecriteria
+        with:
+          criteriaId: rest.criteriaId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepipelinecriteria
+        description: Delete the Pipeline Criteria with the given id.
+        call: humanitec-pipelines.deletepipelinecriteria
+        with:
+          criteriaId: rest.criteriaId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}/schema
+      name: orgs-orgid-apps-appid-pipelines-pipelineid-schema
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId-schema.
+      operations:
+      - method: GET
+        name: getpipelinedefinition
+        description: Get a pipeline schema.
+        call: humanitec-pipelines.getpipelinedefinition
+        with:
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}/versions
+      name: orgs-orgid-apps-appid-pipelines-pipelineid-versions
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId-versions.
+      operations:
+      - method: GET
+        name: listpipelineversions
+        description: List all versions of the pipeline
+        call: humanitec-pipelines.listpipelineversions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/pipeline-schemas/latest
+      name: orgs-orgid-pipeline-schemas-latest
+      description: REST surface for orgs-orgId-pipeline-schemas-latest.
+      operations:
+      - method: GET
+        name: getlatestpipelinedefinitionschema
+        description: Gets the latest pipeline schema
+        call: humanitec-pipelines.getlatestpipelinedefinitionschema
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/pipelines
+      name: orgs-orgid-pipelines
+      description: REST surface for orgs-orgId-pipelines.
+      operations:
+      - method: GET
+        name: listpipelinesinorg
+        description: List all Pipelines within an Organization. This can be filtered by Application.
+        call: humanitec-pipelines.listpipelinesinorg
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-pipelines-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — Pipelines. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-trigger-matching-criteria-defined
+      description: List the trigger matching criteria defined for Pipelines in this Application.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.listpipelinecriteriainapp
+      with:
+        pipeline: tools.pipeline
+        match: tools.match
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-pipelines-within-application
+      description: List Pipelines within an Application.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.listpipelines
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-pipeline-within-application
+      description: Create a Pipeline within an Application.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-pipelines.createpipeline
+      with:
+        dry_run: tools.dry_run
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-pipeline-within-application
+      description: Get a Pipeline within an Application.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.getpipeline
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-pipeline-within-application
+      description: update a Pipeline within an Application.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.updatepipeline
+      with:
+        dry_run: tools.dry_run
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-pipeline-within-application
+      description: Delete a pipeline within an application.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: humanitec-pipelines.deletepipeline
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: read-current-state-trigger-batch
+      description: Read the current state of a trigger batch
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.getbatch
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-trigger-matching-criteria
+      description: Create a new trigger matching criteria for this Pipeline.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-pipelines.createpipelinecriteria
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-pipeline-criteria-given-id
+      description: Get the Pipeline Criteria with the given id.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.getpipelinecriteria
+      with:
+        criteriaId: tools.criteriaId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-pipeline-criteria-given-id
+      description: Delete the Pipeline Criteria with the given id.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: humanitec-pipelines.deletepipelinecriteria
+      with:
+        criteriaId: tools.criteriaId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-pipeline-schema
+      description: Get a pipeline schema.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.getpipelinedefinition
+      with:
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-versions-pipeline
+      description: List all versions of the pipeline
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.listpipelineversions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gets-latest-pipeline-schema
+      description: Gets the latest pipeline schema
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.getlatestpipelinedefinitionschema
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-pipelines-within-organization
+      description: List all Pipelines within an Organization. This can be filtered by Application.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelines.listpipelinesinorg
+      outputParameters:
+      - type: object
+        mapping: $.

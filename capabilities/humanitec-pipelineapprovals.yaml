@@ -1,0 +1,163 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — PipelineApprovals
+  description: 'Humanitec API — PipelineApprovals. 4 operations. Lead operation: List of the approval requests. Self-contained
+    Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - PipelineApprovals
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-pipelineapprovals
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — PipelineApprovals business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-apps-appId-approvals
+      path: /orgs/{orgId}/apps/{appId}/approvals
+      operations:
+      - name: listpipelineapprovalrequests
+        method: GET
+        description: List of the approval requests
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId-runs-runId-jobs-jobId-approvals-appro
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}
+      operations:
+      - name: getpipelineapprovalrequest
+        method: GET
+        description: Get an approval request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId-runs-runId-jobs-jobId-approvals-appro
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/approve
+      operations:
+      - name: approvepipelineapprovalrequest
+        method: POST
+        description: Approve the approval request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId-apps-appId-pipelines-pipelineId-runs-runId-jobs-jobId-approvals-appro
+      path: /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/deny
+      operations:
+      - name: denypipelineapprovalrequest
+        method: POST
+        description: Deny the approval request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: humanitec-pipelineapprovals-rest
+    port: 8080
+    description: REST adapter for Humanitec API — PipelineApprovals. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/apps/{appid}/approvals
+      name: orgs-orgid-apps-appid-approvals
+      description: REST surface for orgs-orgId-apps-appId-approvals.
+      operations:
+      - method: GET
+        name: listpipelineapprovalrequests
+        description: List of the approval requests
+        call: humanitec-pipelineapprovals.listpipelineapprovalrequests
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}/runs/{runid}/jobs/{jobid}/approvals/{approvalid}
+      name: orgs-orgid-apps-appid-pipelines-pipelineid-runs-runid-jobs-jobid-approvals-appro
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId-runs-runId-jobs-jobId-approvals-appro.
+      operations:
+      - method: GET
+        name: getpipelineapprovalrequest
+        description: Get an approval request
+        call: humanitec-pipelineapprovals.getpipelineapprovalrequest
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}/runs/{runid}/jobs/{jobid}/approvals/{approvalid}/approve
+      name: orgs-orgid-apps-appid-pipelines-pipelineid-runs-runid-jobs-jobid-approvals-appro
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId-runs-runId-jobs-jobId-approvals-appro.
+      operations:
+      - method: POST
+        name: approvepipelineapprovalrequest
+        description: Approve the approval request
+        call: humanitec-pipelineapprovals.approvepipelineapprovalrequest
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/pipelines/{pipelineid}/runs/{runid}/jobs/{jobid}/approvals/{approvalid}/deny
+      name: orgs-orgid-apps-appid-pipelines-pipelineid-runs-runid-jobs-jobid-approvals-appro
+      description: REST surface for orgs-orgId-apps-appId-pipelines-pipelineId-runs-runId-jobs-jobId-approvals-appro.
+      operations:
+      - method: POST
+        name: denypipelineapprovalrequest
+        description: Deny the approval request
+        call: humanitec-pipelineapprovals.denypipelineapprovalrequest
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-pipelineapprovals-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — PipelineApprovals. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-approval-requests
+      description: List of the approval requests
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelineapprovals.listpipelineapprovalrequests
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-approval-request
+      description: Get an approval request
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-pipelineapprovals.getpipelineapprovalrequest
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: approve-approval-request
+      description: Approve the approval request
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-pipelineapprovals.approvepipelineapprovalrequest
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deny-approval-request
+      description: Deny the approval request
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-pipelineapprovals.denypipelineapprovalrequest
+      outputParameters:
+      - type: object
+        mapping: $.

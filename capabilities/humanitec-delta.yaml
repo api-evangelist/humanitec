@@ -1,0 +1,390 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — Delta
+  description: 'Humanitec API — Delta. 8 operations. Lead operation: List Deltas in an Application. Self-contained Naftiko
+    capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - Delta
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-delta
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — Delta business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-apps-appId-deltas
+      path: /orgs/{orgId}/apps/{appId}/deltas
+      operations:
+      - name: listdeltas
+        method: GET
+        description: List Deltas in an Application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: archived
+          in: query
+          type: boolean
+          description: If true, return archived Deltas.
+        - name: env
+          in: query
+          type: string
+          description: Only return Deltas associated with the specified Environment.
+      - name: createdelta
+        method: POST
+        description: Create a new Delta
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-deltas-deltaId
+      path: /orgs/{orgId}/apps/{appId}/deltas/{deltaId}
+      operations:
+      - name: getdelta
+        method: GET
+        description: Fetch an existing Delta
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deltaId
+          in: path
+          type: string
+          description: ID of the Delta to fetch.
+          required: true
+      - name: patchdelta
+        method: PATCH
+        description: Update an existing Delta
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deltaId
+          in: path
+          type: string
+          description: ID of the Delta to update.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: putdelta
+        method: PUT
+        description: Update an existing Delta
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deltaId
+          in: path
+          type: string
+          description: ID of the Delta to update.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-deltas-deltaId-metadata-archived
+      path: /orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/archived
+      operations:
+      - name: archivedelta
+        method: PUT
+        description: Mark a Delta as "archived"
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deltaId
+          in: path
+          type: string
+          description: ID of the Deployment Delta.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-deltas-deltaId-metadata-env_id
+      path: /orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/env_id
+      operations:
+      - name: changeenvofdelta
+        method: PUT
+        description: Change the Environment of a Delta
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deltaId
+          in: path
+          type: string
+          description: ID of the Deployment Delta.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-deltas-deltaId-metadata-name
+      path: /orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/name
+      operations:
+      - name: changenameofdelta
+        method: PUT
+        description: Change the name of a Delta
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deltaId
+          in: path
+          type: string
+          description: ID of the Deployment Delta.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: humanitec-delta-rest
+    port: 8080
+    description: REST adapter for Humanitec API — Delta. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/apps/{appid}/deltas
+      name: orgs-orgid-apps-appid-deltas
+      description: REST surface for orgs-orgId-apps-appId-deltas.
+      operations:
+      - method: GET
+        name: listdeltas
+        description: List Deltas in an Application
+        call: humanitec-delta.listdeltas
+        with:
+          archived: rest.archived
+          env: rest.env
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createdelta
+        description: Create a new Delta
+        call: humanitec-delta.createdelta
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/deltas/{deltaid}
+      name: orgs-orgid-apps-appid-deltas-deltaid
+      description: REST surface for orgs-orgId-apps-appId-deltas-deltaId.
+      operations:
+      - method: GET
+        name: getdelta
+        description: Fetch an existing Delta
+        call: humanitec-delta.getdelta
+        with:
+          deltaId: rest.deltaId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchdelta
+        description: Update an existing Delta
+        call: humanitec-delta.patchdelta
+        with:
+          deltaId: rest.deltaId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: putdelta
+        description: Update an existing Delta
+        call: humanitec-delta.putdelta
+        with:
+          deltaId: rest.deltaId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/deltas/{deltaid}/metadata/archived
+      name: orgs-orgid-apps-appid-deltas-deltaid-metadata-archived
+      description: REST surface for orgs-orgId-apps-appId-deltas-deltaId-metadata-archived.
+      operations:
+      - method: PUT
+        name: archivedelta
+        description: Mark a Delta as "archived"
+        call: humanitec-delta.archivedelta
+        with:
+          deltaId: rest.deltaId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/deltas/{deltaid}/metadata/env-id
+      name: orgs-orgid-apps-appid-deltas-deltaid-metadata-env-id
+      description: REST surface for orgs-orgId-apps-appId-deltas-deltaId-metadata-env_id.
+      operations:
+      - method: PUT
+        name: changeenvofdelta
+        description: Change the Environment of a Delta
+        call: humanitec-delta.changeenvofdelta
+        with:
+          deltaId: rest.deltaId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/deltas/{deltaid}/metadata/name
+      name: orgs-orgid-apps-appid-deltas-deltaid-metadata-name
+      description: REST surface for orgs-orgId-apps-appId-deltas-deltaId-metadata-name.
+      operations:
+      - method: PUT
+        name: changenameofdelta
+        description: Change the name of a Delta
+        call: humanitec-delta.changenameofdelta
+        with:
+          deltaId: rest.deltaId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-delta-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — Delta. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-deltas-application
+      description: List Deltas in an Application
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-delta.listdeltas
+      with:
+        archived: tools.archived
+        env: tools.env
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-delta
+      description: Create a new Delta
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-delta.createdelta
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: fetch-existing-delta
+      description: Fetch an existing Delta
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-delta.getdelta
+      with:
+        deltaId: tools.deltaId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-existing-delta
+      description: Update an existing Delta
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-delta.patchdelta
+      with:
+        deltaId: tools.deltaId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-existing-delta-2
+      description: Update an existing Delta
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-delta.putdelta
+      with:
+        deltaId: tools.deltaId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: mark-delta-archived
+      description: Mark a Delta as "archived"
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-delta.archivedelta
+      with:
+        deltaId: tools.deltaId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: change-environment-delta
+      description: Change the Environment of a Delta
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-delta.changeenvofdelta
+      with:
+        deltaId: tools.deltaId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: change-name-delta
+      description: Change the name of a Delta
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-delta.changenameofdelta
+      with:
+        deltaId: tools.deltaId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

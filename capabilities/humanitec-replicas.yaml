@@ -1,0 +1,77 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — Replicas
+  description: 'Humanitec API — Replicas. 1 operations. Lead operation: Set number of replicas for an environment''s modules..
+    Self-contained Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - Replicas
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-replicas
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — Replicas business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-apps-appId-envs-envId-runtime-replicas
+      path: /orgs/{orgId}/apps/{appId}/envs/{envId}/runtime/replicas
+      operations:
+      - name: patchreplicas
+        method: PATCH
+        description: Set number of replicas for an environment's modules.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: humanitec-replicas-rest
+    port: 8080
+    description: REST adapter for Humanitec API — Replicas. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs/{envid}/runtime/replicas
+      name: orgs-orgid-apps-appid-envs-envid-runtime-replicas
+      description: REST surface for orgs-orgId-apps-appId-envs-envId-runtime-replicas.
+      operations:
+      - method: PATCH
+        name: patchreplicas
+        description: Set number of replicas for an environment's modules.
+        call: humanitec-replicas.patchreplicas
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-replicas-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — Replicas. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: set-number-replicas-environment-s-modules
+      description: Set number of replicas for an environment's modules.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-replicas.patchreplicas
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

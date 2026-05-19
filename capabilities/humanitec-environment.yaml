@@ -1,0 +1,357 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — Environment
+  description: 'Humanitec API — Environment. 6 operations. Lead operation: List all Environments.. Self-contained Naftiko
+    capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - Environment
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-environment
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — Environment business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-apps-appId-envs
+      path: /orgs/{orgId}/apps/{appId}/envs
+      operations:
+      - name: listenvironments
+        method: GET
+        description: List all Environments.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+      - name: createenvironment
+        method: POST
+        description: Add a new Environment to an Application.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-apps-appId-envs-envId
+      path: /orgs/{orgId}/apps/{appId}/envs/{envId}
+      operations:
+      - name: getenvironment
+        method: GET
+        description: Get a specific Environment.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+      - name: updateenvironment
+        method: PATCH
+        description: Update a specific Environment.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deleteenvironment
+        method: DELETE
+        description: Delete a specific Environment.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+    - name: orgs-orgId-apps-appId-envs-envId-from_deploy_id
+      path: /orgs/{orgId}/apps/{appId}/envs/{envId}/from_deploy_id
+      operations:
+      - name: rebaseenvironment
+        method: PUT
+        description: Rebase to a different Deployment.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: appId
+          in: path
+          type: string
+          description: The Application ID.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: The Environment ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: humanitec-environment-rest
+    port: 8080
+    description: REST adapter for Humanitec API — Environment. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs
+      name: orgs-orgid-apps-appid-envs
+      description: REST surface for orgs-orgId-apps-appId-envs.
+      operations:
+      - method: GET
+        name: listenvironments
+        description: List all Environments.
+        call: humanitec-environment.listenvironments
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createenvironment
+        description: Add a new Environment to an Application.
+        call: humanitec-environment.createenvironment
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs/{envid}
+      name: orgs-orgid-apps-appid-envs-envid
+      description: REST surface for orgs-orgId-apps-appId-envs-envId.
+      operations:
+      - method: GET
+        name: getenvironment
+        description: Get a specific Environment.
+        call: humanitec-environment.getenvironment
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateenvironment
+        description: Update a specific Environment.
+        call: humanitec-environment.updateenvironment
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteenvironment
+        description: Delete a specific Environment.
+        call: humanitec-environment.deleteenvironment
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/apps/{appid}/envs/{envid}/from-deploy-id
+      name: orgs-orgid-apps-appid-envs-envid-from-deploy-id
+      description: REST surface for orgs-orgId-apps-appId-envs-envId-from_deploy_id.
+      operations:
+      - method: PUT
+        name: rebaseenvironment
+        description: Rebase to a different Deployment.
+        call: humanitec-environment.rebaseenvironment
+        with:
+          orgId: rest.orgId
+          appId: rest.appId
+          envId: rest.envId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-environment-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — Environment. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-all-environments
+      description: List all Environments.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-environment.listenvironments
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-new-environment-application
+      description: Add a new Environment to an Application.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-environment.createenvironment
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-specific-environment
+      description: Get a specific Environment.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-environment.getenvironment
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-specific-environment
+      description: Update a specific Environment.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-environment.updateenvironment
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-specific-environment
+      description: Delete a specific Environment.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: humanitec-environment.deleteenvironment
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: rebase-different-deployment
+      description: Rebase to a different Deployment.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-environment.rebaseenvironment
+      with:
+        orgId: tools.orgId
+        appId: tools.appId
+        envId: tools.envId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

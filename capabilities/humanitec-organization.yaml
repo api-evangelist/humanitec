@@ -1,0 +1,99 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — Organization
+  description: 'Humanitec API — Organization. 2 operations. Lead operation: List active organizations the user has access
+    to.. Self-contained Naftiko capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - Organization
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-organization
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — Organization business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs
+      path: /orgs
+      operations:
+      - name: listorganizations
+        method: GET
+        description: List active organizations the user has access to.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-orgId
+      path: /orgs/{orgId}
+      operations:
+      - name: getorganization
+        method: GET
+        description: Get the specified Organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: humanitec-organization-rest
+    port: 8080
+    description: REST adapter for Humanitec API — Organization. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/orgs
+      name: orgs
+      description: REST surface for orgs.
+      operations:
+      - method: GET
+        name: listorganizations
+        description: List active organizations the user has access to.
+        call: humanitec-organization.listorganizations
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}
+      name: orgs-orgid
+      description: REST surface for orgs-orgId.
+      operations:
+      - method: GET
+        name: getorganization
+        description: Get the specified Organization.
+        call: humanitec-organization.getorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-organization-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — Organization. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-active-organizations-user-has
+      description: List active organizations the user has access to.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-organization.listorganizations
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-specified-organization
+      description: Get the specified Organization.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-organization.getorganization
+      outputParameters:
+      - type: object
+        mapping: $.

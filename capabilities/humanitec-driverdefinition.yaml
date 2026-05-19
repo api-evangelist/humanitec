@@ -1,0 +1,259 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Humanitec API — DriverDefinition
+  description: 'Humanitec API — DriverDefinition. 5 operations. Lead operation: List Resource Drivers.. Self-contained Naftiko
+    capability covering one Humanitec business surface.'
+  tags:
+  - Humanitec
+  - DriverDefinition
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUMANITEC_API_KEY: HUMANITEC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: humanitec-driverdefinition
+    baseUri: https://api.humanitec.io
+    description: Humanitec API — DriverDefinition business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-orgId-resources-drivers
+      path: /orgs/{orgId}/resources/drivers
+      operations:
+      - name: listresourcedrivers
+        method: GET
+        description: List Resource Drivers.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+      - name: createresourcedriver
+        method: POST
+        description: Register a new Resource Driver.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orgs-orgId-resources-drivers-driverId
+      path: /orgs/{orgId}/resources/drivers/{driverId}
+      operations:
+      - name: getresourcedriver
+        method: GET
+        description: Get a Resource Driver.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: driverId
+          in: path
+          type: string
+          description: The Resource Driver ID.
+          required: true
+      - name: updateresourcedriver
+        method: PUT
+        description: Update a Resource Driver.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: driverId
+          in: path
+          type: string
+          description: The Resource Driver ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteresourcedriver
+        method: DELETE
+        description: Delete a Resources Driver.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: The Organization ID.
+          required: true
+        - name: driverId
+          in: path
+          type: string
+          description: The Resources Driver ID to delete.
+          required: true
+  exposes:
+  - type: rest
+    namespace: humanitec-driverdefinition-rest
+    port: 8080
+    description: REST adapter for Humanitec API — DriverDefinition. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orgs/{orgid}/resources/drivers
+      name: orgs-orgid-resources-drivers
+      description: REST surface for orgs-orgId-resources-drivers.
+      operations:
+      - method: GET
+        name: listresourcedrivers
+        description: List Resource Drivers.
+        call: humanitec-driverdefinition.listresourcedrivers
+        with:
+          orgId: rest.orgId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createresourcedriver
+        description: Register a new Resource Driver.
+        call: humanitec-driverdefinition.createresourcedriver
+        with:
+          orgId: rest.orgId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{orgid}/resources/drivers/{driverid}
+      name: orgs-orgid-resources-drivers-driverid
+      description: REST surface for orgs-orgId-resources-drivers-driverId.
+      operations:
+      - method: GET
+        name: getresourcedriver
+        description: Get a Resource Driver.
+        call: humanitec-driverdefinition.getresourcedriver
+        with:
+          orgId: rest.orgId
+          driverId: rest.driverId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateresourcedriver
+        description: Update a Resource Driver.
+        call: humanitec-driverdefinition.updateresourcedriver
+        with:
+          orgId: rest.orgId
+          driverId: rest.driverId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteresourcedriver
+        description: Delete a Resources Driver.
+        call: humanitec-driverdefinition.deleteresourcedriver
+        with:
+          orgId: rest.orgId
+          driverId: rest.driverId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: humanitec-driverdefinition-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Humanitec API — DriverDefinition. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-resource-drivers
+      description: List Resource Drivers.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-driverdefinition.listresourcedrivers
+      with:
+        orgId: tools.orgId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: register-new-resource-driver
+      description: Register a new Resource Driver.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: humanitec-driverdefinition.createresourcedriver
+      with:
+        orgId: tools.orgId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-resource-driver
+      description: Get a Resource Driver.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: humanitec-driverdefinition.getresourcedriver
+      with:
+        orgId: tools.orgId
+        driverId: tools.driverId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-resource-driver
+      description: Update a Resource Driver.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: humanitec-driverdefinition.updateresourcedriver
+      with:
+        orgId: tools.orgId
+        driverId: tools.driverId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-resources-driver
+      description: Delete a Resources Driver.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: humanitec-driverdefinition.deleteresourcedriver
+      with:
+        orgId: tools.orgId
+        driverId: tools.driverId
+      outputParameters:
+      - type: object
+        mapping: $.
