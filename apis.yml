@@ -1,162 +1,74 @@
 aid: humanitec
 name: Humanitec
-description: Humanitec is a platform engineering company that provides an Internal Developer Platform (IDP) for managing applications,
-  deployments, environments, and resources through self-service developer workflows. The Humanitec Platform Orchestrator API
-  enables teams to programmatically manage organizations, applications, environments, deployments, workloads, resources, and
-  integrations.
+description: >-
+  Humanitec is a platform engineering company that provides an Internal Developer Platform (IDP) for managing
+  applications, deployments, environments, and resources through self-service developer workflows. The Humanitec
+  Platform Orchestrator API enables teams to programmatically manage organizations, applications, environments,
+  deployments, workloads, resources, and integrations.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-- Deployments
-- DevOps
-- Internal Developer Platform
-- Platform Engineering
-- Platform Orchestrator
+  - Deployments
+  - DevOps
+  - Internal Developer Platform
+  - Platform Engineering
+  - Platform Orchestrator
 url: https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/apis.yml
 created: '2026-03-16'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-- aid: humanitec:humanitec-platform-orchestrator-api
-  name: Humanitec Platform Orchestrator API
-  description: The Humanitec Platform Orchestrator API provides programmatic access to manage organizations, applications,
-    environments, deployments, workloads, resources, integrations, pipelines, and other platform components within the Humanitec
-    Internal Developer Platform.
-  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
-  baseURL: https://api.humanitec.io
-  tags:
-  - Deployments
-  - Environments
-  - Platform Engineering
-  - Resources
-  - Workloads
-  properties:
-  - type: Documentation
-    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
-  - type: OpenAPI
-    url: https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/openapi/humanitec-openapi.yml
-  - type: GettingStarted
-    url: https://developer.humanitec.com/introduction/overview/
-  - type: Authentication
-    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
-  - type: Rules
-    url: https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-accounttype.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-activeresource.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-agents.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-application.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-artefact.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-artefactversion.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-auditlogs.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-automationrule.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-delta.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-deployment.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-driverdefinition.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-environment.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-environmentpausedinfo.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-environmenttype.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-event.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-group.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-humanitecpublickeys.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-image.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-logs.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-matchingcriteria.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-organization.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-pipelineapprovals.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-pipelineruns.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-pipelines.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-publickeys.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-registry.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-replicas.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-resourceaccount.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-resourceclass.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-resourcedefinition.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-resourcedefinitionversion.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-resourceprovision.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-resourcetype.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-runtimeinfo.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-secretstore.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-set.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-tokeninfo.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-userinvite.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-userprofile.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-userrole.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-value.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-valuesetversion.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-workloadprofile.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-workloadprofilefeatures.yaml
-  - type: NaftikoCapability
-    url: capabilities/humanitec-public.yaml
+  - aid: humanitec:humanitec-platform-orchestrator-api
+    name: Humanitec Platform Orchestrator API
+    description: >-
+      The Humanitec Platform Orchestrator API provides programmatic access to manage organizations, applications,
+      environments, deployments, workloads, resources, integrations, pipelines, and other platform components within the
+      Humanitec Internal Developer Platform.
+    humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+    baseURL: https://api.humanitec.io
+    tags:
+      - Deployments
+      - Environments
+      - Platform Engineering
+      - Resources
+      - Workloads
+    properties:
+      - type: Documentation
+        url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/openapi/humanitec-openapi.yml
+      - type: GettingStarted
+        url: https://developer.humanitec.com/introduction/overview/
+      - type: Authentication
+        url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+      - type: Rules
+        url: https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
 common:
-- type: LinkedIn
-  url: https://www.linkedin.com/company/humanitec
-- type: Portal
-  url: https://developer.humanitec.com/
-- type: Website
-  url: https://humanitec.com/
-- type: Documentation
-  url: https://developer.humanitec.com/
-- type: SignUp
-  url: https://app.humanitec.io/sign-up
-- type: Blog
-  url: https://humanitec.com/blog
-- type: GitHubOrganization
-  url: https://github.com/humanitec
-- type: TermsOfService
-  url: https://humanitec.com/terms-of-service
-- type: PrivacyPolicy
-  url: https://humanitec.com/privacy-policy
-- type: Integrations
-  url: https://humanitec.com/integrations
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/humanitec
+  - type: Portal
+    url: https://developer.humanitec.com/
+  - type: Website
+    url: https://humanitec.com/
+  - type: Documentation
+    url: https://developer.humanitec.com/
+  - type: SignUp
+    url: https://app.humanitec.io/sign-up
+  - type: Blog
+    url: https://humanitec.com/blog
+  - type: GitHubOrganization
+    url: https://github.com/humanitec
+  - type: TermsOfService
+    url: https://humanitec.com/terms-of-service
+  - type: PrivacyPolicy
+    url: https://humanitec.com/privacy-policy
+  - type: Integrations
+    url: https://humanitec.com/integrations
 integrations:
-- name: icon-aws
-- name: icon gcp
-- name: icon azure
-- name: Quotation marks
+  - name: icon-aws
+  - name: icon gcp
+  - name: icon azure
+  - name: Quotation marks
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
