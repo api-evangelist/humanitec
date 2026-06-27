@@ -52,7 +52,7 @@ common:
     url: https://humanitec.com/
   - type: Documentation
     url: https://developer.humanitec.com/
-  - type: SignUp
+  - type: Signup
     url: https://app.humanitec.io/sign-up
   - type: Blog
     url: https://humanitec.com/blog
