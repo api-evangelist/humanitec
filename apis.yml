@@ -44,6 +44,8 @@ apis:
       - type: Rules
         url: https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/humanitec-agentic-access.yml
   - type: DomainSecurity
     url: security/humanitec-domain-security.yml
   - type: LinkedIn
