@@ -1,0 +1,988 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType Delta API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: Delta
+  x-displayName: Deployment Deltas
+  description: "A Deployment Delta (or just \"Delta\") describes the changes that must be applied to one Deployment Set to generate another Deployment Set. Deployment Deltas are the only way to create new Deployment Sets.\n\nDeployment Deltas can be created fully formed or combined together via PATCHing. They can also be generated from the difference between two Deployment Sets.\n\n**Basic Structure**\n\n```\n {\n   \"id\": <ID of the Deployment Delta.>,\n   \"metadata\": {\n     <Properties such as who created the Delta, which Environment it is associated to and a Human-friendly name>\n   }\n   \"modules\" : {\n     \"add\" : {\n       <ID of Module to add to the Deployment Set> : {\n         <An entire Modules object>\n       }\n     },\n     \"remove\": [\n       <An array of Module IDs that should be removed from the Deployment Set>\n     ],\n    \"update\": {\n       <ID of Module already in the Set to be updated> : [\n         <An array of JSON Patch (Search Results (RFC 6902) objects scoped to the module>\n       ]\n     }\n   }\n }\n```\n<SchemaDefinition schemaRef=\"#/components/schemas/DeltaRequest\" />\n"
+paths:
+  /orgs/{orgId}/apps/{appId}/deltas:
+    get:
+      tags:
+      - Delta
+      summary: List Deltas in an Application
+      operationId: listDeltas
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: archived
+        in: query
+        description: 'If true, return archived Deltas.
+
+
+          '
+        schema:
+          type: boolean
+      - name: env
+        in: query
+        description: 'Only return Deltas associated with the specified Environment.
+
+
+          '
+        schema:
+          type: string
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+      responses:
+        '200':
+          description: 'A possibly empty list of Deployment Deltas.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DeltaResponse'
+                type: array
+    post:
+      tags:
+      - Delta
+      summary: Create a new Delta
+      operationId: createDelta
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      requestBody:
+        description: 'A Deployment Delta to create.
+
+
+          The Deployment Delta will be added with the provided content of `modules` and the ''env_id'' and ''name'' properties of the ''metadata'' property.
+
+
+          NOTE: If the `id` property is specified, it will be ignored. A new ID will be generated and returned in the response.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeltaRequest'
+            example:
+              metadata:
+                env_id: feature-test
+                name: 'Updates for ticket # 2581'
+              modules:
+                updates:
+                  module-one:
+                  - op: add
+                    path: /spec/containers/simple-service/variables/REDIS_URL
+                    value: redis://${modules.redis-cache.service.name}
+      responses:
+        '200':
+          description: 'The requested Deployment Delta.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: string
+                - $ref: '#/components/schemas/DeltaResponse'
+        '400':
+          description: 'The request was invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/deltas/{deltaId}:
+    get:
+      tags:
+      - Delta
+      summary: Fetch an existing Delta
+      operationId: getDelta
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: deltaId
+        in: path
+        description: 'ID of the Delta to fetch.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested Deployment Delta.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeltaResponse'
+        '404':
+          description: 'No Deployment Delta with ID `deltaId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+    patch:
+      tags:
+      - Delta
+      summary: Update an existing Delta
+      operationId: patchDelta
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: deltaId
+        in: path
+        description: 'ID of the Delta to update.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'An array of Deltas.
+
+
+          The Deltas in the request are combined, meaning the current Delta is updated in turn by each Delta in the request. Once all Deltas have been combined, the resulting Delta is simplified.
+
+
+          * All Modules in the `modules.add` property are replaced with the new Delta''s values. If the value of a Module is `null`, and the ID is in the `modules.remove` list, it is removed from the `modules.remove` list.
+
+
+          * All IDs listed in `modules.remove` are combined. Any ID in `modules.remove` and also in `modules.add` are removed from `modules.add`
+
+
+          * The lists of JSON Patches in `modules.update` are concatenated or created in `modules.updates`.
+
+
+          Simplification involves:
+
+
+          * Applying any entries in `modules.updates` that have matching IDs in `modules.add` to the `modules.add` entry and removing the `modules.update` entry.
+
+
+          * Reducing the number of JSON Patches in each `modules.update` entry to the smallest set that has the same effect.
+
+
+          **Extension to JSON Patch**
+
+
+          If a JSON Patch entry needs to be removed, without side effects, the `value` of the `remove` action can be set to `{"scope": "delta"}. This will result in the remove action being used during simplification but be discarded before the Delta is finalized.
+
+
+          If the user making the request is not the user who created the Delta and they are not already on the contributors list, they will be added to the contributors list.
+
+
+          _NOTE: If the `id` or `metadata` properties are specified, they will be ignored._'
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/DeltaRequest'
+              type: array
+            example:
+            - modules:
+                updates:
+                  module-one:
+                  - op: add
+                    path: /spec/containers/simple-service/variables/REDIS_URL
+                    value: redis://${modules.redis-cache.service.name}
+      responses:
+        '200':
+          description: 'The requested Deployment Delta.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeltaResponse'
+        '400':
+          description: 'The request was invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No Deployment Delta with ID `deltaId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      tags:
+      - Delta
+      summary: Update an existing Delta
+      operationId: putDelta
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: deltaId
+        in: path
+        description: 'ID of the Delta to update.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'An array of Deltas.
+
+
+          The Deltas in the request are combined, meaning the current Delta is updated in turn by each Delta in the request. Once all Deltas have been combined, the resulting Delta is simplified.
+
+
+          * All Modules in the `modules.add` property are replaced with the new Delta''s values. If the value of a Module is `null`, and the ID is in the `modules.remove` list, it is removed from the `modules.remove` list.
+
+
+          * All IDs listed in `modules.remove` are combined. Any ID in `modules.remove` and also in `modules.add` are removed from `modules.add`
+
+
+          * The lists of JSON Patches in `modules.update` are concatenated or created in `modules.updates`.
+
+
+          Simplification involves:
+
+
+          * Applying any entries in `modules.updates` that have matching IDs in `modules.add` to the `modules.add` entry and removing the `modules.update` entry.
+
+
+          * Reducing the number of JSON Patches in each `modules.update` entry to the smallest set that has the same effect.
+
+
+          **Extension to JSON Patch**
+
+
+          If a JSON Patch entry needs to be removed, without side effects, the `value` of the `remove` action can be set to `{"scope": "delta"}. This will result in the remove action being used during simplification but be discarded before the Delta is finalized.
+
+
+          If the user making the request is not the user who created the Delta and they are not already on the contributors list, they will be added to the contributors list.
+
+
+          _NOTE: If the `id` or `metadata` properties are specified, they will be ignored._'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeltaRequest'
+      responses:
+        '204':
+          description: 'The requested Deployment Delta.
+
+
+            '
+        '400':
+          description: 'The request was invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No Deployment Delta with ID `deltaId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+  /orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/archived:
+    put:
+      tags:
+      - Delta
+      summary: Mark a Delta as "archived"
+      operationId: archiveDelta
+      description: Archived Deltas are still accessible but can no longer be updated.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: deltaId
+        in: path
+        description: 'ID of the Deployment Delta.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Either `true` or `false`.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              type: boolean
+            example: true
+      responses:
+        '204':
+          description: 'Archived state successfully updated.
+
+
+            '
+        '400':
+          description: 'The request was invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No Deployment Delta with ID `deltaId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+  /orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/env_id:
+    put:
+      tags:
+      - Delta
+      summary: Change the Environment of a Delta
+      operationId: changeEnvOfDelta
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: deltaId
+        in: path
+        description: 'ID of the Deployment Delta.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'The new Environment ID. (NOTE: The string must still be JSON encoded.)
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentID'
+            example: new-env
+      responses:
+        '204':
+          description: 'Environment ID successfully updated.
+
+
+            '
+        '400':
+          description: 'The request was invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No Deployment Delta with ID `deltaId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+  /orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/name:
+    put:
+      tags:
+      - Delta
+      summary: Change the name of a Delta
+      operationId: changeNameOfDelta
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: deltaId
+        in: path
+        description: 'ID of the Deployment Delta.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'The new name.(NOTE: The string must still be JSON encoded.)
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+            example: 'Update for ticket #s 2568 & 2572'
+      responses:
+        '204':
+          description: 'Name successfully updated.
+
+
+            '
+        '400':
+          description: 'The request was invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No Deployment Delta with ID `deltaId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    DeployConditionResponse:
+      description: 'A deploy condition for the workload
+
+
+        Possible values for "when" are: - "before", deployed before other workloads - "deploy", deployed in-parallel with other workloads (default) - "after", deployed after other workloads
+
+
+        Possible values for "success" are: - "deploy", workload deployed - "available", workload available - "complete", workload complete (often used with jobs)'
+      example:
+        success: complete
+        when: before
+      properties:
+        success:
+          type: string
+        timeout:
+          type: integer
+        when:
+          type: string
+      required:
+      - when
+      - success
+      - timeout
+      type: object
+    DeployConditionRequest:
+      description: 'A deploy condition for the workload
+
+
+        Possible values for "when" are: - "before", deployed before other workloads - "deploy", deployed in-parallel with other workloads (default) - "after", deployed after other workloads
+
+
+        Possible values for "success" are: - "deploy", workload deployed - "available", workload available - "complete", workload complete (often used with jobs)'
+      example:
+        success: complete
+        when: before
+      properties:
+        success:
+          type: string
+        timeout:
+          type: integer
+        when:
+          type: string
+      type: object
+    ModuleRequest:
+      description: Module single workload data
+      properties:
+        deploy:
+          $ref: '#/components/schemas/DeployConditionRequest'
+        externals:
+          additionalProperties: true
+          type: object
+          nullable: true
+        profile:
+          type: string
+        spec:
+          additionalProperties: true
+          type: object
+          nullable: true
+      type: object
+      nullable: true
+    DeltaMetadataRequest:
+      properties:
+        archived:
+          type: boolean
+        contributers:
+          items:
+            type: string
+          type: array
+          nullable: true
+        created_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          type: string
+        env_id:
+          $ref: '#/components/schemas/EnvironmentID'
+        last_modified_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        name:
+          type: string
+        shared:
+          type: boolean
+      type: object
+    EnvironmentID:
+      type: string
+      pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+      example: my-env
+    ModuleDeltasRequest:
+      description: ModuleDeltas groups the different operations together.
+      properties:
+        add:
+          additionalProperties:
+            $ref: '#/components/schemas/ModuleRequest'
+          type: object
+          nullable: true
+        remove:
+          items:
+            type: string
+          type: array
+          nullable: true
+        update:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/UpdateActionRequest'
+            type: array
+          type: object
+          nullable: true
+      type: object
+    DeltaMetadataResponse:
+      properties:
+        archived:
+          type: boolean
+        contributers:
+          items:
+            type: string
+          type: array
+        created_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          type: string
+        env_id:
+          $ref: '#/components/schemas/EnvironmentID'
+        last_modified_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        name:
+          type: string
+        shared:
+          type: boolean
+      required:
+      - created_by
+      - created_at
+      - last_modified_at
+      - archived
+      type: object
+    PodStateResponse:
+      description: PodState represents single pod status
+      properties:
+        containerStatuses:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        phase:
+          type: string
+        podName:
+          type: string
+        revision:
+          type: integer
+        status:
+          type: string
+      required:
+      - podName
+      - revision
+      - phase
+      - status
+      - containerStatuses
+      type: object
+    UpdateActionResponse:
+      description: 'A representation of the main object defined in JSON Patch specified in RFC 6902 from the IETF. The main differences are:
+
+
+        * Only `add`, `remove` and `replace` are supported
+
+
+        * `remove` can have have its scope of application applied in its `value`. e.g. `{"scope":"delta"}'
+      properties:
+        from:
+          type: string
+        op:
+          type: string
+        path:
+          type: string
+        value: {}
+      required:
+      - op
+      - path
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    DeltaResponse:
+      description: "A Deployment Delta (or just \"Delta\") describes the changes that must be applied to one Deployment Set to generate another Deployment Set. Deployment Deltas are the only way to create new Deployment Sets.\n\nDeployment Deltas can be created fully formed or combined together via PATCHing. They can also be generated from the difference between two Deployment Sets.\n\n**Basic Structure**\n\n```\n {\n   \"id\": <ID of the Deployment Delta.>,\n   \"metadata\": {\n     <Properties such as who created the Delta, which Environment it is associated to and a Human-friendly name>\n   }\n   \"modules\" : {\n     \"add\" : {\n       <ID of Module to add to the Deployment Set> : {\n         <An entire Modules object>\n       }\n     },\n     \"remove\": [\n       <An array of Module IDs that should be removed from the Deployment Set>\n     ],\n    \"update\": {\n       <ID of Module already in the Set to be updated> : [\n         <An array of JSON Patch (Search Results (RFC 6902) objects scoped to the module>\n       ]\n     }\n   }\n }\n```"
+      example:
+        id: 49393b5004d072000b8abfd910c61685eb9235f5
+        metadata: {}
+        modules:
+          add:
+            redis-cache:
+              profile: humanitec/redis
+          remove:
+          - simple-service
+          update:
+            module-one:
+            - op: replace
+              path: /spec/containers/core-service/variables/EXAMPLE
+              value: New Value
+      properties:
+        id:
+          description: A unique ID for the Delta
+          type: string
+        metadata:
+          $ref: '#/components/schemas/DeltaMetadataResponse'
+          description: Holds various metadata such as a Human-friendly name, collaborators, and Environment it is associated with.
+        modules:
+          $ref: '#/components/schemas/ModuleDeltasResponse'
+          description: A dictionary of the Modules this Delta has operations for.
+        shared:
+          items:
+            $ref: '#/components/schemas/UpdateActionResponse'
+          type: array
+      required:
+      - id
+      - metadata
+      - modules
+      - shared
+      type: object
+    ModuleDeltasResponse:
+      description: ModuleDeltas groups the different operations together.
+      properties:
+        add:
+          additionalProperties:
+            $ref: '#/components/schemas/ModuleResponse'
+          type: object
+        remove:
+          items:
+            type: string
+          type: array
+        update:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/UpdateActionResponse'
+            type: array
+          type: object
+      required:
+      - add
+      - remove
+      - update
+      type: object
+    UpdateActionRequest:
+      description: 'A representation of the main object defined in JSON Patch specified in RFC 6902 from the IETF. The main differences are:
+
+
+        * Only `add`, `remove` and `replace` are supported
+
+
+        * `remove` can have have its scope of application applied in its `value`. e.g. `{"scope":"delta"}'
+      properties:
+        from:
+          type: string
+        op:
+          type: string
+        path:
+          type: string
+        value:
+          nullable: true
+      type: object
+    ModuleResponse:
+      description: Module represents a collection of workload controllers (deployments/statefulsets/etc) for the module
+      properties:
+        deploy:
+          $ref: '#/components/schemas/DeployConditionResponse'
+        externals:
+          additionalProperties: true
+          type: object
+        profile:
+          type: string
+        spec:
+          additionalProperties: true
+          type: object
+      required:
+      - profile
+      - spec
+      - externals
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ControllerResponse'
+    DeltaRequest:
+      description: "A Deployment Delta (or just \"Delta\") describes the changes that must be applied to one Deployment Set to generate another Deployment Set. Deployment Deltas are the only way to create new Deployment Sets.\n\nDeployment Deltas can be created fully formed or combined together via PATCHing. They can also be generated from the difference between two Deployment Sets.\n\n**Basic Structure**\n\n```\n {\n   \"id\": <ID of the Deployment Delta.>,\n   \"metadata\": {\n     <Properties such as who created the Delta, which Environment it is associated to and a Human-friendly name>\n   }\n   \"modules\" : {\n     \"add\" : {\n       <ID of Module to add to the Deployment Set> : {\n         <An entire Modules object>\n       }\n     },\n     \"remove\": [\n       <An array of Module IDs that should be removed from the Deployment Set>\n     ],\n    \"update\": {\n       <ID of Module already in the Set to be updated> : [\n         <An array of JSON Patch (Search Results (RFC 6902) objects scoped to the module>\n       ]\n     }\n   }\n }\n```"
+      example:
+        id: 49393b5004d072000b8abfd910c61685eb9235f5
+        metadata: {}
+        modules:
+          add:
+            redis-cache:
+              profile: humanitec/redis
+          remove:
+          - simple-service
+          update:
+            module-one:
+            - op: replace
+              path: /spec/containers/core-service/variables/EXAMPLE
+              value: New Value
+      properties:
+        id:
+          description: Ignored, but can be provided.
+          type: string
+        metadata:
+          $ref: '#/components/schemas/DeltaMetadataRequest'
+          description: Holds various metadata such as a Human-friendly name, collaborators, and Environment it is associated with.
+        modules:
+          $ref: '#/components/schemas/ModuleDeltasRequest'
+          description: A dictionary of the Modules this Delta has operations for.
+        shared:
+          items:
+            $ref: '#/components/schemas/UpdateActionRequest'
+          type: array
+          nullable: true
+      type: object
+    ControllerResponse:
+      description: Controller represents deployment, stateful set etc
+      properties:
+        kind:
+          type: string
+        message:
+          type: string
+        pods:
+          items:
+            $ref: '#/components/schemas/PodStateResponse'
+          type: array
+        replicas:
+          type: integer
+        revision:
+          type: integer
+        status:
+          type: string
+      required:
+      - kind
+      - replicas
+      - status
+      - message
+      - pods
+      - revision
+      type: object
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

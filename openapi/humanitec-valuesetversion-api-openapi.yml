@@ -1,0 +1,1017 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType ValueSetVersion API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: ValueSetVersion
+  x-displayName: Shared Value Set Version
+  description: 'A Value Set Version can be used as a track record of Shared Values changes, to restore a previous version of a Shared Value or Value Set, or to purge a Shared Value if it shouldn''t be accessible anymore.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ValueSetVersionResponse" />
+
+    '
+paths:
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions:
+    get:
+      tags:
+      - ValueSetVersion
+      summary: List Value Set Versions in an Environment of an App
+      description: A new Value Set Version is created on every modification of a Value inside the an Environment of an App. In case this environment has no overrides the response is the same as the App level endpoint.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: key_changed
+        in: query
+        description: '(Optional) Return only value set version where the specified key changed
+
+
+          '
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A possibly empty list of ValueSetVersion.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ValueSetVersionResponse'
+                type: array
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}:
+    get:
+      tags:
+      - ValueSetVersion
+      summary: Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000) will return the latest Value Set Version.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: valueSetVersionId
+        in: path
+        description: 'The ValueSetVersion ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 'The requested ValueSetVersion
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueSetVersionResponse'
+        '404':
+          description: 'ValueSetVersion with `valueSetVersionId` in Environment.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/purge/{key}:
+    post:
+      tags:
+      - ValueSetVersion
+      summary: Purge the value of a specific Shared Value from the App Environment Version history.
+      description: 'Purging permanently removes the value of a specific Shared Value in an application. A purged value is no longer accessible, can''t be restored and can''t be used
+
+        by deployments referencing a Value Set Version where the value was present.
+
+
+        Learn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge).
+
+        '
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: valueSetVersionId
+        in: path
+        description: 'The ValueSetVersion ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: key
+        in: path
+        description: 'Key of the value to be purged.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueSetActionPayloadRequest'
+      responses:
+        '204':
+          description: 'key successfully purged
+
+
+            '
+        '400':
+          description: 'The specified key can''t be purged in this version.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No ValueSetVersion with `valueSetVersionId` in App Environment.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore:
+    post:
+      tags:
+      - ValueSetVersion
+      summary: Restore a Value Set Version in an Environment of an App
+      description: 'Restore the values of all Shared Values in an environment from a specific version. Keys not existing in the selected version are deleted.
+
+
+        Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).
+
+        '
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: valueSetVersionId
+        in: path
+        description: 'The ValueSetVersion ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueSetActionPayloadRequest'
+      responses:
+        '200':
+          description: 'The resulting ValueSetVersion
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueSetVersionResponse'
+        '404':
+          description: 'No ValueSetVersion with `valueSetVersionId` in App Environment.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore/{key}:
+    post:
+      tags:
+      - ValueSetVersion
+      summary: Restore a specific key from the Value Set Version in an Environment of an App
+      description: 'Restore the values of a single Shared Value in an Environment from a specific version.
+
+
+        Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).
+
+        '
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: valueSetVersionId
+        in: path
+        description: 'The ValueSetVersion ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: key
+        in: path
+        description: 'Key of the value to be restored.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueSetActionPayloadRequest'
+      responses:
+        '200':
+          description: 'The resulting ValueSetVersion
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueSetVersionResponse'
+        '400':
+          description: 'Invalid request
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No ValueSetVersion with `valueSetVersionId` in App Environment.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/value-set-versions:
+    get:
+      tags:
+      - ValueSetVersion
+      summary: List Value Set Versions in the App
+      description: A new Value Set Version is created on every modification of a Value inside the app.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: key_changed
+        in: query
+        description: '(Optional) Return only value set version where the specified key changed
+
+
+          '
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A possibly empty list of ValueSetVersion.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ValueSetVersionResponse'
+                type: array
+  /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}:
+    get:
+      tags:
+      - ValueSetVersion
+      summary: Get a single Value Set Version from the App
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: valueSetVersionId
+        in: path
+        description: 'The ValueSetVersion ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 'The requested ValueSetVersion
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueSetVersionResponse'
+        '404':
+          description: 'ValueSetVersion with `valueSetVersionId` in App.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/purge/{key}:
+    post:
+      tags:
+      - ValueSetVersion
+      summary: Purge the value of a specific Shared Value from the App Version history.
+      description: 'Purging permanently removes the value of a specific Shared Value in an Application. A purged value is no longer accessible, can''t be restored and can''t be used
+
+        by deployments referencing a Value Set Version where the value was present.
+
+
+        Learn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge).
+
+        '
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: valueSetVersionId
+        in: path
+        description: 'The ValueSetVersion ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: key
+        in: path
+        description: 'Key of the value to be purged.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueSetActionPayloadRequest'
+      responses:
+        '204':
+          description: 'key successfully purged
+
+
+            '
+        '400':
+          description: 'The specified key can''t be purged in this version.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No ValueSetVersion with `valueSetVersionId` in App.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore:
+    post:
+      tags:
+      - ValueSetVersion
+      summary: Restore a Value Set Version in an App
+      description: 'Restore the values of all Shared Values in an application from a specific version. Keys not existing in the selected version are deleted.
+
+
+        Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).
+
+        '
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: valueSetVersionId
+        in: path
+        description: 'The ValueSetVersion ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueSetActionPayloadRequest'
+      responses:
+        '200':
+          description: 'The resulting ValueSetVersion
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueSetVersionResponse'
+        '404':
+          description: 'No ValueSetVersion with `valueSetVersionId` in App.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore/{key}:
+    post:
+      tags:
+      - ValueSetVersion
+      summary: Restore a specific key from the Value Set Version in an App
+      description: 'Restore the values of a single Shared Value in an application from a specific version.
+
+
+        Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).
+
+        '
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: valueSetVersionId
+        in: path
+        description: 'The ValueSetVersion ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: key
+        in: path
+        description: 'Key of the value to be restored.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueSetActionPayloadRequest'
+      responses:
+        '200':
+          description: 'The resulting ValueSetVersion
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueSetVersionResponse'
+        '400':
+          description: 'Invalid request
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No ValueSetVersion with `valueSetVersionId` in App.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    ValueSetResponse:
+      additionalProperties:
+        $ref: '#/components/schemas/ValueResponse'
+      type: object
+    JSONPatchesResponse:
+      items:
+        $ref: '#/components/schemas/JSONPatchResponse'
+      type: array
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ValueSetActionPayloadRequest:
+      properties:
+        comment:
+          type: string
+      type: object
+    ValueSource:
+      description: Source of the value, "app" for app level, "env" for app env level.
+      type: string
+      enum:
+      - app
+      - env
+    ValueSetVersionResultOf:
+      type: string
+      nullable: true
+      enum:
+      - app_value_create
+      - app_value_update
+      - app_value_delete
+      - app_values_delete
+      - app_value_set_version_restore
+      - app_value_set_version_purge
+      - env_value_create
+      - env_value_update
+      - env_value_delete
+      - env_values_delete
+      - env_value_set_version_restore
+      - env_value_set_version_purge
+    ValueSetVersionResponse:
+      description: A Value Set Version can be used as a track record of Shared Values changes, to restore a previous version of a Shared Value or Value Set, or to purge a Shared Value if it shouldn't be accessible anymore.
+      properties:
+        change:
+          $ref: '#/components/schemas/JSONPatchesResponse'
+        comment:
+          type: string
+        created_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          type: string
+        id:
+          type: string
+        result_of:
+          $ref: '#/components/schemas/ValueSetVersionResultOf'
+        source_value_set_version_id:
+          nullable: true
+          type: string
+        updated_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        values:
+          $ref: '#/components/schemas/ValueSetResponse'
+      required:
+      - id
+      - values
+      - change
+      - created_at
+      - created_by
+      - updated_at
+      - result_of
+      - comment
+      - source_value_set_version_id
+      type: object
+    ValueResponse:
+      description: 'Shared Values can be used to manage variables and configuration that might vary between environments. They are also the way that secrets can be stored securely.
+
+
+        Shared Values are by default shared across all environments in an application. However, they can be overridden on an Environment by Environment basis.
+
+
+        For example: There might be 2 API keys that are used in an application. One development key used in the development and staging environments and another used for production. The development API key would be set at the Application level. The value would then be overridden at the Environment level for the production Environment.'
+      example:
+        description: The message to show me.
+        is_secret: false
+        key: MY_MSG
+        value: Hello World
+      properties:
+        created_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        description:
+          description: A Human friendly description of what the Shared Value is.
+          type: string
+        is_secret:
+          description: Specified that the Shared Value contains a secret.
+          type: boolean
+        key:
+          description: 'The unique key by which the Shared Value can be referenced. pattern: ^[a-zA-Z0-9._-]+$.'
+          type: string
+        secret_key:
+          description: Location of the secret value in the secret store.
+          nullable: true
+          type: string
+        secret_store_id:
+          nullable: true
+          type: string
+        secret_version:
+          description: Version of the current secret value as returned by the secret store.
+          nullable: true
+          type: string
+        source:
+          $ref: '#/components/schemas/ValueSource'
+        updated_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        value:
+          description: The value that will be stored. (Will be always empty for secrets.)
+          type: string
+      required:
+      - key
+      - value
+      - is_secret
+      - description
+      - created_at
+      - updated_at
+      - source
+      - secret_key
+      - secret_version
+      - secret_store_id
+      type: object
+    JSONPatchResponse:
+      properties:
+        op:
+          type: string
+        path:
+          type: string
+        value: {}
+      required:
+      - op
+      - path
+      type: object
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

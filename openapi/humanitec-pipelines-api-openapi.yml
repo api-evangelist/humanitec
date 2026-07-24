@@ -1,0 +1,992 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType Pipelines API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: Pipelines
+  x-displayName: Pipelines
+  description: 'An object containing the details of a Pipeline.
+
+    <SchemaDefinition schemaRef="#/components/schemas/Pipeline" />
+
+    '
+paths:
+  /orgs/{orgId}/pipelines:
+    get:
+      tags:
+      - Pipelines
+      operationId: listPipelinesInOrg
+      summary: List all Pipelines within an Organization. This can be filtered by Application.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/byAppIdQueryParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      - $ref: '#/components/parameters/byTriggerTypeQueryParam'
+      - $ref: '#/components/parameters/byMetadata'
+      responses:
+        '200':
+          description: Successful list response. If the Link header is present, more data may be available.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pipeline'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/apps/{appId}/pipelines:
+    get:
+      tags:
+      - Pipelines
+      operationId: listPipelines
+      summary: List Pipelines within an Application.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      - $ref: '#/components/parameters/byTriggerTypeQueryParam'
+      - $ref: '#/components/parameters/byMetadata'
+      responses:
+        '200':
+          description: Successful list response. If the Link header is present, more data may be available.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pipeline'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    post:
+      tags:
+      - Pipelines
+      operationId: createPipeline
+      summary: Create a Pipeline within an Application.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: dry_run
+        in: query
+        description: Optionally validate the request but do not persist the actual Pipeline.
+        example: false
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-yaml:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Successful creation response.
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pipeline'
+        '204':
+          description: The request was valid, but no Pipeline was created.
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}:
+    get:
+      tags:
+      - Pipelines
+      operationId: getPipeline
+      summary: Get a Pipeline within an Application.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/byVersionQueryParam'
+      responses:
+        '200':
+          description: Successful get response.
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pipeline'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+    patch:
+      tags:
+      - Pipelines
+      operationId: updatePipeline
+      summary: update a Pipeline within an Application.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/ifMatchHeaderParam'
+      - name: dry_run
+        in: query
+        description: Optionally validate the request but do not persist the update.
+        example: false
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-yaml:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Successful get response.
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pipeline'
+        '204':
+          description: The request was valid, but no Pipeline was updated.
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+        '412':
+          $ref: '#/components/responses/412PreconditionFailed'
+    delete:
+      tags:
+      - Pipelines
+      operationId: deletePipeline
+      summary: Delete a pipeline within an application.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/ifMatchHeaderParam'
+      responses:
+        '204':
+          description: Pipeline has been successfully deleted
+        '202':
+          description: Request for pipeline deletion successfully committed
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+        '412':
+          $ref: '#/components/responses/412PreconditionFailed'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/versions:
+    get:
+      tags:
+      - Pipelines
+      operationId: listPipelineVersions
+      summary: List all versions of the pipeline
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: Successful list response. If the Link header is present, more data may be available.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PipelineVersion'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/schema:
+    get:
+      tags:
+      - Pipelines
+      operationId: getPipelineDefinition
+      summary: Get a pipeline schema.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/byVersionQueryParam'
+      - name: Accept
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful get response.
+          content:
+            application/x.humanitec-pipelines-v1.0+yaml:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+  /orgs/{orgId}/apps/{appId}/pipeline-criteria:
+    get:
+      tags:
+      - Pipelines
+      operationId: listPipelineCriteriaInApp
+      summary: List the trigger matching criteria defined for Pipelines in this Application.
+      description: 'Lists the trigger matching criteria defined for Pipelines in this Application. Trigger matching criteria link requests in an environment to the appropriate Pipeline based on the trigger and inputs.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: pipeline
+        description: An optional filter by Pipeline ID.
+        in: query
+        required: false
+        schema:
+          type: string
+          example: sample-pipeline
+      - name: match
+        description: Optional key value match filters on the criteria.
+        in: query
+        explode: true
+        style: deepObject
+        required: false
+        example:
+          env_type: development
+        schema:
+          type: object
+          additionalProperties:
+            type: string
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: Successful list response. If the Link header is present, more data may be available.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PipelineCriteria'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria:
+    post:
+      tags:
+      - Pipelines
+      operationId: createPipelineCriteria
+      summary: Create a new trigger matching criteria for this Pipeline.
+      description: 'Create a new trigger matching criteria for this Pipeline. This must not conflict with an existing criteria for the same trigger on this or any other Pipeline that applies to this Application.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PipelineCriteriaCreateBody'
+      responses:
+        '201':
+          description: The criteria was successfully added.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineCriteria'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria/{criteriaId}:
+    get:
+      tags:
+      - Pipelines
+      operationId: getPipelineCriteria
+      summary: Get the Pipeline Criteria with the given id.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - name: criteriaId
+        in: path
+        description: The Criteria ID
+        example: 01234567-89ab-cdef-0123-456789abcdef
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful get response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineCriteria'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+      - Pipelines
+      operationId: deletePipelineCriteria
+      summary: Delete the Pipeline Criteria with the given id.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - name: criteriaId
+        in: path
+        description: The Criteria ID
+        example: 01234567-89ab-cdef-0123-456789abcdef
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Successfully deleted the criteria.
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/pipeline-schemas/latest:
+    get:
+      tags:
+      - Pipelines
+      operationId: getLatestPipelineDefinitionSchema
+      summary: Gets the latest pipeline schema
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      responses:
+        '200':
+          description: Successful get response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/batches/{batchType}:
+    get:
+      tags:
+      - Pipelines
+      operationId: GetBatch
+      summary: Read the current state of a trigger batch
+      description: Read the current state of a trigger batch for a Pipeline if one exists
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/batchTypeParam'
+      responses:
+        '200':
+          description: Successful get batch request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  schemas:
+    PipelineCriteriaCreateBody:
+      required:
+      - trigger
+      properties:
+        trigger:
+          description: The trigger to call
+          type: string
+          example: deployment_request
+      oneOf:
+      - $ref: '#/components/schemas/PipelineDeploymentRequestCriteriaCreateBody'
+      discriminator:
+        propertyName: trigger
+        mapping:
+          deployment_request: '#/components/schemas/PipelineDeploymentRequestCriteriaCreateBody'
+    PipelineDeploymentRequestCriteria:
+      description: A deployment request matching criteria for a Pipeline.
+      type: object
+      required:
+      - trigger
+      - id
+      - pipeline_id
+      - pipeline_name
+      properties:
+        trigger:
+          description: The trigger to call
+          type: string
+          example: deployment_request
+        id:
+          description: The unique id of the criteria within this Pipeline.
+          type: string
+          example: 01234567-89ab-cdef-0123-456789abcdef
+        pipeline_id:
+          description: The id of the Pipeline tied to this deployment request criteria.
+          type: string
+          example: sample-pipeline
+        pipeline_name:
+          description: The current display name of the Pipeline.
+          type: string
+          example: Sample Pipeline
+        env_type:
+          description: 'The Environment Type that this criteria will match. If defined, this criteria will only apply to Environments that have this type.
+
+            '
+          type: string
+          example: development
+        app_id:
+          description: 'The id of the Application for which this criteria matches. If this Pipeline is defined in an Application, then this value can only be null or the id of the Application.
+
+            '
+          type: string
+          example: my-application
+        env_id:
+          description: 'The exact id of the Environment which this criteria will match.
+
+            '
+          type: string
+          example: my-environment
+        deployment_type:
+          description: 'The type of deployment that this criteria will match. Valid values are "deploy" and "redeploy". "redeploy"  applies only to deployment request to redeploy a previous deployment id while "deploy" will apply to all other requests that include a Delta or Deployment Set. If not defined, all deployment types will match.
+
+            '
+          type: string
+          example: deploy
+    Batch:
+      description: A batch of items that are being collected for a upcoming run.
+      required:
+      - items
+      properties:
+        items:
+          description: The list of item ids that are currently contained in this batch.
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchItem'
+        scheduled_at:
+          description: The time at which this batch is scheduled to trigger the pipeline.
+          type: string
+          format: date-time
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    PipelineVersion:
+      description: An object containing the details of a Pipeline.
+      required:
+      - id
+      - org_id
+      - app_id
+      - pipeline_id
+      - created_by
+      - created_at
+      properties:
+        id:
+          description: The unique id of the current Pipeline Version.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        org_id:
+          description: The id of the Organization containing this Run.
+          example: sample-org
+          type: string
+        app_id:
+          description: The id of the Application containing this Run.
+          example: sample-app
+          type: string
+        pipeline_id:
+          description: The id of the Pipeline associated with the Run.
+          example: sample-pipeline
+          type: string
+        created_by:
+          description: User id of the pipeline version.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        created_at:
+          description: The date and time when the specific pipeline version was created.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+    ErrorResponse:
+      description: A standard error response
+      properties:
+        error:
+          description: 'A short code representing the class of error. This code can be used for tracking and observability or to
+
+            find appropriate troubleshooting documentation.
+
+            '
+          example: API-000
+          type: string
+        message:
+          description: A human-readable explanation of the error.
+          example: Something happened!
+          type: string
+        details:
+          description: An optional payload of metadata associated with the error.
+          additionalProperties: true
+          type: object
+      required:
+      - error
+      - message
+      type: object
+    PipelineCriteria:
+      required:
+      - trigger
+      - id
+      - pipeline_id
+      - pipeline_name
+      properties:
+        trigger:
+          description: The trigger to call
+          type: string
+          example: deployment_request
+        id:
+          description: The unique id of the criteria within this Pipeline.
+          type: string
+          example: 01234567-89ab-cdef-0123-456789abcdef
+        pipeline_id:
+          description: The id of the Pipeline tied to this deployment request criteria.
+          type: string
+          example: sample-pipeline
+        pipeline_name:
+          description: The current display name of the Pipeline.
+          type: string
+          example: Sample Pipeline
+      oneOf:
+      - $ref: '#/components/schemas/PipelineDeploymentRequestCriteria'
+      discriminator:
+        propertyName: trigger
+        mapping:
+          deployment_request: '#/components/schemas/PipelineDeploymentRequestCriteria'
+    BatchItem:
+      type: object
+      required:
+      - type
+      - ref
+      properties:
+        type:
+          description: The type of item in the batch
+          type: string
+        ref:
+          description: The reference id of the item
+          type: string
+    PipelineDeploymentRequestCriteriaCreateBody:
+      description: The details required to create a new deployment request matching criteria for a Pipeline.
+      type: object
+      properties:
+        env_type:
+          description: 'The Environment Type that this criteria will match. If defined, this criteria will only apply to Environments that have this type.
+
+            '
+          type: string
+          example: development
+        app_id:
+          description: 'The id of the Application for which this criteria matches. If this Pipeline is defined in an Application, then this value can only be null or the id of the Application.
+
+            '
+          type: string
+          example: my-application
+        env_id:
+          description: 'The exact id of the Environment which this criteria will match.
+
+            '
+          type: string
+          example: my-environment
+        deployment_type:
+          description: 'The type of deployment that this criteria will match. Valid values are "deploy" and "redeploy". "redeploy"  applies only to deployment request to redeploy a previous deployment id while "deploy" will apply to all other requests that include a Delta or Deployment Set. If not defined, all deployment types will match.
+
+            '
+          type: string
+          example: deploy
+    Pipeline:
+      description: An object containing the details of a Pipeline.
+      required:
+      - id
+      - etag
+      - org_id
+      - app_id
+      - name
+      - status
+      - version
+      - created_at
+      - trigger_types
+      properties:
+        id:
+          description: The id of the Pipeline.
+          example: sample-pipeline
+          type: string
+        etag:
+          description: The current entity tag value for this Pipeline.
+          example: 1234567890abcdef
+          type: string
+        org_id:
+          description: The id of the Organization containing this Pipeline.
+          example: sample-org
+          type: string
+        app_id:
+          description: The id of the Application containing this Pipeline.
+          example: sample-app
+          type: string
+        name:
+          description: The name of the Pipeline.
+          example: Sample Pipeline
+          type: string
+        status:
+          description: The current status of the Pipeline.
+          example: active
+          type: string
+        version:
+          description: The unique id of the current Pipeline Version.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        created_at:
+          description: The date and time when the Pipeline was created.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        trigger_types:
+          description: The list of trigger types in the current schema.
+          example:
+          - pipeline_call
+          type: array
+          items:
+            type: string
+        metadata:
+          description: The map of key value pipeline additional information
+          type: object
+          additionalProperties:
+            type: string
+  parameters:
+    batchTypeParam:
+      name: batchType
+      description: The batch type, only artefact is implemented.
+      in: path
+      required: true
+      example: artefact
+      schema:
+        type: string
+    ifMatchHeaderParam:
+      name: If-Match
+      in: header
+      description: Indicate that the request should only succeed if there is an etag match
+      required: false
+      example: 1234567890abcdef
+      schema:
+        type: string
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    byTriggerTypeQueryParam:
+      name: trigger
+      description: An optional filter by trigger type.
+      in: query
+      required: false
+      example: pipeline_call
+      schema:
+        type: string
+    perPageQueryParam:
+      name: per_page
+      in: query
+      description: The maximum number of items to return in a page of results
+      required: false
+      example: 50
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    byAppIdQueryParam:
+      name: app
+      description: An optional list of Application IDs.
+      in: query
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          example: sample-app
+          type: string
+    byVersionQueryParam:
+      name: version
+      in: query
+      description: An optional Pipeline Version ID.
+      required: false
+      example: 01234567-89ab-cdef-0123-456789abcdef
+      schema:
+        type: string
+    pipelineIdPathParam:
+      name: pipelineId
+      in: path
+      description: The Pipeline ID
+      example: sample-pipeline
+      required: true
+      schema:
+        type: string
+    byMetadata:
+      name: metadata
+      description: Optional filter by pipeline metadata
+      in: query
+      required: false
+      style: deepObject
+      schema:
+        type: object
+        additionalProperties:
+          type: string
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+    pageTokenQueryParam:
+      name: page
+      in: query
+      description: The page token to request from
+      required: false
+      example: AAAAAAAAAA==
+      schema:
+        type: string
+  responses:
+    409Conflict:
+      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
+
+        More detail can be found in the error body.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    412PreconditionFailed:
+      description: 'The request itself is valid however it could not be applied because the Etag does not match.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+  headers:
+    Etag:
+      description: The Etag of the resource
+      example: 1234567890abcdef
+      schema:
+        type: string
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

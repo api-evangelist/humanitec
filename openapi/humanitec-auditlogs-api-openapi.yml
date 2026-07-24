@@ -1,0 +1,306 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType AuditLogs API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: AuditLogs
+  x-displayName: Audit Logs
+  description: 'An entry in the audit log
+
+    <SchemaDefinition schemaRef="#/components/schemas/AuditLogEntry" />
+
+    '
+paths:
+  /orgs/{orgId}/audit-logs:
+    get:
+      tags:
+      - AuditLogs
+      operationId: listAuditLogEntries
+      summary: List audit log entries by Organization
+      description: 'List all available audit log entries in the Organization that match the specified filters. This API returns entries from newest to oldest and is paginated. Only successful create, modify, or delete requests are stored in  the audit log. This API may return a lot of data, depending on the size of the Organization, so it is  recommended to use the "to" and "from" query parameters to limit the returned data to the time window of interest. Each response contains at most 32 days worth of data for performance reasons and may be empty if no records exist within that time range. Pagination links in the ''Link'' header should always be followed when present.
+
+        This API requires administrator permissions in the Organization.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      - name: from
+        in: query
+        description: Optional filter for entries created after the given time.
+        required: false
+        example: '2023-01-01T00:00:00Z'
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        description: Optional filter for entries created before the given time.
+        required: false
+        example: '2023-01-01T00:00:00Z'
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Successful list response.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuditLogEntry'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  responses:
+    403Forbidden:
+      description: Server understands the request but refuses to authorize it.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+  schemas:
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    AuditLogEntry:
+      description: An entry in the audit log
+      required:
+      - at
+      - user_id
+      - request_method
+      - request_path
+      - response_status
+      properties:
+        at:
+          description: The date and time when the event was recorded.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        org_id:
+          description: The id of the Organization this event occurred in.
+          example: my-organization
+          type: string
+        user_id:
+          description: The id of the User who triggered the event.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        request_method:
+          description: The HTTP method that was requested. Only POST, PATCH, PUT, and DELETE are audited.
+          example: POST
+          type: string
+        request_path:
+          description: The URL path that was called.
+          example: /orgs/some-org/apps
+          type: string
+        response_status:
+          description: The status code of the response. Only successful responses are audited.
+          example: 201
+          type: integer
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    perPageQueryParam:
+      name: per_page
+      in: query
+      description: The maximum number of items to return in a page of results
+      required: false
+      example: 50
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    pageTokenQueryParam:
+      name: page
+      in: query
+      description: The page token to request from
+      required: false
+      example: AAAAAAAAAA==
+      schema:
+        type: string
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

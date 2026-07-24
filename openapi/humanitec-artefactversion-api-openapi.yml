@@ -1,0 +1,800 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType ArtefactVersion API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: ArtefactVersion
+  x-displayName: Artefact Version
+  description: 'Details of a Container Artefact Version
+
+    <SchemaDefinition schemaRef="#/components/schemas/ContainerArtefactVersion" />
+
+    '
+paths:
+  /orgs/{orgId}/artefact-versions:
+    get:
+      tags:
+      - ArtefactVersion
+      summary: List all Artefacts Versions in the org.
+      description: Returns the Artefact Versions registered with your organization. If no elements are found, an empty list is returned.
+      operationId: listArtefactVersionsInOrg
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: (Optional) Filter Artefact Versions by name.
+        example: registry.humanitec.io/public/sample-app
+        schema:
+          type: string
+      - name: reference
+        in: query
+        description: (Optional) Filter Artefact Versions by the reference to a Version of the same Artefact. This cannot be used together with `name`.
+        example: registry.humanitec.io/public/sample-app:v1@sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244
+        schema:
+          type: string
+      - name: archived
+        in: query
+        description: (Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.
+        example: false
+        schema:
+          type: boolean
+      - name: type
+        in: query
+        description: (Optional) Filter by artefact type.
+        example: containers
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of Artefact Versions registered with your organization.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ArtefactVersion'
+                type: array
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    post:
+      tags:
+      - ArtefactVersion
+      summary: Register a new Artefact Version with your organization.
+      operationId: createArtefactVersion
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      - name: vcs
+        in: query
+        description: (Optional) Which version control system the version comes from. Default value is "git". If this parameter is not supplied or its value is "git", the provided ref, if not empty, is checked to ensure that it has the prefix "refs/".
+        example: git
+        schema:
+          type: string
+      - name: dry_run
+        in: query
+        description: Optionally validate the request but do not persist the actual artefact. If the Accept type is set to "application/x.workload-deployment-set+json" or "application/x.workload-deployment-set+x-yaml", the generated deployment set will be returned.
+        example: false
+        schema:
+          type: boolean
+      - name: Accept
+        in: header
+        description: Indicates which content types the client is able to understand.
+        schema:
+          type: string
+      requestBody:
+        description: The data needed to register a new Artefact Version within the organization.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateArtefactVersion'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateArtefactVersion'
+      responses:
+        '200':
+          description: An Artefact Version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtefactVersion'
+            application/x.workload-deployment-set+json:
+              schema:
+                $ref: '#/components/schemas/WorkloadArtefactVersionDeploymentSet'
+            application/x.workload-deployment-set+x-yaml:
+              schema:
+                $ref: '#/components/schemas/WorkloadArtefactVersionDeploymentSet'
+        '204':
+          description: The request was valid, but no Artefact Version was created.
+        '400':
+          description: Either one or more request body parameters are missing or invalid, or the requested payload is not provided or malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '401':
+          description: Request unauthorised.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/artefact-versions/{artefactVersionId}:
+    get:
+      tags:
+      - ArtefactVersion
+      summary: Get an Artefacts Versions.
+      description: Returns a specific Artefact Version.
+      operationId: getArtefactVersion
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      - name: artefactVersionId
+        in: path
+        description: The Artefact Version ID.
+        example: 662b80db-cc71-40cf-b601-08d57983f6e4
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: An Artefact Version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtefactVersion'
+        '400':
+          description: Malformed Artefact Version ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: Artefact Version not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/artefacts/{artefactId}/versions:
+    get:
+      tags:
+      - ArtefactVersion
+      summary: List all Artefact Versions of an Artefact.
+      description: Returns the Artefact Versions of a specified Artefact registered with your organization. If no elements are found, an empty list is returned.
+      operationId: listArtefactVersions
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      - name: artefactId
+        in: path
+        description: The Artefact ID.
+        example: da97af75-2e7c-4ef3-bec0-755ce1e8dd29
+        required: true
+        schema:
+          type: string
+      - name: archived
+        in: query
+        description: (Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.
+        example: false
+        schema:
+          type: boolean
+      - name: reference
+        in: query
+        description: (Optional) Filter Artefact Versions by by name including a version or digest.
+        example: registry.humanitec.io/public/sample-app:v1@sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: (Optional) Limit the number of versions returned by the endpoint.
+        example: 20
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Returns all Versions of the specified Artefact.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ArtefactVersion'
+                type: array
+        '400':
+          description: Invalid inputs provided.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: No Artefact with the supplied ID `artefactID` has been found within the organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/artefacts/{artefactId}/versions/{versionId}:
+    patch:
+      tags:
+      - ArtefactVersion
+      summary: Update Version of an Artefact.
+      description: Update the version of a specified Artefact registered with your organization".
+      operationId: patchArtefactVersion
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      - name: artefactId
+        in: path
+        description: The Artefact ID.
+        example: da97af75-2e7c-4ef3-bec0-755ce1e8dd29
+        required: true
+        schema:
+          type: string
+      - name: versionId
+        in: path
+        description: The Version ID.
+        example: da97af75-2e7c-4ef3-bec0-755ce1e8dd29
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The Artefact Version Update Request. Only the field `archive` can be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateArtefactVersionPayloadRequest'
+      responses:
+        '200':
+          description: The updated Artefact Version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtefactVersion'
+        '400':
+          description: One or more request parameters are missing or invalid, or the requested payload is not provided or malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '401':
+          description: Request unauthorised.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: Update requested on a version of a builtin artefact.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: No Artefact with the supplied artefactId or no Artefact Version with the supplied versionId have been found within the organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/artefact-versions/convert-score:
+    post:
+      tags:
+      - ArtefactVersion
+      summary: Convert a Score specification, optional overrides, and extensions into the contents for a deployment set.
+      operationId: convertScoreToSet
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      requestBody:
+        description: The Score specification, optional overrides, and extensions.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertScoreToSetBody'
+      responses:
+        '200':
+          description: The deployment set contents.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadArtefactVersionDeploymentSet'
+        '400':
+          description: Either one or more request body parameters are missing or invalid, or the requested payload is not provided or malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    WorkloadArtefactVersionDeploymentSet:
+      description: Humanitec definition for a Workload Artefact.
+      required:
+      - modules
+      - shared
+      properties:
+        modules:
+          description: The set of workloads to add when deployed, the key is the name of the workload.
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: true
+        shared:
+          description: The set of shared resources to depend on, the key is the resource identifier.
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: true
+    CreateWorkloadArtefactVersion:
+      description: Details for creating a new Workload Artefact Version
+      allOf:
+      - $ref: '#/components/schemas/CreateArtefactVersionBase'
+      - required:
+        - spec
+        properties:
+          spec:
+            type: object
+            additionalProperties: true
+            description: A Json object containing the workload specification. Score v1b1 is expected.
+            example:
+              apiVersion: score.dev/v1b1
+              metadata:
+                name: hello-world
+          image:
+            type: string
+            description: An optional default image to assign to any containers in the workload that do not have an image set or whose image is '.'
+            example: busybox:latest
+          overrides:
+            type: object
+            additionalProperties: true
+            description: An optional Json object containing the workload overrides. Score v1b1 is expected.
+            example:
+              apiVersion: score.dev/v1b1
+              profile: humanitec/default-module
+          property_overrides:
+            type: object
+            additionalProperties: true
+            description: An optional set of path overrides that will be applied to the workload.
+            example:
+              containers.my-container.image: busybox:latest
+              containers.my-container.variables.DEBUG: null
+          resource_type_aliases:
+            type: object
+            additionalProperties:
+              type: string
+            description: An optional set of resource types overrides that will be applied in the deployment set.
+            example:
+              s3: my-org/s3
+          extensions:
+            $ref: '#/components/schemas/ScoreHumanitecExtensions'
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    CreateArtefactVersion:
+      description: The details of a new Artefact Version to register. The type field is required and dictates the type of Artefact to register.
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          description: The Artefact Version type.
+          type: string
+          example: container
+      oneOf:
+      - $ref: '#/components/schemas/CreateContainerArtefactVersion'
+      - $ref: '#/components/schemas/CreateWorkloadArtefactVersion'
+      discriminator:
+        propertyName: type
+        mapping:
+          container: '#/components/schemas/CreateContainerArtefactVersion'
+          workload: '#/components/schemas/CreateWorkloadArtefactVersion'
+    UpdateArtefactVersionPayloadRequest:
+      description: UpdateArtefactVersionPayload contains the `archived` field that should be set in the Artefact Version to update.
+      properties:
+        archived:
+          description: The Value of the archived value.
+          example: true
+          nullable: true
+          type: boolean
+      required:
+      - archived
+      type: object
+    CreateArtefactVersionBase:
+      type: object
+      required:
+      - type
+      - name
+      properties:
+        type:
+          description: The Artefact Version type.
+          type: string
+          example: container
+        name:
+          description: The Artefact name.
+          type: string
+          example: registry.humanitec.io/my-org/my-service
+        version:
+          description: (Optional) The Artefact Version.
+          type: string
+          example: 1.2.7
+        ref:
+          description: (Optional) The ref the Artefact Version was built from.
+          type: string
+          example: refs/heads/main
+        commit:
+          description: (Optional) The commit ID the Artefact Version was built on.
+          pattern: ^[0-9a-f]{5,40}$
+          example: 884bccaa807ea27cc1997a7492a3b6279fd7bd55
+          type: string
+    ScoreHumanitecExtensions:
+      description: Humanitec workload extensions for the Workload Artefact Version. These can be used to override the profile, or workload module spec and resource attributes.
+      required:
+      - apiVersion
+      properties:
+        apiVersion:
+          description: The api version describing the format of the extensions.
+          type: string
+        profile:
+          description: An optional override for the workload profile
+          type: string
+        spec:
+          description: A map of additional workload spec fields that will be merged.
+          type: object
+          additionalProperties: true
+        deploy:
+          description: An optional deploy condition for the workload.
+          type: object
+          additionalProperties: false
+          properties:
+            when:
+              description: The stage the deployment should occur. "deploy", deployed in-parallel with other workloads (the default). "before", deployed before other workloads. "after", deployed after other workloads.
+              type: string
+              enum:
+              - before
+              - deploy
+              - after
+              example: before
+            success:
+              description: The success criteria for the deployment. "deploy", workload deployed. "available", workload available. "complete", workload complete (often used with jobs).
+              type: string
+              enum:
+              - deploy
+              - available
+              - complete
+              example: complete
+            timeout:
+              description: The timeout in seconds for the deployment to reach it's success condition.
+              type: integer
+      example:
+        apiVersion: humanitec.org/v1b1
+        profile: humanitec/default-module
+        spec:
+          labels:
+            my-label: my-value
+    ContainerArtefactVersion:
+      description: Details of a Container Artefact Version
+      allOf:
+      - $ref: '#/components/schemas/ArtefactVersionBase'
+      - required:
+        - ref
+        - commit
+        - digest
+        properties:
+          digest:
+            description: (Optional) The Artefact Version digest.
+            type: string
+            example: sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244
+    ArtefactVersion:
+      description: The details of an Artefact Version. The type field dictates the type of Artefact along with any additional fields.
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          description: The Artefact Version type.
+          type: string
+          example: container
+      oneOf:
+      - $ref: '#/components/schemas/ContainerArtefactVersion'
+      - $ref: '#/components/schemas/WorkloadArtefactVersion'
+      discriminator:
+        propertyName: type
+        mapping:
+          container: '#/components/schemas/ContainerArtefactVersion'
+          workload: '#/components/schemas/WorkloadArtefactVersion'
+    ArtefactVersionBase:
+      type: object
+      required:
+      - type
+      - id
+      - name
+      - artefact_id
+      - archived
+      properties:
+        archived:
+          description: If the Artefact Version is archived.
+          example: false
+          type: boolean
+        artefact_id:
+          description: The UUID of the Artefact.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        commit:
+          description: (Optional) The commit ID the Artefact Version was built on.
+          example: 060c3d6530a881afb808f105f36af25e1ad1b2f3
+          type: string
+        created_at:
+          description: The time when the Artefact Version was added to Humanitec.
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          description: The user ID of the user who added the Artefact Version to Humanitec.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        id:
+          description: The UUID of the Artefact Version.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        name:
+          description: The name of the Artefact.
+          example: registry.humanitec.io/my-org/my-service
+          type: string
+        ref:
+          description: (Optional) The ref the Artefact Version was built from.
+          example: refs/heads/main
+          type: string
+        updated_at:
+          description: The time when the Artefact Version was updated for the last time.
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        updated_by:
+          description: The user ID of the user who performed the last updated on the Artefact Version.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        version:
+          description: (Optional) The version of the Artefact Version.
+          example: 1.2.7
+          type: string
+    ConvertScoreToSetBody:
+      description: Request body for converting a Score manifest to Humanitec deployment set.
+      additionalProperties: false
+      required:
+      - spec
+      properties:
+        spec:
+          type: object
+          additionalProperties: true
+          description: A Json object containing the workload specification. Score v1b1 is expected.
+          example:
+            apiVersion: score.dev/v1b1
+            metadata:
+              name: hello-world
+        image:
+          type: string
+          description: An optional default image to assign to any containers in the workload that do not have an image set or whose image is '.'
+          example: busybox:latest
+        overrides:
+          type: object
+          additionalProperties: true
+          description: An optional Json object containing the workload overrides. Score v1b1 is expected.
+          example:
+            apiVersion: score.dev/v1b1
+            profile: humanitec/default-module
+        property_overrides:
+          type: object
+          additionalProperties: true
+          description: An optional set of path overrides that will be applied to the workload.
+          example:
+            containers.my-container.image: busybox:latest
+            containers.my-container.variables.DEBUG: null
+        resource_type_aliases:
+          type: object
+          additionalProperties:
+            type: string
+          description: An optional set of resource types overrides that will be applied in the deployment set.
+          example:
+            s3: my-org/s3
+        extensions:
+          $ref: '#/components/schemas/ScoreHumanitecExtensions'
+    CreateContainerArtefactVersion:
+      description: Details for creating a new Container Artefact Version
+      allOf:
+      - $ref: '#/components/schemas/CreateArtefactVersionBase'
+      - properties:
+          digest:
+            description: (Optional) The Artefact Version digest.
+            type: string
+            example: sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244
+    WorkloadArtefactVersion:
+      description: Details of a Workload Artefact Version
+      allOf:
+      - $ref: '#/components/schemas/ArtefactVersionBase'
+      - properties: {}
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

@@ -1,0 +1,435 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType Group API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: Group
+  x-displayName: User Groups
+  description: 'GroupRequest holds the definition of a new group.
+
+    <SchemaDefinition schemaRef="#/components/schemas/GroupRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/groups:
+    post:
+      tags:
+      - Group
+      operationId: createGroup
+      summary: Create a group in an organization
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      requestBody:
+        description: The group metadata and the role.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRequest'
+      responses:
+        '200':
+          description: Group created with the specified Organization Role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupWithRole'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: Request unauthorized
+          $ref: '#/components/responses/403Forbidden'
+        '409':
+          description: A group with the same name exists under the provided idp.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/groups/{groupId}/users:
+    get:
+      tags:
+      - Group
+      operationId: listGroupUsers
+      summary: List users in a group.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/groupIdPathParam'
+      responses:
+        '200':
+          description: The users that are members of the group.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserProfileResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          description: A group with the same name exists under the provided idp.
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/users/{userId}/groups:
+    get:
+      tags:
+      - Group
+      summary: Get the groups in an organization a user belongs to.
+      operationId: listUserGroupsInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        '200':
+          description: 'The list of groups in the organization a user belongs to.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Group'
+                type: array
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  schemas:
+    OrganizationRole:
+      description: Roles that can be assumed by an entity on an organization.
+      type: string
+      enum:
+      - administrator
+      - manager
+      - member
+      - artefactContributor
+      - orgViewer
+    UserProfileResponse:
+      description: UserProfile holds the profile information of a user
+      example:
+        created_at: '2020-12-19T09:32:46Z'
+        email: jo.trigg@awesomecorp.com
+        id: d510224a-4641-48fd-8054-68efd3537ee2
+        name: Jo Trigg
+        type: user
+      properties:
+        created_at:
+          description: The time the user was first registered with Humanitec
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        email:
+          description: The email address of the user from the profile
+          type: string
+        id:
+          description: The User ID for this user
+          type: string
+        name:
+          description: The name the user goes by
+          type: string
+        type:
+          description: The type of the account. Could be user, service or system
+          type: string
+      required:
+      - id
+      - name
+      - created_at
+      - type
+      type: object
+    Group:
+      description: Group holds the metadata of a new group.
+      example:
+        id: g-d510224a-4641-48fd-8054-68efd3537ee2
+        group_id: my-idp-group
+        idp_id: my-idp
+      type: object
+      properties:
+        id:
+          description: The id used in Humanitec to identify the group.
+          type: string
+        group_id:
+          description: The name of the group in the IdP
+          type: string
+        idp_id:
+          description: The IdP id.
+          type: string
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        created_at:
+          description: The time the user was first registered with Humanitec
+          example: '2020-06-22T09:37:23.523Z'
+          title: Simplified extended ISO format date/time string.
+          type: string
+          format: date-time
+      additionalProperties: false
+      required:
+      - id
+      - group_id
+      - idp_id
+    GroupRequest:
+      description: GroupRequest holds the definition of a new group.
+      example:
+        group_id: my-idp-group
+        idp_id: my-idp
+        role: manager
+      additionalProperties: false
+      properties:
+        group_id:
+          description: The name of the group in the IdP.
+          type: string
+        idp_id:
+          description: The IdP id.
+          type: string
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        role:
+          description: The organization role to be assigned to the group.
+          $ref: '#/components/schemas/OrganizationRole'
+      required:
+      - group_id
+      - idp_id
+      - role
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    GroupWithRole:
+      description: GroupWithRole holds the metadata of a new group with its role in the organization.
+      example:
+        id: g-d510224a-4641-48fd-8054-68efd3537ee2
+        group_id: my-idp-group
+        idp_id: my-idp
+        role: manager
+      additionalProperties: false
+      properties:
+        id:
+          description: The id used in Humanitec to identify the group.
+          type: string
+        group_id:
+          description: The name of the group in the IdP
+          type: string
+        idp_id:
+          description: The IdP id.
+          type: string
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        role:
+          description: The organization role to be assigned to the group.
+          $ref: '#/components/schemas/OrganizationRole'
+        created_at:
+          description: The time the user was first registered with Humanitec
+          example: '2020-06-22T09:37:23.523Z'
+          title: Simplified extended ISO format date/time string.
+          type: string
+          format: date-time
+      required:
+      - id
+      - group_id
+      - idp_id
+      - role
+      type: object
+  responses:
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    403Forbidden:
+      description: Server understands the request but refuses to authorize it.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    userIdPathParam:
+      name: userId
+      in: path
+      description: The User or Group Id.
+      required: true
+      example: 61048226-642c-438e-974f-ce5c013d94f8
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+    groupIdPathParam:
+      name: groupId
+      in: path
+      description: The Group Id.
+      required: true
+      example: g-61048226-642c-438e-974f-ce5c013d94f8
+      schema:
+        pattern: ^g-[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

@@ -1,0 +1,1004 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType ResourceAccount API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: ResourceAccount
+  x-displayName: Resource Accounts
+  description: 'ResourceAccount represents the account being used to access a resource.
+
+
+    Resource Accounts hold credentials that are required to provision and manage resources.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceAccountResponse" />
+
+    '
+paths:
+  /orgs/{orgId}/resources/accounts:
+    get:
+      tags:
+      - ResourceAccount
+      summary: List Resource Accounts in the organization.
+      operationId: listResourceAccounts
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A possibly empty list of Resources Accounts.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResourceAccountResponse'
+                type: array
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    post:
+      tags:
+      - ResourceAccount
+      summary: Create a new Resource Account in the organization.
+      operationId: createResourceAccount
+      parameters:
+      - name: orgId
+        in: path
+        description: The Organization ID.
+        required: true
+        schema:
+          type: string
+      - name: dry_run
+        in: query
+        description: Validate the request but do not persist the change.
+        example: true
+        schema:
+          type: boolean
+      - name: check_credential
+        in: query
+        description: Validate that the Account credential authenticates successfully.
+        example: true
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceAccountRequestRequest'
+      responses:
+        '200':
+          description: 'The newly created Resources Account details.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceAccountResponse'
+        '204':
+          description: The Resource Account details are valid but were not persisted because dry-run is enabled.
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '401':
+          description: 'Authentication token is missing or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'A Resources Account already exists.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/accounts/{accId}:
+    get:
+      tags:
+      - ResourceAccount
+      summary: Get a Resource Account.
+      operationId: getResourceAccount
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: accId
+        in: path
+        description: 'The Resource Account ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'The requested Resources Account.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceAccountResponse'
+        '404':
+          description: 'A Resource Account with the ''accId'' ID is not found or does not belong to the organization.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    delete:
+      tags:
+      - ResourceAccount
+      summary: Delete an unused Resource Account.
+      description: 'A Resource Account can be deleted if it is not referenced or referenced only by deleted Resource Definitions.
+
+        Resource Definition Versions which reference the deleted Resource Account cannot be used in deployments.
+
+        '
+      operationId: deleteResourceAccount
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: accId
+        in: path
+        description: 'The Resource Account ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'The account was successfully deleted.
+
+
+            '
+        '400':
+          description: 'The Resource Account cannot be deleted as at least one non-deleted Resource Definition or one Active Resource still referencing it.
+
+            In the error the coordinates of the referencing resources are provided.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictingResourcesErrorResponse'
+        '404':
+          description: 'A Resource Account with the ''accId'' ID is not found or does not belong to the organization.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    patch:
+      tags:
+      - ResourceAccount
+      summary: Update a Resource Account.
+      operationId: patchResourceAccount
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: accId
+        in: path
+        description: 'The Resource Account ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: dry_run
+        in: query
+        description: Validate the request but do not persist the change.
+        example: true
+        schema:
+          type: boolean
+      - name: check_credential
+        in: query
+        description: Validate that the Account credential authenticates successfully.
+        example: true
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceAccountRequestRequest'
+      responses:
+        '200':
+          description: 'The updated Resource Account details.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceAccountResponse'
+        '204':
+          description: The Resource Account details are valid but were not persisted because dry-run is enabled.
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'A Resource Account with the ''accId'' ID is not found or does not belong to the organization.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/accounts/{accId}/actions/check:
+    post:
+      tags:
+      - ResourceAccount
+      summary: Check the credentials of an existing Resource Account
+      description: Check the validity of a Resource Account and return any problems that may cause it to not work as expected.
+      operationId: checkResourceAccount
+      parameters:
+      - name: orgId
+        in: path
+        description: The Organization ID.
+        required: true
+        schema:
+          type: string
+      - name: accId
+        in: path
+        description: The Resource Account ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The updated Account Type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckResourceAccountData'
+        '400':
+          description: The Resource Account is not valid or could not be validated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    ActiveResourceResponse:
+      description: 'Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.
+
+
+        Active Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.'
+      example:
+        app_id: test-app
+        class: default
+        def_id: gcp-dev-postgres
+        def_version_id: 01234567-89ab-cdef-0123-4567890abcdef
+        deploy_id: 172a1013b
+        env_id: gcp-dev
+        env_type: development
+        gu_res_id: 7bd3966c9ff8eaa66c5cce855c03d715857c3440
+        org_id: test-org
+        res_id: modules.my-module.externals.my-db
+        resource:
+          host: 127.0.0.1
+          name: db_33c7ef9b_8d90-4c62_a1cf_0cdd30fd29a9
+          port: 5432
+        secret_refs:
+          credentials: orgs/test-org/resources/7bd3966c9ff8eaa66c5cce855c03d715857c3440/secrets/.credentials
+        type: postgres
+        updated_at: '2020-06-23T16:53:12Z'
+      properties:
+        app_id:
+          description: The ID of the App the resource is associated with.
+          type: string
+        class:
+          description: The Resource Class of the resource
+          type: string
+        criteria_id:
+          description: The Matching Criteria ID.
+          type: string
+        def_id:
+          description: The Resource Definition that this resource was provisioned from.
+          type: string
+        def_version_id:
+          description: The Resource Definition Version that this resource was provisioned from.
+          type: string
+        target_def_version_id:
+          description: The Resource Definition Version pinned to this resource to be provisioned from.
+          type: string
+        deploy_id:
+          description: The deployment that the resource was last provisioned in.
+          type: string
+        driver_account:
+          description: (Optional) Security account required by the driver.
+          type: string
+        driver_type:
+          description: The driver to be used to create the resource.
+          type: string
+        env_id:
+          description: The ID of the Environment the resource is associated with.
+          type: string
+        env_type:
+          description: The Environment Type of the Environment specified by env_id.
+          type: string
+        gu_res_id:
+          description: Globally unique resource id
+          type: string
+        org_id:
+          description: the ID of the Organization the Active Resource is associated with.
+          type: string
+        res_id:
+          description: The ID of the resource
+          type: string
+        resource:
+          additionalProperties: true
+          description: The resource provisioning outputs ('values' only).
+          type: object
+        scheduled_deletion:
+          description: Deletion is scheduled for this resource.
+          type: boolean
+        secret_refs:
+          additionalProperties: true
+          description: Secret references from the resource provisioning output.
+          type: object
+        status:
+          description: 'Current resource status: ''pending'', ''active'', or ''deleting''.'
+          type: string
+        type:
+          description: The Resource Type of the resource
+          type: string
+        updated_at:
+          description: The time the resource was last provisioned as part of a deployment.
+          example: '2020-06-22T09:37:23.523Z'
+          type: string
+          format: date-time
+      required:
+      - org_id
+      - app_id
+      - env_id
+      - env_type
+      - res_id
+      - def_id
+      - def_version_id
+      - type
+      - driver_type
+      - class
+      - status
+      - resource
+      - secret_refs
+      - updated_at
+      - deploy_id
+      - gu_res_id
+      - scheduled_deletion
+      type: object
+    CheckResourceAccountField:
+      description: An identity field or property resulting from the account check.
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+        value:
+          type: string
+      additionalProperties: false
+      required:
+      - id
+      - description
+      - value
+    ConflictingResourcesErrorResponse:
+      description: 'Represents a standard Humanitec Error with additional details which describe why an action on a specific resource cannot be performed due to some other entities linked to it.
+
+        '
+      properties:
+        details:
+          $ref: '#/components/schemas/ConflictingResourcesErrorResponseDetails'
+        error:
+          type: string
+        message:
+          type: string
+      required:
+      - error
+      - message
+      - details
+      type: object
+    ResourceDefinitionResponse:
+      description: 'A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.
+
+
+        The schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.'
+      example:
+        created_at: '2020-05-23T12:32:16Z'
+        created_by: a.user@example.com
+        criteria:
+        - env_type: development
+          id: '123456'
+        driver_account: gcp-dev-cloudsql
+        driver_inputs:
+          secret_refs:
+            credentials:
+              password:
+                value: <secret>
+              user:
+                ref: vault/path/to/data/secrets/user
+                store: my-external-vault
+                version: '1'
+          values:
+            instance: my-dev-project:my-region:dev-db
+        driver_type: humanitec/postgres-cloudsql
+        id: dev-postgres
+        is_default: false
+        is_deleted: false
+        name: Dev Postgres Instance
+        org_id: test-org
+        provision:
+          aws-policy:
+            is_dependent: false
+            match_dependents: false
+          dns#my-dns: {}
+        type: postgres
+      properties:
+        created_at:
+          description: The timestamp of when this record has been created.
+          example: '2020-06-22T09:37:23.523Z'
+          title: Simplified extended ISO format date/time string.
+          type: string
+          format: date-time
+        created_by:
+          description: The user who created this record.
+          type: string
+        updated_at:
+          description: The timestamp of when this record has been updated.
+          example: '2020-06-22T09:37:23.523Z'
+          title: Simplified extended ISO format date/time string.
+          type: string
+          format: date-time
+        updated_by:
+          description: The user who updated this record.
+          type: string
+        criteria:
+          description: (Optional) The criteria to use when looking for a Resource Definition during the deployment.
+          items:
+            $ref: '#/components/schemas/MatchingCriteriaResponse'
+          type: array
+        driver_account:
+          description: (Optional) Security account required by the driver.
+          type: string
+        driver_inputs:
+          $ref: '#/components/schemas/ValuesSecretsRefsResponse'
+          description: (Optional) Additional input data to be passed to the driver.
+        driver_type:
+          description: The driver to be used to create the resource.
+          type: string
+        id:
+          description: The Resource Definition ID.
+          type: string
+        active_version_id:
+          description: The active Resource Definition Version ID.
+          type: string
+        is_default:
+          description: Indicates this definition is a built-in one (provided by Humanitec).
+          type: boolean
+        is_deleted:
+          description: Indicates if this record has been marked for deletion. The Resource Definition that has been marked for deletion cannot be used to provision new resources.
+          type: boolean
+        name:
+          description: The display name.
+          type: string
+        org_id:
+          description: The Organization ID.
+          type: string
+        provision:
+          additionalProperties:
+            $ref: '#/components/schemas/ProvisionDependenciesResponse'
+          description: (Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.
+          type: object
+        type:
+          description: The Resource Type.
+          type: string
+      required:
+      - org_id
+      - id
+      - name
+      - type
+      - created_at
+      - created_by
+      - is_default
+      - is_deleted
+      - driver_type
+      - active_version_id
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ProvisionDependenciesResponse:
+      description: ProvisionDependencies defines resources which are needed to be co-provisioned with the current resource.
+      properties:
+        is_dependent:
+          description: If the co-provisioned resource is dependendent on the current one.
+          type: boolean
+        match_dependents:
+          description: If the resources dependant on the main resource, are also dependant on the co-provisioned one.
+          type: boolean
+        params:
+          additionalProperties: true
+          description: (Optional) Additional parameters to be passed to the driver which will provision the resource.
+          type: object
+      required:
+      - is_dependent
+      type: object
+    ConflictingResourcesErrorResponseDetailsResources:
+      type: object
+      properties:
+        resource_definitions:
+          description: List of non-deleted Resource Definitions referencing the specified Resource Account.
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceDefinitionResponse'
+        active_resources:
+          description: List of Active Resources referencing the specified Resource Account.
+          type: array
+          items:
+            $ref: '#/components/schemas/ActiveResourceResponse'
+      additionalProperties: false
+    CheckResourceAccountData:
+      description: The successful check response details.
+      type: object
+      properties:
+        identity_fields:
+          description: A set of identity fields and properties resulting from the account check.
+          type: array
+          items:
+            $ref: '#/components/schemas/CheckResourceAccountField'
+        warnings:
+          description: A list of warnings related to this account.
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+      required:
+      - identity_fields
+    CreateResourceAccountRequestRequest:
+      description: CreateResourceAccountRequest describes the request to create a new security account.
+      example:
+        credentials:
+          password: '***'
+          username: '***'
+        id: gcp-dev-postgres
+        name: GCP Dev Postgres
+        type: gcp-service-account
+      properties:
+        credentials:
+          additionalProperties: true
+          description: Credentials associated with the account.
+          type: object
+        id:
+          description: Unique identifier for the account (in scope of the organization it belongs to).
+          type: string
+        name:
+          description: Display name.
+          type: string
+        type:
+          description: The type of the account
+          type: string
+      type: object
+      required:
+      - id
+      - type
+      - name
+      - credentials
+    MatchingCriteriaResponse:
+      description: 'Matching Criteria are a set of rules used to choose which Resource Definition to use to provision a particular Resource Type.
+
+
+        Matching criteria are made up in order of specificity with least specific first:
+
+
+        - Environment Type (`env_type`)
+
+
+        - Application (`app_id`)
+
+
+        - Environment (`env_id`)
+
+
+        - Resource (`res_id`)
+
+
+        When selecting matching criteria, the most specific one is selected. In general, this means of all the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific element filled is chosen. If there is a tie, the next most specific elements are compared and so on until one is chosen.
+
+
+        **NOTE:**
+
+
+        Humanitec will reject the registration of matching criteria rules that duplicate rules already present for a Resource Type.'
+      properties:
+        app_id:
+          description: (Optional) The ID of the Application that the Resources should belong to.
+          type: string
+        class:
+          description: (Optional) The class of the Resource in the Deployment Set. Can not be empty, if is not defined, set to `default`.
+          type: string
+        env_id:
+          description: (Optional) The ID of the Environment that the Resources should belong to. If `env_type` is also set, it must match the Type of the Environment for the Criteria to match.
+          type: string
+        env_type:
+          description: (Optional) The Type of the Environment that the Resources should belong to. If `env_id` is also set, it must have an Environment Type that matches this parameter for the Criteria to match.
+          type: string
+        id:
+          description: Matching Criteria ID
+          type: string
+        res_id:
+          description: (Optional) The ID of the Resource in the Deployment Set. The ID is normally a `.` separated path to the definition in the set, e.g. `modules.my-module.externals.my-database`.
+          type: string
+      required:
+      - class
+      - id
+      type: object
+    UpdateResourceAccountRequestRequest:
+      description: UpdateResourceAccountRequest describes the request to update the security account details.
+      example:
+        credentials:
+          password: '***'
+          username: '***'
+        name: GCP Dev Postgres
+      properties:
+        credentials:
+          additionalProperties: true
+          description: Credentials associated with the account.
+          type: object
+        name:
+          description: Display name.
+          type: string
+      type: object
+    ValuesSecretsRefsResponse:
+      description: ValuesSecretsRefs stores data that should be passed around split by sensitivity.
+      example:
+        secret_refs:
+          credentials:
+            password:
+              value: <secret>
+            user:
+              ref: vault/path/to/data/secrets/user
+              store: my-external-vault
+              version: '1'
+        secrets:
+          password: vault/path/to/data/.secrets/password
+          user: vault/path/to/data/.secrets/user
+        values:
+          host: 127.0.0.1
+          name: my-database
+      properties:
+        secret_refs:
+          additionalProperties: true
+          description: 'Secrets section of the data set. They can hold sensitive information that will be stored in the primary organization secret store and replaced with the secret store paths when sent outside, or secret references stored in a defined secret store. Can''t be used together with `secrets`.
+
+
+            They can hold a nested structure but leaf objects need to be of type SecretReference, where:
+
+
+            - `store` is a Secret Store id. It can''t be `humanitec`. It''s mandatory if `ref` is defined and can''t be used in request payloads if `value` is defined.
+
+
+            - `ref` is the secret key in the format of the target store. It can''t be used in request payloads if `value` is defined.
+
+
+            - `version` is the version of the secret as defined in the target store. It can be defined only if `ref` is defined.
+
+
+            - `value` is the value to store in the organizations primary secret store. It can''t be used in request payloads if `ref` is defined.'
+          type: object
+        secrets:
+          additionalProperties: true
+          description: Secrets section of the data set. Sensitive information is stored in the primary organization secret store and replaced with the secret store paths when sent outside. Can't be used together with `secret_refs`.
+          type: object
+        values:
+          additionalProperties: true
+          description: Values section of the data set. Passed around as-is.
+          type: object
+      type: object
+    ResourceAccountResponse:
+      description: 'ResourceAccount represents the account being used to access a resource.
+
+
+        Resource Accounts hold credentials that are required to provision and manage resources.'
+      example:
+        created_at: '2020-05-22T14:58:07Z'
+        created_by: test-user
+        id: gcp-dev-postgres
+        is_default: false
+        is_used: true
+        name: GCP Dev Postgres
+        type: gcp
+      properties:
+        created_at:
+          description: The timestamp of when the account was created.
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          description: The ID of the user who created the account.
+          type: string
+        id:
+          description: Unique identifier for the account (in scope of the organization it belongs to).
+          type: string
+        is_used:
+          description: Indicates if this account is being used (referenced) by any resource definition or active resource.
+          type: boolean
+        name:
+          description: Display name.
+          type: string
+        type:
+          description: The type of the account
+          type: string
+      required:
+      - id
+      - name
+      - type
+      - is_used
+      - created_by
+      - created_at
+      type: object
+    ConflictingResourcesErrorResponseDetails:
+      description: Object composed by the list of resources which prevent the deletion of the specified entity. The resources are indexed by their kind.
+      type: object
+      properties:
+        referencing_resources:
+          $ref: '#/components/schemas/ConflictingResourcesErrorResponseDetailsResources'
+      required:
+      - referencing_resources
+      additionalProperties: false
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

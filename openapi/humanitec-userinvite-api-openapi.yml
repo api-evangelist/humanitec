@@ -1,0 +1,211 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType UserInvite API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: UserInvite
+paths:
+  /orgs/{orgId}/invitations:
+    get:
+      tags:
+      - UserInvite
+      summary: List the invites issued for the organization.
+      operationId: listInvitesInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      responses:
+        '200':
+          description: 'The list of the invites issued for the organization.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserInviteResponse'
+                type: array
+components:
+  schemas:
+    UserInviteResponse:
+      description: UserInvite stores the invitation details.
+      example:
+        created_at: '2020-12-19T09:32:46Z'
+        created_by: admin-user-id
+        email: jo.trigg@awesomecorp.com
+        expires_at: '2020-12-30T09:32:46Z'
+        user_id: new-user-id
+      properties:
+        created_at:
+          description: The timestamp this invitation was created.
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          description: The ID of the user who created this invitation.
+          type: string
+        email:
+          description: The email address of the user from the profile.
+          type: string
+        expires_at:
+          description: The timestamp this invitation would expire.
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        user_id:
+          description: The User ID for this user.
+          type: string
+      required:
+      - user_id
+      - expires_at
+      - created_by
+      - created_at
+      type: object
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

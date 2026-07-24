@@ -1,0 +1,1040 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType Value API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: Value
+  x-displayName: Shared Values
+  description: 'Shared Values can be used to manage variables and configuration that might vary between environments. They are also the way that secrets can be stored securely.
+
+
+    Shared Values are by default shared across all environments in an application. However, they can be overridden on an Environment by Environment basis.
+
+
+    For example: There might be 2 API keys that are used in an application. One development key used in the development and staging environments and another used for production. The development API key would be set at the Application level. The value would then be overridden at the Environment level for the production Environment.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ValueRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/values:
+    get:
+      tags:
+      - Value
+      summary: List Shared Values in an Environment
+      description: The returned values will be the base Application values with the Environment overrides where applicable. The `source` field will specify the level from which the value is from.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A possibly empty list of Values.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ValueResponse'
+                type: array
+        '400':
+          description: Input not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    post:
+      tags:
+      - Value
+      summary: Create a Shared Value for an Environment
+      description: 'The Shared Value created will only be available to the specific Environment.
+
+
+        If a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated.'
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Definition of the new Shared Value.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueCreatePayloadRequest'
+      responses:
+        '201':
+          description: 'Shared Value successfully created.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueResponse'
+        '400':
+          description: 'Input not valid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'Shared Value already exists.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    delete:
+      tags:
+      - Value
+      summary: Delete all Shared Value for an Environment
+      description: All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'Shared Value successfully deleted.
+
+
+            '
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}:
+    put:
+      tags:
+      - Value
+      summary: Update Shared Value for an Environment
+      description: Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: key
+        in: path
+        description: 'The key to update.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Both `value` and `description` must be supplied. All other fields will be ignored.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueEditPayloadRequest'
+      responses:
+        '200':
+          description: 'Shared Value successfully updated.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueResponse'
+        '400':
+          description: 'Input not valid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'Shared Value does not exist.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    delete:
+      tags:
+      - Value
+      summary: Delete Shared Value for an Environment
+      description: The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: key
+        in: path
+        description: 'The key to update.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'Shared Value successfully deleted.
+
+
+            '
+        '400':
+          description: 'Input not valid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'Shared Value does not exist.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    patch:
+      tags:
+      - Value
+      summary: Update Shared Value for an Environment
+      description: Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: key
+        in: path
+        description: 'The key to update.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'At least `value` or `description` must be supplied. All other fields will be ignored.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValuePatchPayloadRequest'
+      responses:
+        '200':
+          description: 'Shared Value successfully updated.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueResponse'
+        '400':
+          description: 'Input not valid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'Shared Value does not exist.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/values:
+    get:
+      tags:
+      - Value
+      summary: List Shared Values in an Application
+      description: The returned values will be the "base" values for the Application. The overridden value for the Environment can be retrieved via the `/orgs/{orgId}/apps/{appId}/envs/{envId}/values` endpoint.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A possibly empty list of Values.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ValueResponse'
+                type: array
+    post:
+      tags:
+      - Value
+      summary: Create a Shared Value for an Application
+      description: 'The Shared Value created will be available to all Environments in that Application.
+
+
+        If a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated.'
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Definition of the new Shared Value.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueCreatePayloadRequest'
+      responses:
+        '201':
+          description: 'Shared Value successfully created.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueResponse'
+        '400':
+          description: 'Input not valid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'Shared Value already exists.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    delete:
+      tags:
+      - Value
+      summary: Delete all Shared Value for an App
+      description: All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'Shared Values successfully deleted.
+
+
+            '
+  /orgs/{orgId}/apps/{appId}/values/{key}:
+    put:
+      tags:
+      - Value
+      summary: Update Shared Value for an Application
+      description: Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: key
+        in: path
+        description: 'The key to update.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Both `value` and `description` must be supplied. All other fields will be ignored.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueEditPayloadRequest'
+      responses:
+        '200':
+          description: 'Shared Value successfully updated.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueResponse'
+        '400':
+          description: 'Input not valid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'Shared Value does not exist.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    delete:
+      tags:
+      - Value
+      summary: Delete Shared Value for an Application
+      description: The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: key
+        in: path
+        description: 'The key to update.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'Shared Value successfully deleted.
+
+
+            '
+        '400':
+          description: 'Input not valid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'Shared Value does not exist.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    patch:
+      tags:
+      - Value
+      summary: Update Shared Value for an Application
+      description: Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: key
+        in: path
+        description: 'The key to update.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'At least `value` or `description` must be supplied. All other fields will be ignored.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValuePatchPayloadRequest'
+      responses:
+        '200':
+          description: 'Shared Value successfully updated.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueResponse'
+        '400':
+          description: 'Input not valid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'Shared Value does not exist.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    ValueCreatePayloadRequest:
+      properties:
+        description:
+          nullable: true
+          type: string
+        is_secret:
+          type: boolean
+        key:
+          type: string
+          pattern: ^[A-Za-z0-9_.-]+$
+        value:
+          nullable: true
+          type: string
+        secret_ref:
+          nullable: true
+          description: A sensitive value to store or a reference to an already stored sensitive value.
+          $ref: '#/components/schemas/SecretReference'
+      required:
+      - key
+      - description
+      type: object
+    ValueEditPayloadRequest:
+      properties:
+        description:
+          nullable: true
+          type: string
+        value:
+          nullable: true
+          type: string
+        is_secret:
+          type: boolean
+        key:
+          pattern: ^[A-Za-z0-9_.-]+$
+          type: string
+        secret_ref:
+          nullable: true
+          description: A sensitive value to store or a reference to an already stored sensitive value.
+          $ref: '#/components/schemas/SecretReference'
+      required:
+      - description
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ValueSource:
+      description: Source of the value, "app" for app level, "env" for app env level.
+      type: string
+      enum:
+      - app
+      - env
+    SecretReference:
+      type: object
+      nullable: true
+      description: It stores sensitive value in the organization primary store or a reference to a sensitive value stored in a store registered under the organization.
+      properties:
+        store:
+          description: Secret Store id. This can't be `humanitec` (our internal Secret Store). It's mandatory if `ref` is defined and can't be used if `value` is defined.
+          type: string
+        ref:
+          description: Secret reference in the format of the target store. It can't be defined if `value` is defined.
+          type: string
+        version:
+          description: Optional, only valid if `ref` is defined. It's the version of the secret as defined in the target store.
+          type: string
+        value:
+          description: Value to store in the secret store. It can't be defined if `ref` is defined.
+          type: string
+    ValuePatchPayloadRequest:
+      properties:
+        description:
+          nullable: true
+          type: string
+        value:
+          nullable: true
+          type: string
+        secret_ref:
+          description: A sensitive value to store or a reference to an already stored sensitive value.
+          nullable: true
+          $ref: '#/components/schemas/SecretReference'
+      type: object
+    ValueResponse:
+      description: 'Shared Values can be used to manage variables and configuration that might vary between environments. They are also the way that secrets can be stored securely.
+
+
+        Shared Values are by default shared across all environments in an application. However, they can be overridden on an Environment by Environment basis.
+
+
+        For example: There might be 2 API keys that are used in an application. One development key used in the development and staging environments and another used for production. The development API key would be set at the Application level. The value would then be overridden at the Environment level for the production Environment.'
+      example:
+        description: The message to show me.
+        is_secret: false
+        key: MY_MSG
+        value: Hello World
+      properties:
+        created_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        description:
+          description: A Human friendly description of what the Shared Value is.
+          type: string
+        is_secret:
+          description: Specified that the Shared Value contains a secret.
+          type: boolean
+        key:
+          description: 'The unique key by which the Shared Value can be referenced. pattern: ^[a-zA-Z0-9._-]+$.'
+          type: string
+        secret_key:
+          description: Location of the secret value in the secret store.
+          nullable: true
+          type: string
+        secret_store_id:
+          nullable: true
+          type: string
+        secret_version:
+          description: Version of the current secret value as returned by the secret store.
+          nullable: true
+          type: string
+        source:
+          $ref: '#/components/schemas/ValueSource'
+        updated_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        value:
+          description: The value that will be stored. (Will be always empty for secrets.)
+          type: string
+      required:
+      - key
+      - value
+      - is_secret
+      - description
+      - created_at
+      - updated_at
+      - source
+      - secret_key
+      - secret_version
+      - secret_store_id
+      type: object
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

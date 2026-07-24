@@ -1,0 +1,768 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType WorkloadProfile API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: WorkloadProfile
+  x-displayName: Workload Profiles
+  description: 'Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.
+
+
+    Workloads in Humanitec are implemented as Helm Charts which must implement a specific schema.
+
+    <SchemaDefinition schemaRef="#/components/schemas/WorkloadProfileRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/workload-profiles:
+    get:
+      tags:
+      - WorkloadProfile
+      summary: List workload profiles available to the organization.
+      operationId: listWorkloadProfiles
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/deprecatedQueryParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: List of Workload Profiles.
+          headers:
+            Link:
+              $ref: '#/components/headers/Link'
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/WorkloadProfileResponse'
+                type: array
+    post:
+      tags:
+      - WorkloadProfile
+      summary: Create new Workload Profile
+      operationId: createWorkloadProfile
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      requestBody:
+        description: 'Workload profile details.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkloadProfileRequest'
+      responses:
+        '201':
+          description: 'The newly created Workload Profile.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadProfileResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+  /orgs/{orgId}/workload-profiles/{profileQid}:
+    get:
+      tags:
+      - WorkloadProfile
+      summary: Get a Workload Profile
+      operationId: getWorkloadProfile
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/profileQidPathParam'
+      responses:
+        '200':
+          description: 'The requested WorkloadProfile.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadProfileResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      tags:
+      - WorkloadProfile
+      summary: Update a Workload Profile
+      operationId: updateWorkloadProfile
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/profileQidPathParam'
+      requestBody:
+        description: 'Workload profile details.
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkloadProfileUpdateRequest'
+      responses:
+        '200':
+          description: 'The resulting WorkloadProfile.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadProfileResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+    delete:
+      tags:
+      - WorkloadProfile
+      summary: Delete a Workload Profile
+      operationId: deleteWorkloadProfile
+      description: 'This will also delete all versions of a workload profile.
+
+
+        It is not possible to delete profiles of other organizations.'
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/profileQidPathParam'
+      responses:
+        '204':
+          description: 'The Workload Profile has been deleted.
+
+            '
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/workload-profiles/{profileQid}/versions:
+    get:
+      tags:
+      - WorkloadProfile
+      operationId: listWorkloadProfileVersions
+      summary: List versions of the given workload profile.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/profileQidPathParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: List of Workload Profile Versions.
+          headers:
+            Link:
+              $ref: '#/components/headers/Link'
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/WorkloadProfileVersionResponse'
+                type: array
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/workload-profiles/{profileQid}/versions/latest:
+    get:
+      tags:
+      - WorkloadProfile
+      operationId: getLatestWorkloadProfileVersion
+      summary: Latest version of the given workload profile with optional constraint.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/profileQidPathParam'
+      deprecated: true
+      responses:
+        '200':
+          description: 'The latest version of a Workload profile
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadProfileVersionResponse'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/workload-profile-chart-versions:
+    post:
+      tags:
+      - WorkloadProfile
+      summary: Add new Workload Profile Chart Version
+      operationId: createWorkloadProfileChartVersion
+      description: "Creates a Workload Profile Chart Version from the uploaded Helm chart. The name and version is retrieved from the chart's metadata (Charts.yaml file).\n\nThe request has content type `multipart/form-data` and the request body includes one part:\n\n1. `file` with `application/x-gzip` content type which is an archive containing a Helm chart.\n\nRequest body example:\n\n\tContent-Type: multipart/form-data; boundary=----boundary \t----boundary \tContent-Disposition: form-data; name=\"file\"; filename=\"my-workload-1.0.1.tgz\" \tContent-Type: application/x-gzip \t[TGZ_DATA] \t----boundary"
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      requestBody:
+        description: 'Workload profile chart version.
+
+
+          '
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: 'The newly created Workload Profile Chart Version metadata.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadProfileChartVersionResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+    get:
+      tags:
+      - WorkloadProfile
+      summary: Workload Profile Chart Versions for the given organization.
+      operationId: listWorkloadProfileChartVersions
+      description: Returns all Workload Profile Chart Versions for the given organization.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      - name: id
+        in: query
+        description: Filter Chart Versions by Chart Version ID.
+        schema:
+          type: string
+      - name: version
+        in: query
+        description: Filter Chart Versions by Chart Version.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of Workload Profile Chart Versions.
+          headers:
+            Link:
+              $ref: '#/components/headers/Link'
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/WorkloadProfileChartVersionResponse'
+                type: array
+components:
+  parameters:
+    deprecatedQueryParam:
+      name: deprecated
+      in: query
+      description: Whether to include deprecated profiles
+      required: false
+      example: true
+      schema:
+        type: boolean
+        default: false
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    perPageQueryParam:
+      name: per_page
+      in: query
+      description: The maximum number of items to return in a page of results
+      required: false
+      example: 50
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    profileQidPathParam:
+      name: profileQid
+      in: path
+      description: The Workload Profile ID.
+      required: true
+      schema:
+        type: string
+    pageTokenQueryParam:
+      name: page
+      in: query
+      description: The page token to request from
+      required: false
+      example: AAAAAAAAAA==
+      schema:
+        type: string
+  schemas:
+    WorkloadProfileRequest:
+      description: 'Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.
+
+
+        Workloads in Humanitec are implemented as Helm Charts which must implement a specific schema.'
+      properties:
+        id:
+          description: Workload Profile ID
+          type: string
+        description:
+          description: Describes the workload profile
+          type: string
+        deprecation_message:
+          description: A not-empty string indicates that the workload profile is deprecated.
+          type: string
+        spec_definition:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinition'
+        version:
+          description: 'Version identifier. The version must be unique, but the API doesn''t not enforce any ordering. Currently workloads will always use the latest update.
+
+
+            If no identifier is provided, the each update will generate a random version identifier.'
+          type: string
+        workload_profile_chart:
+          $ref: '#/components/schemas/WorkloadProfileChartReference'
+      required:
+      - id
+      - spec_definition
+      - workload_profile_chart
+      type: object
+    WorkloadProfileChartVersionResponse:
+      description: Each Workload Profile Chart has one or more Versions associated with it.
+      properties:
+        created_at:
+          description: Creation date
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          description: User created the profile
+          type: string
+        org_id:
+          description: Organization ID
+          type: string
+        id:
+          description: Workload Profile Chart Version ID
+          type: string
+        version:
+          description: Version
+          type: string
+      required:
+      - org_id
+      - id
+      - version
+      - created_at
+      - created_by
+      type: object
+    WorkloadProfileSpecDefinition:
+      description: Workload spec definition
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinitionProperties'
+        runtime_properties:
+          items:
+            $ref: '#/components/schemas/WorkloadProfileSpecDefinitionRuntimeProperty'
+          type: array
+    WorkloadProfileUpdateRequest:
+      description: The proposed properties to update a workload profile.
+      properties:
+        description:
+          description: Describes the workload profile
+          type: string
+        deprecation_message:
+          description: A not-empty string indicates that the workload profile is deprecated.
+          type: string
+        spec_definition:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinition'
+        version:
+          description: 'Version identifier. The version must be unique, but the API doesn''t not enforce any ordering. Currently workloads will always use the latest update.
+
+
+            If no identifier is provided, the each update will generate a random version identifier.'
+          type: string
+        workload_profile_chart:
+          $ref: '#/components/schemas/WorkloadProfileChartReference'
+      required:
+      - spec_definition
+      - workload_profile_chart
+      type: object
+    WorkloadProfileSpecDefinitionRuntimePropertyType:
+      type: string
+      enum:
+      - feature
+      - collection
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    WorkloadProfileSpecDefinitionProperties:
+      type: object
+      description: Workload spec definition
+      additionalProperties:
+        $ref: '#/components/schemas/WorkloadProfileSpecDefinitionProperty'
+    WorkloadProfileSpecDefinitionPropertyUIHints:
+      type: object
+      additionalProperties: false
+      properties:
+        order:
+          type: integer
+        hidden:
+          type: boolean
+    WorkloadProfileSpecDefinitionProperty:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinitionPropertyType'
+        feature_name:
+          type: string
+        title:
+          type: string
+        version:
+          type: string
+        ui_hints:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinitionPropertyUIHints'
+        schema:
+          additionalProperties: true
+          type: object
+        runtime_properties:
+          items:
+            $ref: '#/components/schemas/WorkloadProfileSpecDefinitionRuntimeProperty'
+          type: array
+        properties:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinitionProperties'
+      required:
+      - type
+    WorkloadProfileResponse:
+      description: 'Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.
+
+
+        Workloads in Humanitec are implemented as Helm Charts which must implement a specific schema.'
+      properties:
+        created_at:
+          description: Creation date
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          description: User created the profile
+          type: string
+        description:
+          description: Describes the workload profile
+          type: string
+        deprecation_message:
+          description: A not-empty string indicates that the workload profile is deprecated.
+          type: string
+        id:
+          description: Workload Profile ID
+          type: string
+        org_id:
+          description: Organization ID
+          type: string
+        spec_definition:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinition'
+        spec_schema:
+          description: OpenAPI schema used to validate the spec.
+        updated_at:
+          description: Timestamp when the entity was last updated.
+          format: date-time
+          type: string
+        updated_by:
+          description: User who last updated the entity.
+          type: string
+        version:
+          description: Version identifier.
+          type: string
+        workload_profile_chart:
+          $ref: '#/components/schemas/WorkloadProfileChartReference'
+      required:
+      - created_at
+      - created_by
+      - description
+      - id
+      - org_id
+      - spec_definition
+      - spec_schema
+      - updated_at
+      - updated_by
+      - version
+      - workload_profile_chart
+      type: object
+    WorkloadProfileSpecDefinitionPropertyType:
+      type: string
+      enum:
+      - feature
+      - collection
+      - schema
+    WorkloadProfileSpecDefinitionRuntimeProperty:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinitionRuntimePropertyType'
+        feature_name:
+          type: string
+        title:
+          type: string
+        version:
+          type: string
+        ui_hints:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinitionPropertyUIHints'
+      required:
+      - type
+    WorkloadProfileVersionResponse:
+      description: A version of a workload profile.
+      properties:
+        created_at:
+          description: Creation date
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          description: User created the profile
+          type: string
+        description:
+          description: Describes the workload profile
+          type: string
+        deprecation_message:
+          description: A not-empty string indicates that the workload profile is deprecated.
+          type: string
+        id:
+          description: ID
+          type: string
+        org_id:
+          description: Organization ID
+          type: string
+        spec_definition:
+          $ref: '#/components/schemas/WorkloadProfileSpecDefinition'
+        spec_schema:
+          description: OpenAPI schema used to validate the spec.
+        workload_profile_chart:
+          $ref: '#/components/schemas/WorkloadProfileChartReference'
+        workload_profile_id:
+          description: Workload Profile ID
+          type: string
+      required:
+      - created_at
+      - created_by
+      - description
+      - id
+      - org_id
+      - spec_definition
+      - spec_schema
+      - version
+      - workload_profile_chart
+      - workload_profile_id
+      type: object
+    WorkloadProfileChartReference:
+      description: References a workload profile chart.
+      properties:
+        id:
+          description: Workload Profile Chart ID
+          type: string
+          minLength: 1
+        version:
+          description: Version
+          type: string
+          minLength: 1
+      required:
+      - id
+      - version
+      type: object
+  responses:
+    409Conflict:
+      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
+
+        More detail can be found in the error body.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+  headers:
+    Link:
+      schema:
+        type: string
+      description: A list of request links, optionally including a "next" page link for pagination.
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

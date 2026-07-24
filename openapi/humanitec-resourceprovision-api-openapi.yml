@@ -1,0 +1,486 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType ResourceProvision API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: ResourceProvision
+  x-displayName: Resources Dependency
+  description: 'ResourceProvisionRequest is the payload passed to the resource provisioner, specifying the resources to be provisioned.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceProvisionRequestRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graph:
+    post:
+      tags:
+      - ResourceProvision
+      summary: Lists the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.
+      description: This endpoint is deprecated. Use `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs` instead.
+      operationId: queryResourceGraph
+      deprecated: true
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Resources to provision.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/ResourceProvisionRequestRequest'
+              type: array
+      responses:
+        '200':
+          description: 'A list of objects which hold information to provision resources, sorted according to resources provisioning order.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/NodeBodyResponse'
+                type: array
+        '400':
+          description: 'Request payload is not provided or is malformed.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs:
+    post:
+      tags:
+      - ResourceProvision
+      summary: Create a Dependency Graph which is composed by the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.
+      operationId: createDependencyGraph
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      requestBody:
+        description: 'Resources to provision.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/ResourceProvisionRequestRequest'
+              type: array
+      responses:
+        '200':
+          description: 'A Dependency Graph which contains a list of objects which hold information to provision resources, sorted according to resources provisioning order.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DependencyGraphResponse'
+        '400':
+          description: 'Request payload is not provided or is malformed.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs/{graphId}:
+    get:
+      tags:
+      - ResourceProvision
+      summary: Retrieve a Dependency Graph by its ID.
+      operationId: getDependencyGraph
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      - $ref: '#/components/parameters/graphIdPathParam'
+      responses:
+        '200':
+          description: "A Dependency Graph which contains a list of objects which hold information to provision resources, sorted according to resources provisioning order.  \n\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DependencyGraphResponse'
+        '404':
+          description: 'A Dependency Graph with the supplied id does not exist.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  parameters:
+    graphIdPathParam:
+      name: graphId
+      in: path
+      description: The Dependency Graph ID.
+      example: 01234567-89ab-cdef-0123-4567890abcdef
+      required: true
+      schema:
+        type: string
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    envIdPathParam:
+      name: envId
+      in: path
+      description: The Environment ID
+      example: development
+      required: true
+      schema:
+        type: string
+  schemas:
+    ResourceProvisionRequestRequest:
+      description: ResourceProvisionRequest is the payload passed to the resource provisioner, specifying the resources to be provisioned.
+      example:
+        class: cloudsql
+        id: shared.postgres
+        resource:
+          host: 127.0.0.1
+          name: my-database
+        type: postgres
+      properties:
+        class:
+          description: (Optional) A resource class
+          type: string
+        id:
+          type: string
+        resource:
+          additionalProperties: true
+          description: (Optional) The input parameters for the resource passed from the deployment set.
+          type: object
+        type:
+          type: string
+      required:
+      - id
+      - type
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    NodeBodyResponse:
+      description: NodeBody represents a node of a Resource Dependency Graph.
+      example:
+        class: default
+        criteria_id: 09876545321
+        def_id: dns-res-def
+        def_version_id: 01234567-89ab-cdef-0123-4567890abcdef
+        depends_on:
+        - ff09876545321
+        driver:
+          secrets: {}
+          values:
+            domain: my-domain
+        driver_type: humanitec/dns-aws-route53
+        guresid: 1234567890ff
+        id: modules.sample-app.my-dns
+        resource: null
+        resource_schema:
+          properties:
+            host:
+              type: string
+          type: object
+        type: dns
+      properties:
+        class:
+          type: string
+        criteria_id:
+          type: string
+        def_id:
+          type: string
+        def_version_id:
+          description: The Resource Definition Version ID that was used to provision the resource.
+          type: string
+        depends_on:
+          items:
+            type: string
+          type: array
+        driver:
+          additionalProperties: true
+          type: object
+        driver_account:
+          type: string
+        driver_type:
+          type: string
+        guresid:
+          type: string
+        id:
+          type: string
+        resource:
+          additionalProperties: true
+          type: object
+        resource_schema:
+          additionalProperties: true
+          type: object
+        target:
+          type: string
+        type:
+          type: string
+      required:
+      - type
+      - class
+      - id
+      - guresid
+      - resource
+      - driver
+      - def_id
+      - criteria_id
+      - driver_type
+      - resource_schema
+      - depends_on
+      - def_version_id
+      type: object
+    DependencyGraphResponse:
+      description: The Dependency Graph which holds the list of objects which contain information to provision resources, sorted according to resources provisioning order.
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the Dependency Graph.
+          example: 01234567-89ab-cdef-0123-4567890abcdef
+        hash:
+          type: string
+          description: The sha256 hash of the graph list of nodes. Two graphs with same hash cannot exist, unless they are exactly the same graph, so they contain the same sorted list of nodes.
+        nodes:
+          description: A list of objects which hold information to provision resources, sorted according to resources provisioning order.
+          items:
+            $ref: '#/components/schemas/NodeBodyResponse'
+          type: array
+        created_at:
+          description: The timestamp of when the graph was generated for.
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        used_at:
+          description: The timestamp of when the graph was generated for the last time.
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+      required:
+      - id
+      - nodes
+      - hash
+      - created_at
+      - used_at
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

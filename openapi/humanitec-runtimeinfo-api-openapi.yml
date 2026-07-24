@@ -1,0 +1,747 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType RuntimeInfo API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: RuntimeInfo
+  x-displayName: Runtime Information
+  description: 'RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).
+
+    <SchemaDefinition schemaRef="#/components/schemas/RuntimeInfoResponseV2" />
+
+    '
+paths:
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/runtime:
+    get:
+      tags:
+      - RuntimeInfo
+      operationId: getRuntime
+      summary: Get Runtime information about the environment.
+      description: Runtime info are fetched from the cluster provisioned by the Orchestrator with Resource Id `k8s-cluster-runtime`. If no cluster with that id is found, the system fetches information from a cluster provisioned with the default Resource Id  `k8s-cluster`.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      responses:
+        '200':
+          description: Runtime info returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeInfoResponseV1'
+            application/v2+json:
+              schema:
+                $ref: '#/components/schemas/RuntimeInfoResponseV2'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/apps/{appId}/runtime:
+    get:
+      tags:
+      - RuntimeInfo
+      operationId: listRuntime
+      summary: Get Runtime information about specific multiple environments.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: id
+        in: query
+        description: Filter environments by ID (required). Up to 5 ids can be supplied per request.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: A list of the RuntimeInfo of the environments specified by the id parameter.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/EnvironmentRuntimeInfoResponse'
+                type: array
+              example:
+              - id: development
+                paused: true
+                status: Success
+              - id: staging
+                paused: false
+                status: Warning
+              - error: Environment my-org/my-app/not-existing-env does not exist
+                id: not-existing-env
+                paused: false
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+  /orgs/{orgId}/runtime/actions/check-connectivity:
+    post:
+      tags:
+      - RuntimeInfo
+      operationId: checkClusterConnectivity
+      summary: Provision and check the cluster connectivity in an environment
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      requestBody:
+        description: Parameters required to start a cluster provisioning and connection check.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterConnectionCheckRequest'
+      responses:
+        '200':
+          description: The cluster connectivity test returned a result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterConnectionCheckResult'
+components:
+  schemas:
+    ResourceDefinitions:
+      description: Object that contains definition id and resource type
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of the resource provisioned by the definition
+        id:
+          type: string
+          description: The definition id
+      required:
+      - type
+      - id
+    RuntimeInfoModuleController:
+      description: K8s controller.
+      type: object
+      properties:
+        kind:
+          type: string
+          description: Controller kind.
+        replicas:
+          type: integer
+          description: The most recently observed number of replicas.
+        status:
+          $ref: '#/components/schemas/RuntimeInfoStatus'
+        message:
+          type: string
+          description: If a controller is not in a successful status, the reason from its condition.
+        pods:
+          description: List of pods which belong to the controller.
+          type: array
+          items:
+            $ref: '#/components/schemas/RuntimeInfoPod'
+        revision:
+          type: integer
+          description: Revision of the controller.
+      required:
+      - kind
+      - status
+    ClusterConnectionCheckResult:
+      description: The result of testing the Kubernetes cluster connection
+      type: object
+      required:
+      - success
+      - conditions
+      - resource_summaries
+      properties:
+        success:
+          description: Whether the test completed successfully
+          type: boolean
+          example: true
+        resource_summaries:
+          description: A list of resources provisioned for the test
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterConnectionCheckResourceSummary'
+        conditions:
+          description: A list of success or failure conditions contributing to the result
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterConnectionCheckResultCondition'
+    RuntimeInfoPod:
+      description: k8s pod.
+      type: object
+      properties:
+        podName:
+          type: string
+          description: Pod name.
+        revision:
+          type: integer
+          description: Revision of the pod.
+        phase:
+          description: A simple, high-level summary of where the Pod is in its lifecycle.
+          type: string
+          enum:
+          - Pending
+          - Running
+          - Succeeded
+          - Failed
+          - Unknown
+        status:
+          type: string
+          enum:
+          - Failure
+          - Success
+          - Pending
+          - Unknown
+        containerStatuses:
+          description: The list has one entry per container in the manifest.
+          type: array
+          items:
+            $ref: '#/components/schemas/RuntimeInfoContainerStatus'
+      required:
+      - podName
+      - phase
+      - status
+      - containerStatuses
+    RuntimeInfoContainerStatus:
+      description: Container status.
+      type: object
+      properties:
+        name:
+          description: Container name.
+          type: string
+        ready:
+          description: If a container is ready to start accept traffic.
+          type: boolean
+        restart_count:
+          description: The number of times the container has been restarted.
+          type: integer
+        status:
+          description: Container status derived from its state and readiness.
+          type: string
+          enum:
+          - Failure
+          - Success
+          - Pending
+          - Unknown
+        state:
+          $ref: '#/components/schemas/RuntimeInfoContainerState'
+      required:
+      - name
+      - ready
+      - restartCount
+      - status
+      - state
+    RuntimeInfoContainerStateTerminated:
+      description: Details about a terminated container.
+      type: object
+      properties:
+        exit_code:
+          description: Exit status from the last termination of the container.
+          type: integer
+        signal:
+          description: Signal from the last termination of the container.
+          type: integer
+        reason:
+          description: Reason from the last termination of the container.
+          type: string
+        message:
+          description: Message regarding the last termination of the container.
+          type: string
+        started_at:
+          description: Time at which previous execution of the container started.
+          type: string
+          format: date-time
+        finished_at:
+          description: Time at which the container last terminated.
+          type: string
+          format: date-time
+        container_id:
+          description: Container's ID in the format '<type>://<container_id>'.
+          type: string
+    RuntimeInfoControllerStateWaiting:
+      description: Details about a waiting container
+      type: object
+      properties:
+        reason:
+          description: Reason the container is not yet running.
+          type: string
+        message:
+          description: Message regarding why the container is not yet running.
+          type: string
+    ControllerResponse:
+      description: Controller represents deployment, stateful set etc
+      properties:
+        kind:
+          type: string
+        message:
+          type: string
+        pods:
+          items:
+            $ref: '#/components/schemas/PodStateResponse'
+          type: array
+        replicas:
+          type: integer
+        revision:
+          type: integer
+        status:
+          type: string
+      required:
+      - kind
+      - replicas
+      - status
+      - message
+      - pods
+      - revision
+      type: object
+    ClusterConnectionCheckRequest:
+      description: Detailed needed to test a Kubernetes cluster connection
+      type: object
+      required:
+      - app_id
+      - env_id
+      - env_type
+      properties:
+        app_id:
+          description: The application Id to test
+          type: string
+          example: sample-app
+        env_id:
+          description: The environment Id to test
+          type: string
+          example: sample-env
+        env_type:
+          description: The environment type to test
+          type: string
+          example: development
+        expected_definitions:
+          description: List of the definitions with their type that should be used by the resource graph nodes generated based on the context.
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceDefinitions'
+    RuntimeInfoContainerStateRunning:
+      description: Details about a running container.
+      type: object
+      properties:
+        started_at:
+          description: Time at which the container was last (re-)started.
+          type: string
+          format: date-time
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    RuntimeInfoModule:
+      description: Module represents a collection of workload controllers (deployments/statefulsets/etc) for the module.
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/RuntimeInfoStatus'
+        status_class:
+          $ref: '#/components/schemas/RuntimeInfoStatusClass'
+        controllers:
+          description: A collection of workload controllers.
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RuntimeInfoModuleController'
+      required:
+      - status
+      - status_class
+      - controllers
+    RuntimeInfoStatusClass:
+      type: string
+      description: Status class, statuses are aggregated into classes
+      enum:
+      - Success
+      - Failure
+      - Warning
+      - Stopped
+      - Unknown
+    RuntimeInfoStatus:
+      type: string
+      description: Workload status.
+      enum:
+      - Running
+      - Succeeded
+      - Starting
+      - Partially Succeeded
+      - Failed
+      - Stopped
+      - Unknown
+    ModuleResponse:
+      description: Module represents a collection of workload controllers (deployments/statefulsets/etc) for the module
+      properties:
+        deploy:
+          $ref: '#/components/schemas/DeployConditionResponse'
+        externals:
+          additionalProperties: true
+          type: object
+        profile:
+          type: string
+        spec:
+          additionalProperties: true
+          type: object
+      required:
+      - profile
+      - spec
+      - externals
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ControllerResponse'
+    RuntimeInfoContainerState:
+      description: Details about the container's current condition.
+      type: object
+      properties:
+        waiting:
+          $ref: '#/components/schemas/RuntimeInfoControllerStateWaiting'
+        running:
+          $ref: '#/components/schemas/RuntimeInfoContainerStateRunning'
+        terminated:
+          $ref: '#/components/schemas/RuntimeInfoContainerStateTerminated'
+    DeployConditionResponse:
+      description: 'A deploy condition for the workload
+
+
+        Possible values for "when" are: - "before", deployed before other workloads - "deploy", deployed in-parallel with other workloads (default) - "after", deployed after other workloads
+
+
+        Possible values for "success" are: - "deploy", workload deployed - "available", workload available - "complete", workload complete (often used with jobs)'
+      example:
+        success: complete
+        when: before
+      properties:
+        success:
+          type: string
+        timeout:
+          type: integer
+        when:
+          type: string
+      required:
+      - when
+      - success
+      - timeout
+      type: object
+    PodStateResponse:
+      description: PodState represents single pod status
+      properties:
+        containerStatuses:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        phase:
+          type: string
+        podName:
+          type: string
+        revision:
+          type: integer
+        status:
+          type: string
+      required:
+      - podName
+      - revision
+      - phase
+      - status
+      - containerStatuses
+      type: object
+    EnvironmentRuntimeInfoResponse:
+      description: EnvironmentRuntimeInfo
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+        paused:
+          type: boolean
+        status:
+          type: string
+      required:
+      - id
+      - paused
+      type: object
+    RuntimeInfoResponseV1:
+      description: RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).
+      properties:
+        modules:
+          additionalProperties:
+            $ref: '#/components/schemas/ModuleResponse'
+          type: object
+        namespace:
+          type: string
+      required:
+      - namespace
+      - modules
+      type: object
+    ClusterConnectionCheckResourceSummary:
+      type: object
+      required:
+      - type
+      - class
+      - res_id
+      - gu_res_id
+      - def_id
+      - def_version_id
+      - driver_type
+      - depends_on
+      properties:
+        type:
+          description: The resource type that was provisioned
+          type: string
+          example: k8s-cluster
+        class:
+          description: The resource class that was provisioned
+          type: string
+          example: default
+        res_id:
+          description: The resource id that was provisioned
+          type: string
+          example: k8s-cluster
+        gu_res_id:
+          description: The globally unique resource identifier for the resource
+          type: string
+          example: 0123456789abcdef0123456789abcdef
+        depends_on:
+          description: The list of globally unique resource identifiers that must be provisioned before this resource
+          type: array
+          items:
+            type: string
+          example:
+          - 0123456789abcdef0123456789abcdee
+          - 0123456789abcdef0123456789abcded
+        def_id:
+          description: The resource definition that was used to provision the resource
+          type: string
+          example: sample-definition
+        def_version_id:
+          description: The resource definition version that was used to provision the resource
+          type: string
+          example: 01234567-89ab-cdef-0123-456789abcdef
+        driver_type:
+          description: The driver type used by the resource definition, some driver types cannot be checked.
+          type: string
+          example: humanitec/echo
+    ClusterConnectionCheckResultCondition:
+      description: A condition associated with a test result. The condition
+      type: object
+      required:
+      - type
+      - status
+      - message
+      properties:
+        type:
+          description: The enum-name for the condition.
+          type: string
+          example: GraphCanProvision
+        status:
+          description: The status of the condition. True is the nominal value, False contributes to a failed result, Unknown is  rare but indicates that a retry may be necessary or the condition could not be checked.
+          type: string
+          enum:
+          - 'True'
+          - 'False'
+          - Unknown
+          example: 'True'
+        message:
+          description: A message explaining the cause of this condition.
+          type: string
+          example: A sample message.
+    RuntimeInfoResponseV2:
+      description: RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).
+      properties:
+        modules:
+          description: Modules represent a collection of workloads for the application.
+          additionalProperties:
+            $ref: '#/components/schemas/RuntimeInfoModule'
+          type: object
+        namespace:
+          type: string
+          description: The namespace where the application runs.
+      required:
+      - namespace
+      - modules
+      type: object
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    envIdPathParam:
+      name: envId
+      in: path
+      description: The Environment ID
+      example: development
+      required: true
+      schema:
+        type: string
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+  responses:
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

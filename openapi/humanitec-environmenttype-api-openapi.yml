@@ -1,0 +1,490 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType EnvironmentType API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: EnvironmentType
+  x-displayName: Environment Types
+  description: 'Environment Types are a way of grouping and managing Environments. Every Environment has exactly 1 Environment Type.
+
+
+    Environment Types can be used with External Resources to manage where resources such as databases are provisioned or even which cluster to deploy to.
+
+    <SchemaDefinition schemaRef="#/components/schemas/EnvironmentTypeRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/env-types:
+    get:
+      tags:
+      - EnvironmentType
+      summary: List all Environment Types
+      operationId: listEnvironmentTypes
+      description: Lists all Environment Types in an Organization.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A list of Environment Types.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/EnvironmentTypeResponse'
+                type: array
+    post:
+      tags:
+      - EnvironmentType
+      summary: Add a new Environment Type
+      operationId: createEnvironmentType
+      description: Adds a new Environment Type to an Organization.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'New Environment Type.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentTypeRequest'
+      responses:
+        '201':
+          description: 'The Environment Type requested.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentTypeResponse'
+        '400':
+          description: 'The supplied `id` is not a valid ID or a required field is missing.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '401':
+          description: 'The Authorization header was not present or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'The supplied `id` clashes with an existing Environment Type.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/env-types/{envTypeId}:
+    get:
+      tags:
+      - EnvironmentType
+      summary: Get an Environment Type
+      operationId: getEnvironmentType
+      description: Gets a specific Environment Type within an Organization.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envTypeId
+        in: path
+        description: 'ID of the Environment Type.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'The Environment Type requested.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentTypeResponse'
+        '404':
+          description: 'No Environment Type with `id` in Organization.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    delete:
+      tags:
+      - EnvironmentType
+      summary: Deletes an Environment Type
+      operationId: deleteEnvironmentType
+      description: Deletes a specific Environment Type from an Organization. If there are Environments with this Type in the Organization, the operation will fail.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envTypeId
+        in: path
+        description: 'ID of the Environment Type.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'The Environment Type requested.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentTypeResponse'
+        '401':
+          description: 'The Authorization header was not present or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No Environment Type with ID `envTypeId` in Organization.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'There are 1 or more Environments with this Type.
+
+
+            To delete an Environment Type, there can be no Environments with that type in the Organization.'
+          content:
+            application/json:
+              schema:
+                items:
+                  additionalProperties:
+                    type: string
+                  type: object
+                type: array
+              example:
+              - app_id: my-app
+                env_id: awesome-feature
+              - app_id: my-app
+                env_id: bugfix-7951
+    patch:
+      tags:
+      - EnvironmentType
+      summary: Updates Environment Type
+      operationId: updateEnvironmentType
+      description: Updates Environment Type.
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envTypeId
+        in: path
+        description: 'ID of the Environment Type.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEnvironmentTypePayloadRequest'
+      responses:
+        '200':
+          description: 'The Environment Type updated.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentTypeResponse'
+        '401':
+          description: 'The Authorization header was not present or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No Environment Type with provided ID exists.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    UpdateEnvironmentTypePayloadRequest:
+      description: UpdateEnvironmentTypePayload contains the `description` field that should be set in the Environment Type to update.
+      example:
+        description: Example Environment Type description
+      properties:
+        description:
+          nullable: true
+          type: string
+      type: object
+    EnvironmentTypeResponse:
+      description: 'Environment Types are a way of grouping and managing Environments. Every Environment has exactly 1 Environment Type.
+
+
+        Environment Types can be used with External Resources to manage where resources such as databases are provisioned or even which cluster to deploy to.'
+      example:
+        description: Environments used for automated QA.
+        id: qa-automation
+      properties:
+        description:
+          description: A Human-readable description of the Environment Type
+          type: string
+        id:
+          description: The ID of the Environment Type. (Must be unique within an Organization.)
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+          type: string
+      required:
+      - id
+      - description
+      type: object
+    EnvironmentTypeRequest:
+      description: 'Environment Types are a way of grouping and managing Environments. Every Environment has exactly 1 Environment Type.
+
+
+        Environment Types can be used with External Resources to manage where resources such as databases are provisioned or even which cluster to deploy to.'
+      example:
+        description: Environments used for automated QA.
+        id: qa-automation
+      properties:
+        description:
+          description: A Human-readable description of the Environment Type
+          type: string
+        id:
+          description: The ID of the Environment Type. (Must be unique within an Organization.)
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+          type: string
+      required:
+      - id
+      type: object
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

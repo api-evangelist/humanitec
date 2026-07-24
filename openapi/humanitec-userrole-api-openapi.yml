@@ -1,0 +1,815 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType UserRole API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: UserRole
+  x-displayName: User Roles
+  description: 'Holds the mapping of role for a subject on a particular object.
+
+    <SchemaDefinition schemaRef="#/components/schemas/UserRoleRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/apps/{appId}/users:
+    get:
+      tags:
+      - UserRole
+      summary: List Users or Groups with roles in an App
+      operationId: listUserRolesInApp
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/subjectTypeQueryParam'
+      responses:
+        '200':
+          description: 'A list of Users or Groups and the roles they hold.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserRoleResponse'
+                type: array
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    post:
+      tags:
+      - UserRole
+      summary: Adds a User or a Group to an Application with a Role
+      operationId: createUserRoleInApp
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      requestBody:
+        description: 'The User or Group ID and the role
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRoleRequest'
+            example:
+              id: 61048226-642c-438e-974f-ce5c013d94f8
+              role: manager
+      responses:
+        '200':
+          description: 'The User or Group ID and the associated role.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/apps/{appId}/users/{userId}:
+    get:
+      tags:
+      - UserRole
+      summary: Get the role of a User or a Group on an Application
+      operationId: getUserRoleInApp
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        '200':
+          description: 'The information about the User or the Group.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+      - UserRole
+      summary: Remove the role of a User or a Group on an Application
+      operationId: deleteUserRoleInApp
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        '204':
+          description: 'Role of the User or the Group successfully deleted.
+
+
+            '
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    patch:
+      tags:
+      - UserRole
+      summary: Update the role of a User or a Group on an Application
+      operationId: updateUserRoleInApp
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      requestBody:
+        description: 'The new User or Group role
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+      responses:
+        '200':
+          description: 'The information about the User or the Group.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/env-types/{envType}/users:
+    get:
+      tags:
+      - UserRole
+      summary: List Users and Groups with roles in an Environment Type
+      operationId: listUserRolesInEnvType
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/envTypePathParam'
+      - $ref: '#/components/parameters/subjectTypeQueryParam'
+      responses:
+        '200':
+          description: 'A list of Users or Groups and the roles they hold.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserRoleResponse'
+                type: array
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    post:
+      tags:
+      - UserRole
+      summary: Adds a User or a Group to an Environment Type with a Role
+      operationId: createUserRoleInEnvType
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/envTypePathParam'
+      requestBody:
+        description: 'The User or Group ID and the role
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRoleRequest'
+            example:
+              id: 61048226-642c-438e-974f-ce5c013d94f8
+              role: manager
+      responses:
+        '200':
+          description: 'The User or Group ID and the associated role.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/env-types/{envType}/users/{userId}:
+    get:
+      tags:
+      - UserRole
+      summary: Get the role of a User or a Group on an Environment Type
+      operationId: getUserRoleInEnvType
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/envTypePathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        '200':
+          description: 'The information about the User or the Group.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+      - UserRole
+      summary: Remove the role of a User or a Group on an Environment Type
+      operationId: deleteUserRoleInEnvType
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/envTypePathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        '204':
+          description: 'Role of the User or Group successfully deleted.
+
+
+            '
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    patch:
+      tags:
+      - UserRole
+      summary: Update the role of a User or a Group on an Environment Type
+      operationId: updateUserRoleInEnvType
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/envTypePathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      requestBody:
+        description: 'The new User or Group role
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+      responses:
+        '200':
+          description: 'The information about the User or the Group.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/invitations:
+    post:
+      tags:
+      - UserRole
+      summary: Invites a user to an Organization with a specified role.
+      operationId: createInviteInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      requestBody:
+        description: 'The email and the desired role
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInviteRequestRequest'
+            example:
+              email: jane.gonzales@example.com
+              role: manager
+      responses:
+        '200':
+          description: 'An temporary profile for the invited user.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserRoleResponse'
+                type: array
+        '400':
+          description: 'The request was invalid or the payload malformed.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'Object does not exist.
+
+
+            '
+  /orgs/{orgId}/users:
+    get:
+      tags:
+      - UserRole
+      summary: List Users and Groups with roles in an Organization
+      operationId: listUserRolesInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/subjectTypeQueryParam'
+      responses:
+        '200':
+          description: 'A list of Users and Groups and the roles they hold.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserRoleResponse'
+                type: array
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/users/{userId}:
+    get:
+      tags:
+      - UserRole
+      summary: Get the role of a User or a Group on an Organization
+      operationId: getUserRoleInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        '200':
+          description: 'The information about the User or the Group.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+      - UserRole
+      summary: Remove the role of a User or a Group on an Organization
+      operationId: deleteUserRoleInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        '204':
+          description: 'Role of the user or group successfully deleted.
+
+
+            '
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    patch:
+      tags:
+      - UserRole
+      summary: Update the role of a User or a Group on an Organization
+      operationId: updateUserRoleInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      requestBody:
+        description: 'The new User or Group role
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+      responses:
+        '200':
+          description: 'The information about the User or the Group.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/users/{userId}/perms:
+    get:
+      tags:
+      - UserRole
+      summary: Get the permissions of a User or Group on the objects in an Organization
+      operationId: getSubjectPermsInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        '200':
+          description: 'The information about the User or the Group.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectPermissions'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  parameters:
+    envTypePathParam:
+      name: envType
+      in: path
+      description: The Environment Type.
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    userIdPathParam:
+      name: userId
+      in: path
+      description: The User or Group Id.
+      required: true
+      example: 61048226-642c-438e-974f-ce5c013d94f8
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+    subjectTypeQueryParam:
+      name: type
+      in: query
+      description: Type of Subject. Either User or Group
+      required: false
+      schema:
+        $ref: '#/components/schemas/SubjectTypeEnum'
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+  schemas:
+    UserRoleResponse:
+      description: UserRole holds the mapping of role to user or group for a particular object.
+      example:
+        created_at: '2020-12-19T09:32:46Z'
+        email: jo.trigg@awesomecorp.com
+        id: 730c1f96-8ee5-4bff-8c22-898e0530b924
+        invite: accepted
+        name: Jo Trigg
+        role: manager
+        type: user
+      properties:
+        created_at:
+          description: The time the user or the group was first registered with Humanitec
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        email:
+          description: The email address of the user from the profile
+          type: string
+        id:
+          description: The User or Group Id
+          type: string
+        invite:
+          description: The status of an invitation (If applicable)
+          type: string
+        name:
+          description: The name the User or Group goes by
+          type: string
+        role:
+          description: The role that this User or Group holds
+          type: string
+        type:
+          description: The type of the account. Could be user, service, group or system
+          type: string
+        idp_id:
+          description: The IdP id the group is registered for. Empty if user is not a group.
+          type: string
+      required:
+      - id
+      - name
+      - created_at
+      - type
+      - role
+      type: object
+    SubjectTypeEnum:
+      description: Subjects that can assume roles on objects.
+      type: string
+      enum:
+      - user
+      - group
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    SubjectPermissions:
+      description: Maps of objects and permissions the subject holds on them.
+      type: object
+      properties:
+        objects:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Permissions'
+      required:
+      - objects
+      additionalProperties: false
+    UserRoleRequest:
+      description: Holds the mapping of role for a subject on a particular object.
+      example:
+        id: 730c1f96-8ee5-4bff-8c22-898e0530b924
+        role: manager
+      properties:
+        id:
+          description: The User or Group Id
+          type: string
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        role:
+          description: The role that this User or Group holds
+          type: string
+      type: object
+      required:
+      - id
+      - role
+    UserInviteRequestRequest:
+      description: UserInviteRequest describes a new user invitation.
+      example:
+        email: jo.trigg@awesomecorp.com
+        role: manager
+      properties:
+        email:
+          description: The email address of the user from the profile.
+          type: string
+        role:
+          description: The role that this user would hold.
+          type: string
+      required:
+      - email
+      - role
+      type: object
+    Permissions:
+      description: List of permissions.
+      properties:
+        permissions:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+      required:
+      - permissions
+    RoleRequest:
+      description: Role defines the role that will be used in request
+      example:
+        role: user
+      properties:
+        role:
+          type: string
+      required:
+      - role
+      type: object
+  responses:
+    403Forbidden:
+      description: Server understands the request but refuses to authorize it.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

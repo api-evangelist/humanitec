@@ -1,0 +1,471 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType PipelineApprovals API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: PipelineApprovals
+  x-displayName: Pipeline Approvals
+  description: 'An approval object
+
+    <SchemaDefinition schemaRef="#/components/schemas/PipelineApprovalRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/apps/{appId}/approvals:
+    get:
+      tags:
+      - PipelineApprovals
+      operationId: listPipelineApprovalRequests
+      summary: List of the approval requests
+      description: 'List of the approval requests with in an app.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      - $ref: '#/components/parameters/byPipelineIdQueryParam'
+      - $ref: '#/components/parameters/byRunIdQueryParam'
+      - $ref: '#/components/parameters/byApprovalStatusQueryParam'
+      responses:
+        '200':
+          description: Successful list response.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PipelineApprovalRequest'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}:
+    get:
+      tags:
+      - PipelineApprovals
+      operationId: getPipelineApprovalRequest
+      summary: Get an approval request
+      description: Get an approval request.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/jobIdPathParam'
+      - $ref: '#/components/parameters/approvalIdPathParam'
+      responses:
+        '200':
+          description: Successful get approval request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineApprovalRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/approve:
+    post:
+      tags:
+      - PipelineApprovals
+      operationId: approvePipelineApprovalRequest
+      summary: Approve the approval request
+      description: Approve the approval requested.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/jobIdPathParam'
+      - $ref: '#/components/parameters/approvalIdPathParam'
+      responses:
+        '200':
+          description: Request successfully approved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineApprovalRequest'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/deny:
+    post:
+      tags:
+      - PipelineApprovals
+      operationId: denyPipelineApprovalRequest
+      summary: Deny the approval request
+      description: Deny the approval requested.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/jobIdPathParam'
+      - $ref: '#/components/parameters/approvalIdPathParam'
+      responses:
+        '200':
+          description: Request successfully denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineApprovalRequest'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+components:
+  parameters:
+    jobIdPathParam:
+      name: jobId
+      in: path
+      description: The Job ID
+      example: deploy
+      required: true
+      schema:
+        type: string
+    approvalIdPathParam:
+      name: approvalId
+      in: path
+      description: The Approval ID
+      example: 01234567-89ab-cdef-0123-456789abcdef
+      required: true
+      schema:
+        type: string
+    runIdPathParam:
+      name: runId
+      in: path
+      description: The Run ID
+      example: 01234567-89ab-cdef-0123-456789abcdef
+      required: true
+      schema:
+        type: string
+    pipelineIdPathParam:
+      name: pipelineId
+      in: path
+      description: The Pipeline ID
+      example: sample-pipeline
+      required: true
+      schema:
+        type: string
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    byRunIdQueryParam:
+      name: run
+      description: An optional Pipeline Run ID.
+      in: query
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          example: sample-run
+    byPipelineIdQueryParam:
+      name: pipeline
+      description: An optional list of Pipeline IDs.
+      in: query
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          example: sample-pipeline
+    perPageQueryParam:
+      name: per_page
+      in: query
+      description: The maximum number of items to return in a page of results
+      required: false
+      example: 50
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+    pageTokenQueryParam:
+      name: page
+      in: query
+      description: The page token to request from
+      required: false
+      example: AAAAAAAAAA==
+      schema:
+        type: string
+    byApprovalStatusQueryParam:
+      name: status
+      in: query
+      description: Optional filter by status.
+      required: false
+      example: denied
+      schema:
+        type: string
+  schemas:
+    PipelineApprovalRequest:
+      description: An approval object
+      required:
+      - id
+      - org_id
+      - app_id
+      - pipeline_id
+      - run_id
+      - job_id
+      - env_id
+      - message
+      - created_at
+      - status
+      properties:
+        id:
+          description: The id of the approval object.
+          type: string
+        org_id:
+          description: The id of the Organization.
+          example: sample-org
+          type: string
+        app_id:
+          description: The id of the Application.
+          example: sample-app
+          type: string
+        pipeline_id:
+          description: The id of the Pipeline.
+          example: sample-pipeline
+          type: string
+        run_id:
+          description: The id of the Pipeline's Run.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        job_id:
+          description: The id of the Run's Job.
+          example: deploy
+          type: string
+        env_id:
+          description: The environment for which the approver needs to have deploy permission to approve the job.
+          example: production
+          type: string
+        message:
+          description: A human-readable message indicating the reason for approval.
+          example: Promoting app to production
+          type: string
+        created_at:
+          description: The date and time when the approval request was created.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        status:
+          description: The current status of the approval request.
+          example: waiting
+          type: string
+          enum:
+          - waiting
+          - approved
+          - denied
+          - cancelled
+        approved_by:
+          description: The user who approved or denied the request.
+          type: string
+          example: 0123456789ab-cdef-0123-456789abcdef
+        approved_at:
+          description: The date and time when the request was approved or denied.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+  responses:
+    403Forbidden:
+      description: Server understands the request but refuses to authorize it.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

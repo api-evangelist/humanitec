@@ -1,0 +1,465 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType ResourceClass API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: ResourceClass
+paths:
+  /orgs/{orgId}/resources/classes:
+    get:
+      tags:
+      - ResourceClass
+      summary: List resource classes.
+      operationId: listResourceClasses
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The organization ID.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      responses:
+        '200':
+          description: 'A possibly empty list of resources classes.
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResourceClassResponse'
+                type: array
+  /orgs/{orgId}/resources/types/{typeId}/classes:
+    post:
+      tags:
+      - ResourceClass
+      summary: Creates a new resources class.
+      operationId: createResourceClass
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The organization ID.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      - name: typeId
+        in: path
+        description: 'The resource type.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceClassRequest'
+      responses:
+        '200':
+          description: 'The newly created resources class details.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceClassResponse'
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'A resources class of this ID already exists in this resource type.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/types/{typeId}/classes/{classId}:
+    get:
+      tags:
+      - ResourceClass
+      summary: Get resource class by ID.
+      operationId: getResourceClass
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The organization ID.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      - name: typeId
+        in: path
+        description: 'The resource type.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      - name: classId
+        in: path
+        description: 'The resource class ID.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      responses:
+        '200':
+          description: 'Requested resource class details
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceClassResponse'
+        '404':
+          description: 'A resource class with the ''classId'' id is not found in resource type typeId.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    patch:
+      tags:
+      - ResourceClass
+      summary: Update a resource class description.
+      operationId: updateResourceClass
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The organization ID.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      - name: typeId
+        in: path
+        description: 'The resource type ID.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      - name: classId
+        in: path
+        description: 'The resource class ID.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceClassRequest'
+      responses:
+        '200':
+          description: 'The updated resource class.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceClassResponse'
+        '404':
+          description: 'A resource class with the ''classId'' id is not found in resource type ''typeId''.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    delete:
+      tags:
+      - ResourceClass
+      summary: Delete a resource class.
+      operationId: deleteResourceClass
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The organization ID.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      - name: typeId
+        in: path
+        description: 'The resource type.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      - name: classId
+        in: path
+        description: 'The resource class id.
+
+          '
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]+[a-z0-9]$
+      responses:
+        '204':
+          description: 'Resource class deleted successfully.
+
+            '
+        '404':
+          description: 'A resource class with the ''classId'' id is not found in resource type ''typeId''.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    ResourceClassRequest:
+      description: 'Resource Classes provide a way of specializing Resource Types.
+
+        Developers can set the class of a Resource alongside the type in their Score File.
+
+        Platform teams can match the class of a Resource via Matching Criteria.'
+      type: object
+      required:
+      - id
+      - description
+      properties:
+        id:
+          description: ID of the resource class.
+          type: string
+          pattern: ^[a-z0-9][a-z0-9-]*[a-z0-9]$
+          minLength: 2
+          maxLength: 63
+        description:
+          description: A human readable description when this class should be used.
+          type: string
+          minLength: 0
+          maxLength: 1024
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    UpdateResourceClassRequest:
+      description: UpdateResourceClassRequest describes the update class description request.
+      type: object
+      required:
+      - description
+      properties:
+        description:
+          description: New description for the resource class.
+          type: string
+          minLength: 0
+          maxLength: 1024
+    ResourceClassResponse:
+      description: 'Resource Classes provide a way of specializing Resource Types.
+
+        Developers can set the class of a Resource alongside the type in their Score File.
+
+        Platform teams can match the class of a Resource via Matching Criteria.'
+      type: object
+      required:
+      - id
+      - resource_type
+      - description
+      - created_by
+      - created_at
+      properties:
+        id:
+          description: ID of the resource class.
+          type: string
+        resource_type:
+          description: Defines the resource type this class is applicable for.
+          type: string
+        description:
+          description: A human readable description when this class should be used.
+          type: string
+        created_by:
+          type: string
+          description: usedID of the user who created the resource class
+        created_at:
+          type: string
+          description: UTC timestamp at which the resource class was created
+          format: date-time
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

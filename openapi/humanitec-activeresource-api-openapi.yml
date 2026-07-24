@@ -1,0 +1,584 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType ActiveResource API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: ActiveResource
+  x-displayName: Active Resources
+  description: 'Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.
+
+
+    Active Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ActiveResourceRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/resources:
+    get:
+      tags:
+      - ActiveResource
+      summary: List Active Resources provisioned in an environment.
+      operationId: listActiveResources
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: scheduled_deletion
+        in: query
+        description: 'If set to `true` or `false`, filters resources scheduled or not scheduled for deletion correspondingly.
+
+          '
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: 'A possibly empty list of Active Resources.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ActiveResourceResponse'
+                type: array
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/resources/{type}/{resId}:
+    delete:
+      tags:
+      - ActiveResource
+      summary: Delete Active Resource.
+      operationId: deleteActiveResource
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: appId
+        in: path
+        description: 'The Application ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: envId
+        in: path
+        description: 'The Environment ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: 'The Resource Type, may include a resource class: {type}.{class}.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: resId
+        in: path
+        description: 'The Resource ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: detach
+        in: query
+        description: "If set to `true`, will detach an active resource. The resource continues to exist and is not deleted, but it is no longer connected to the Platform Orchestrator. \nDetaching can be done for any active resource. In case that the resource is an active one (i.e. not marked to be deleted), it would stay in use until the next deployment.\nDetaching active resources can cause inconsistent status (e.g. detaching a k8s-cluster might make it impossible to retrieve runtime information by or un-pause an environment)\nIf the resource has been provisioned via the Humanitec Operator, this does not delete the resource CR in the cluster. This must be done manually.\n"
+        schema:
+          type: boolean
+      responses:
+        '202':
+          description: 'The resource has successfully been marked for deletion.
+
+
+            '
+        '204':
+          description: 'The resource deleted.
+
+
+            '
+        '400':
+          description: 'The driver associated to the request resource could not be found.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'The requested resource could not be found.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'Conflict when deleting resource.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/resources/{type}/{resId}/actions/pin:
+    post:
+      tags:
+      - ActiveResource
+      summary: Pin Active Resource to a target Resource Definition Version.
+      operationId: pinActiveResource
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      - $ref: '#/components/parameters/resourceTypePathParam'
+      - $ref: '#/components/parameters/resourceIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActiveResourceTargetDefinitionRequest'
+      responses:
+        '200':
+          description: "The updated Active Resource.  \n\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActiveResourceResponse'
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'The requested resource could not be found.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/defs/{defId}/resources:
+    get:
+      tags:
+      - ActiveResource
+      summary: List Active Resources provisioned via a specific Resource Definition.
+      operationId: listActiveResourceByDefinition
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: defId
+        in: path
+        description: 'The Resource Definition ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A possibly empty list of Active Resources.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ActiveResourceResponse'
+                type: array
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  parameters:
+    resourceIdPathParam:
+      name: resId
+      in: path
+      description: The Resource ID.
+      required: true
+      schema:
+        type: string
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    envIdPathParam:
+      name: envId
+      in: path
+      description: The Environment ID
+      example: development
+      required: true
+      schema:
+        type: string
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+    resourceTypePathParam:
+      name: type
+      in: path
+      description: 'The Resource Type, may include a resource class: {type}.{class}.
+
+        '
+      required: true
+      schema:
+        type: string
+  schemas:
+    ActiveResourceResponse:
+      description: 'Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.
+
+
+        Active Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.'
+      example:
+        app_id: test-app
+        class: default
+        def_id: gcp-dev-postgres
+        def_version_id: 01234567-89ab-cdef-0123-4567890abcdef
+        deploy_id: 172a1013b
+        env_id: gcp-dev
+        env_type: development
+        gu_res_id: 7bd3966c9ff8eaa66c5cce855c03d715857c3440
+        org_id: test-org
+        res_id: modules.my-module.externals.my-db
+        resource:
+          host: 127.0.0.1
+          name: db_33c7ef9b_8d90-4c62_a1cf_0cdd30fd29a9
+          port: 5432
+        secret_refs:
+          credentials: orgs/test-org/resources/7bd3966c9ff8eaa66c5cce855c03d715857c3440/secrets/.credentials
+        type: postgres
+        updated_at: '2020-06-23T16:53:12Z'
+      properties:
+        app_id:
+          description: The ID of the App the resource is associated with.
+          type: string
+        class:
+          description: The Resource Class of the resource
+          type: string
+        criteria_id:
+          description: The Matching Criteria ID.
+          type: string
+        def_id:
+          description: The Resource Definition that this resource was provisioned from.
+          type: string
+        def_version_id:
+          description: The Resource Definition Version that this resource was provisioned from.
+          type: string
+        target_def_version_id:
+          description: The Resource Definition Version pinned to this resource to be provisioned from.
+          type: string
+        deploy_id:
+          description: The deployment that the resource was last provisioned in.
+          type: string
+        driver_account:
+          description: (Optional) Security account required by the driver.
+          type: string
+        driver_type:
+          description: The driver to be used to create the resource.
+          type: string
+        env_id:
+          description: The ID of the Environment the resource is associated with.
+          type: string
+        env_type:
+          description: The Environment Type of the Environment specified by env_id.
+          type: string
+        gu_res_id:
+          description: Globally unique resource id
+          type: string
+        org_id:
+          description: the ID of the Organization the Active Resource is associated with.
+          type: string
+        res_id:
+          description: The ID of the resource
+          type: string
+        resource:
+          additionalProperties: true
+          description: The resource provisioning outputs ('values' only).
+          type: object
+        scheduled_deletion:
+          description: Deletion is scheduled for this resource.
+          type: boolean
+        secret_refs:
+          additionalProperties: true
+          description: Secret references from the resource provisioning output.
+          type: object
+        status:
+          description: 'Current resource status: ''pending'', ''active'', or ''deleting''.'
+          type: string
+        type:
+          description: The Resource Type of the resource
+          type: string
+        updated_at:
+          description: The time the resource was last provisioned as part of a deployment.
+          example: '2020-06-22T09:37:23.523Z'
+          type: string
+          format: date-time
+      required:
+      - org_id
+      - app_id
+      - env_id
+      - env_type
+      - res_id
+      - def_id
+      - def_version_id
+      - type
+      - driver_type
+      - class
+      - status
+      - resource
+      - secret_refs
+      - updated_at
+      - deploy_id
+      - gu_res_id
+      - scheduled_deletion
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ActiveResourceTargetDefinitionRequest:
+      description: An active resource can be pinned to a certain version of the resource definition, then the resource is provisioned with this version.
+      example:
+        target_def_version_id: 01234567-89ab-cdef-0123-4567890abcdef
+      properties:
+        target_def_version_id:
+          description: The Resource Definition Version pinned to this resource to be provisioned from.
+          type: string
+          nullable: true
+      type: object
+      required:
+      - target_def_version_id
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

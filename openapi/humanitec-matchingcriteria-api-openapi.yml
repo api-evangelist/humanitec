@@ -1,0 +1,544 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType MatchingCriteria API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: MatchingCriteria
+  x-displayName: MatchingCriteria
+  description: 'Matching Criteria are a set of rules used to choose which Resource Definition to use to provision a particular Resource Type.
+
+
+    Matching criteria are made up in order of specificity with least specific first:
+
+
+    - Environment Type (`env_type`)
+
+
+    - Application (`app_id`)
+
+
+    - Environment (`env_id`)
+
+
+    - Resource (`res_id`)
+
+
+    When selecting matching criteria, the most specific one is selected. In general, this means of all the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific element filled is chosen. If there is a tie, the next most specific elements are compared and so on until one is chosen.
+
+
+    **NOTE:**
+
+
+    Humanitec will reject the registration of matching criteria rules that duplicate rules already present for a Resource Type.
+
+    <SchemaDefinition schemaRef="#/components/schemas/MatchingCriteriaResponse" />
+
+    '
+paths:
+  /orgs/{orgId}/resources/defs/{defId}/criteria:
+    put:
+      tags:
+      - MatchingCriteria
+      summary: Update all Matching Criteria of a Resource Definition.
+      operationId: updateResourceDefinitionCriteria
+      description: "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific."
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: defId
+        in: path
+        description: 'The Resource Definition ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Matching Criteria rules.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/MatchingCriteriaRuleRequest'
+              type: array
+            example:
+            - env_id: production
+      responses:
+        '200':
+          description: 'The newly added Matching Criteria details.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MatchingCriteriaResponse'
+                type: array
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'The Resource Definition is not found.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'A Matching Criteria already exists.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    post:
+      tags:
+      - MatchingCriteria
+      summary: Add a new Matching Criteria to a Resource Definition.
+      operationId: createResourceDefinitionCriteria
+      description: "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific."
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: defId
+        in: path
+        description: 'The Resource Definition ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Matching Criteria rules.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchingCriteriaRuleRequest'
+            example:
+              env_id: production
+      responses:
+        '200':
+          description: 'The newly added Matching Criteria details.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchingCriteriaResponse'
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'The Resource Definition is not found.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'A Matching Criteria already exists.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/defs/{defId}/criteria/{criteriaId}:
+    delete:
+      tags:
+      - MatchingCriteria
+      summary: Delete a Matching Criteria from a Resource Definition.
+      operationId: deleteResourceDefinitionCriteria
+      description: 'If there **are no** Active Resources that would match to a different Resource Definition when the current Matching Criteria is deleted, the Matching Criteria is deleted immediately.
+
+
+        If there **are** Active Resources that would match to a different Resource Definition, the request fails with HTTP status code 409 (Conflict). The response content will list all of affected Active Resources and their new matches.
+
+
+        The request can take an optional `force` query parameter. If set to `true`, the Matching Criteria is deleted immediately. Referenced Active Resources would match to a different Resource Definition during the next deployment in the target environment.'
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: defId
+        in: path
+        description: 'The Resource Definition ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: criteriaId
+        in: path
+        description: 'The Matching Criteria ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: force
+        in: query
+        description: 'If set to `true`, the Matching Criteria is deleted immediately, even if this action affects existing Active Resources.
+
+
+          '
+        schema:
+          type: boolean
+      responses:
+        '204':
+          description: 'Record deleted.
+
+
+            '
+        '404':
+          description: 'The Resource Definition is not found.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'One or more Active Resources reference the Resource Definition through this Matching Criteria.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResourceDefinitionChangeResponse'
+                type: array
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    MatchingCriteriaResponse:
+      description: 'Matching Criteria are a set of rules used to choose which Resource Definition to use to provision a particular Resource Type.
+
+
+        Matching criteria are made up in order of specificity with least specific first:
+
+
+        - Environment Type (`env_type`)
+
+
+        - Application (`app_id`)
+
+
+        - Environment (`env_id`)
+
+
+        - Resource (`res_id`)
+
+
+        When selecting matching criteria, the most specific one is selected. In general, this means of all the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific element filled is chosen. If there is a tie, the next most specific elements are compared and so on until one is chosen.
+
+
+        **NOTE:**
+
+
+        Humanitec will reject the registration of matching criteria rules that duplicate rules already present for a Resource Type.'
+      properties:
+        app_id:
+          description: (Optional) The ID of the Application that the Resources should belong to.
+          type: string
+        class:
+          description: (Optional) The class of the Resource in the Deployment Set. Can not be empty, if is not defined, set to `default`.
+          type: string
+        env_id:
+          description: (Optional) The ID of the Environment that the Resources should belong to. If `env_type` is also set, it must match the Type of the Environment for the Criteria to match.
+          type: string
+        env_type:
+          description: (Optional) The Type of the Environment that the Resources should belong to. If `env_id` is also set, it must have an Environment Type that matches this parameter for the Criteria to match.
+          type: string
+        id:
+          description: Matching Criteria ID
+          type: string
+        res_id:
+          description: (Optional) The ID of the Resource in the Deployment Set. The ID is normally a `.` separated path to the definition in the set, e.g. `modules.my-module.externals.my-database`.
+          type: string
+      required:
+      - class
+      - id
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ResourceDefinitionChangeResponse:
+      description: ResourceDefinitionChange describes the effects of a Resource Definition or Matching Criteria update/deletion.
+      properties:
+        app_id:
+          description: The ID of the App the resource is associated with.
+          type: string
+        env_id:
+          description: The ID of the Environment the resource is associated with.
+          type: string
+        from_def:
+          description: The Resource Definition that this resource was provisioned from.
+          type: string
+        res_id:
+          description: The ID of the resource
+          type: string
+        to_def:
+          description: The Resource Definition that resource *will be* provisioned from if the change is applied.
+          type: string
+      required:
+      - app_id
+      - env_id
+      - res_id
+      - from_def
+      - to_def
+      type: object
+    MatchingCriteriaRuleRequest:
+      description: MatchingCriteriaRule describes Matching Criteria rules.
+      properties:
+        app_id:
+          description: (Optional) The ID of the Application that the Resources should belong to.
+          type: string
+        class:
+          description: (Optional) The class of the Resource in the Deployment Set. Can not be empty, if is not defined, set to `default`.
+          type: string
+        env_id:
+          description: (Optional) The ID of the Environment that the Resources should belong to. If `env_type` is also set, it must match the Type of the Environment for the Criteria to match.
+          type: string
+        env_type:
+          description: (Optional) The Type of the Environment that the Resources should belong to. If `env_id` is also set, it must have an Environment Type that matches this parameter for the Criteria to match.
+          type: string
+        res_id:
+          description: (Optional) The ID of the Resource in the Deployment Set. The ID is normally a `.` separated path to the definition in the set, e.g. `modules.my-module.externals.my-database`.
+          type: string
+      type: object
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

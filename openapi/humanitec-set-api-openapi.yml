@@ -1,0 +1,781 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType Set API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: Set
+  x-displayName: Deployment Sets
+  description: "A Deployment Set (or just \"Set\") defines all of the non-Environment specific configuration for Modules and External Resources. Each of these Modules or External Resources has a unique name.\n\nDeployment Sets are immutable and their ID is a cryptographic hash of their content. This means that a Deployment Set can be globally identified based on its ID. It also means that referencing a Deployment Set by ID will always return the same Deployment Set.\n\nDeployment Sets cannot be created directly, instead they are created by applying a Deployment Delta to an existing Deployment Set.\n\n**Basic Structure**\n\n```\n {\n   \"id\": <ID of the Deployment Set>,\n   \"modules\" : {\n     <ID of Module> : {\n       \"profile\": <Defines how the optional \"spec\" property is interpreted>\n       \"spec\": {\n         <Properties that depend on the \"profile\" property.>\n       }\n       \"externals\": {\n         <External Resource Name> : {\n           \"type\": <Resource Type>,\n           \"params\": {\n             <Properties which parametrize the resource depending on the Resource Type.>\n           }\n         }\n       }\n     }\n   }\n }\n```\n\nFor details about how the Humanitec provided profiles work, see (Deployment Set Profiles)[].\n<SchemaDefinition schemaRef=\"#/components/schemas/SetRequest\" />\n"
+paths:
+  /orgs/{orgId}/apps/{appId}/sets:
+    get:
+      tags:
+      - Set
+      operationId: listSets
+      summary: Get all Deployment Sets
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      responses:
+        '200':
+          description: 'The Requested Deployment Set.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SetResponse'
+                type: array
+        '404':
+          description: 'No Deployment Set with ID `setId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+  /orgs/{orgId}/apps/{appId}/sets/{setId}:
+    get:
+      tags:
+      - Set
+      summary: Get a Deployment Set
+      operationId: getSet
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: setId
+        in: path
+        description: 'ID of the Deployment Set.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: diff
+        in: query
+        description: ID of the Deployment Set to compared against.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'The Requested Deployment Set.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/SetResponse'
+                - $ref: '#/components/schemas/PlainDeltaResponse'
+        '404':
+          description: 'No Deployment Set with ID `setId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      tags:
+      - Set
+      summary: Apply a Deployment Delta to a Deployment Set
+      operationId: updateSet
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: setId
+        in: path
+        description: 'ID of the Deployment Set.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'The Delta to apply to the Set.
+
+
+          NOTE: The `id` parameter is ignored if provided. The request body should be the full Delta.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeltaRequest'
+            example:
+              modules:
+                remove:
+                - module-one
+      responses:
+        '200':
+          description: 'A Deployment Delta which if applied to the Set with ID `sourceSetId` gives the Set with ID `setId`.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: 'Deployment Delta is incompatible with the Deployment Set specified by `setId`.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'No Deployment Set with ID `setId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+  /orgs/{orgId}/apps/{appId}/sets/{setId}/resources:
+    get:
+      tags:
+      - Set
+      summary: Get Resource Inputs for the given Deployment Set
+      operationId: getSetResourceInputs
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: setId
+        in: path
+        description: ID of the Deployment Set.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Resource Inputs of the requested Deployment Set.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResourceInputsResponse'
+                type: array
+        '404':
+          description: No Deployment Set with ID `setId` found in Application.
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid resources in the Deployment Set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/apps/{appId}/sets/{setId}/diff/{sourceSetId}:
+    get:
+      tags:
+      - Set
+      summary: Get the difference between 2 Deployment Sets
+      operationId: getDiff
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - name: setId
+        in: path
+        description: 'ID of the Deployment Set.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: sourceSetId
+        in: path
+        description: 'ID of the Deployment Set to diff against.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A Deployment Delta which if applied to the Set with ID `sourceSetId` gives the Set with ID `setId`.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlainDeltaResponse'
+        '404':
+          description: 'No Deployment Set with ID `setId` or `sourceSetId` found in Application.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    DeltaMetadataRequest:
+      properties:
+        archived:
+          type: boolean
+        contributers:
+          items:
+            type: string
+          type: array
+          nullable: true
+        created_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          type: string
+        env_id:
+          $ref: '#/components/schemas/EnvironmentID'
+        last_modified_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        name:
+          type: string
+        shared:
+          type: boolean
+      type: object
+    ModuleRequest:
+      description: Module single workload data
+      properties:
+        deploy:
+          $ref: '#/components/schemas/DeployConditionRequest'
+        externals:
+          additionalProperties: true
+          type: object
+          nullable: true
+        profile:
+          type: string
+        spec:
+          additionalProperties: true
+          type: object
+          nullable: true
+      type: object
+      nullable: true
+    ModuleDeltasRequest:
+      description: ModuleDeltas groups the different operations together.
+      properties:
+        add:
+          additionalProperties:
+            $ref: '#/components/schemas/ModuleRequest'
+          type: object
+          nullable: true
+        remove:
+          items:
+            type: string
+          type: array
+          nullable: true
+        update:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/UpdateActionRequest'
+            type: array
+          type: object
+          nullable: true
+      type: object
+    UpdateActionResponse:
+      description: 'A representation of the main object defined in JSON Patch specified in RFC 6902 from the IETF. The main differences are:
+
+
+        * Only `add`, `remove` and `replace` are supported
+
+
+        * `remove` can have have its scope of application applied in its `value`. e.g. `{"scope":"delta"}'
+      properties:
+        from:
+          type: string
+        op:
+          type: string
+        path:
+          type: string
+        value: {}
+      required:
+      - op
+      - path
+      type: object
+    SetResponse:
+      description: "A Deployment Set (or just \"Set\") defines all of the non-Environment specific configuration for Modules and External Resources. Each of these Modules or External Resources has a unique name.\n\nDeployment Sets are immutable and their ID is a cryptographic hash of their content. This means that a Deployment Set can be globally identified based on its ID. It also means that referencing a Deployment Set by ID will always return the same Deployment Set.\n\nDeployment Sets cannot be created directly, instead they are created by applying a Deployment Delta to an existing Deployment Set.\n\n**Basic Structure**\n\n```\n {\n   \"id\": <ID of the Deployment Set>,\n   \"modules\" : {\n     <ID of Module> : {\n       \"profile\": <Defines how the optional \"spec\" property is interpreted>\n       \"spec\": {\n         <Properties that depend on the \"profile\" property.>\n       }\n       \"externals\": {\n         <External Resource Name> : {\n           \"type\": <Resource Type>,\n           \"params\": {\n             <Properties which parametrize the resource depending on the Resource Type.>\n           }\n         }\n       }\n     }\n   }\n }\n```\n\nFor details about how the Humanitec provided profiles work, see (Deployment Set Profiles)[]."
+      example:
+        modules:
+          module-one:
+            externals:
+              db-one:
+                params:
+                  extensions:
+                    uuid-ossp: {}
+                type: postgres
+            profile: humanitec/default-module
+            spec:
+              containers:
+                core-service:
+                  id: core-service
+                  image: registry.humanitec.io/my-org/core-service:VERSION_ONE
+                  readiness_probe:
+                    path: /healtz
+                    port: 8080
+                    type: http
+                  variables:
+                    DBHOST: ${externals.db-one.name}
+                    DBNAME: ${externals.db-one.name}
+                    DBPASSWORD: ${externals.db-one.password}
+                    DBUSERNAME: ${externals.db-one.username}
+                    REDIS_URL: redis://${modules.redis-cache.service.name}
+          redis-cache:
+            profile: humanitec/redis
+      properties:
+        id:
+          description: The ID which is a hash of the content of the Deployment Set.
+          type: string
+        modules:
+          additionalProperties:
+            $ref: '#/components/schemas/ModuleResponse'
+          description: The Modules that make up the Set
+          type: object
+        shared:
+          additionalProperties: true
+          description: Resources that are shared across the set
+          type: object
+        version:
+          description: The version of the Deployment Set Schema to use. (Currently, only 0 is supported, and if omitted, version 0 is assumed.)
+          type: integer
+      required:
+      - id
+      - modules
+      - shared
+      - version
+      type: object
+    DeployConditionRequest:
+      description: 'A deploy condition for the workload
+
+
+        Possible values for "when" are: - "before", deployed before other workloads - "deploy", deployed in-parallel with other workloads (default) - "after", deployed after other workloads
+
+
+        Possible values for "success" are: - "deploy", workload deployed - "available", workload available - "complete", workload complete (often used with jobs)'
+      example:
+        success: complete
+        when: before
+      properties:
+        success:
+          type: string
+        timeout:
+          type: integer
+        when:
+          type: string
+      type: object
+    PlainDeltaResponse:
+      description: "Similar to the delta response, except the id and metadata properties.\n\n**Basic Structure**\n\n```\n {\n   \"modules\" : {\n     \"add\" : {\n       <ID of Module to add to the Deployment Set> : {\n         <An entire Modules object>\n       }\n     },\n     \"remove\": [\n       <An array of Module IDs that should be removed from the Deployment Set>\n     ],\n    \"update\": {\n       <ID of Module already in the Set to be updated> : [\n         <An array of JSON Patch (Search Results (RFC 6902) objects scoped to the module>\n       ]\n     }\n   }\n }\n```"
+      example:
+        modules:
+          add:
+            redis-cache:
+              profile: humanitec/redis
+          remove:
+          - simple-service
+          update:
+            module-one:
+            - op: replace
+              path: /spec/containers/core-service/variables/EXAMPLE
+              value: New Value
+      properties:
+        modules:
+          $ref: '#/components/schemas/ModuleDeltasResponse'
+          description: A dictionary of the Modules this Delta has operations for.
+        shared:
+          items:
+            $ref: '#/components/schemas/UpdateActionResponse'
+          type: array
+      required:
+      - modules
+      - shared
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    DeltaRequest:
+      description: "A Deployment Delta (or just \"Delta\") describes the changes that must be applied to one Deployment Set to generate another Deployment Set. Deployment Deltas are the only way to create new Deployment Sets.\n\nDeployment Deltas can be created fully formed or combined together via PATCHing. They can also be generated from the difference between two Deployment Sets.\n\n**Basic Structure**\n\n```\n {\n   \"id\": <ID of the Deployment Delta.>,\n   \"metadata\": {\n     <Properties such as who created the Delta, which Environment it is associated to and a Human-friendly name>\n   }\n   \"modules\" : {\n     \"add\" : {\n       <ID of Module to add to the Deployment Set> : {\n         <An entire Modules object>\n       }\n     },\n     \"remove\": [\n       <An array of Module IDs that should be removed from the Deployment Set>\n     ],\n    \"update\": {\n       <ID of Module already in the Set to be updated> : [\n         <An array of JSON Patch (Search Results (RFC 6902) objects scoped to the module>\n       ]\n     }\n   }\n }\n```"
+      example:
+        id: 49393b5004d072000b8abfd910c61685eb9235f5
+        metadata: {}
+        modules:
+          add:
+            redis-cache:
+              profile: humanitec/redis
+          remove:
+          - simple-service
+          update:
+            module-one:
+            - op: replace
+              path: /spec/containers/core-service/variables/EXAMPLE
+              value: New Value
+      properties:
+        id:
+          description: Ignored, but can be provided.
+          type: string
+        metadata:
+          $ref: '#/components/schemas/DeltaMetadataRequest'
+          description: Holds various metadata such as a Human-friendly name, collaborators, and Environment it is associated with.
+        modules:
+          $ref: '#/components/schemas/ModuleDeltasRequest'
+          description: A dictionary of the Modules this Delta has operations for.
+        shared:
+          items:
+            $ref: '#/components/schemas/UpdateActionRequest'
+          type: array
+          nullable: true
+      type: object
+    ResourceInputsResponse:
+      description: A payload needed to generate a resource graph.
+      example:
+        class: cloudsql
+        id: shared.postgres
+        resource:
+          host: 127.0.0.1
+          name: my-database
+        type: postgres
+      properties:
+        id:
+          description: The Resource ID in the Deployment Set.
+          type: string
+        type:
+          description: The Resource type.
+          type: string
+        class:
+          description: The Resource class.
+          type: string
+        resource:
+          description: The Resource input parameters specified in the deployment set.
+          additionalProperties: true
+          type: object
+      required:
+      - id
+      - type
+      type: object
+      additionalProperties: false
+    EnvironmentID:
+      type: string
+      pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+      example: my-env
+    UpdateActionRequest:
+      description: 'A representation of the main object defined in JSON Patch specified in RFC 6902 from the IETF. The main differences are:
+
+
+        * Only `add`, `remove` and `replace` are supported
+
+
+        * `remove` can have have its scope of application applied in its `value`. e.g. `{"scope":"delta"}'
+      properties:
+        from:
+          type: string
+        op:
+          type: string
+        path:
+          type: string
+        value:
+          nullable: true
+      type: object
+    ModuleResponse:
+      description: Module represents a collection of workload controllers (deployments/statefulsets/etc) for the module
+      properties:
+        deploy:
+          $ref: '#/components/schemas/DeployConditionResponse'
+        externals:
+          additionalProperties: true
+          type: object
+        profile:
+          type: string
+        spec:
+          additionalProperties: true
+          type: object
+      required:
+      - profile
+      - spec
+      - externals
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ControllerResponse'
+    DeployConditionResponse:
+      description: 'A deploy condition for the workload
+
+
+        Possible values for "when" are: - "before", deployed before other workloads - "deploy", deployed in-parallel with other workloads (default) - "after", deployed after other workloads
+
+
+        Possible values for "success" are: - "deploy", workload deployed - "available", workload available - "complete", workload complete (often used with jobs)'
+      example:
+        success: complete
+        when: before
+      properties:
+        success:
+          type: string
+        timeout:
+          type: integer
+        when:
+          type: string
+      required:
+      - when
+      - success
+      - timeout
+      type: object
+    PodStateResponse:
+      description: PodState represents single pod status
+      properties:
+        containerStatuses:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        phase:
+          type: string
+        podName:
+          type: string
+        revision:
+          type: integer
+        status:
+          type: string
+      required:
+      - podName
+      - revision
+      - phase
+      - status
+      - containerStatuses
+      type: object
+    ModuleDeltasResponse:
+      description: ModuleDeltas groups the different operations together.
+      properties:
+        add:
+          additionalProperties:
+            $ref: '#/components/schemas/ModuleResponse'
+          type: object
+        remove:
+          items:
+            type: string
+          type: array
+        update:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/UpdateActionResponse'
+            type: array
+          type: object
+      required:
+      - add
+      - remove
+      - update
+      type: object
+    ControllerResponse:
+      description: Controller represents deployment, stateful set etc
+      properties:
+        kind:
+          type: string
+        message:
+          type: string
+        pods:
+          items:
+            $ref: '#/components/schemas/PodStateResponse'
+          type: array
+        replicas:
+          type: integer
+        revision:
+          type: integer
+        status:
+          type: string
+      required:
+      - kind
+      - replicas
+      - status
+      - message
+      - pods
+      - revision
+      type: object
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

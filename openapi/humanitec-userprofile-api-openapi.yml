@@ -1,0 +1,424 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType UserProfile API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: UserProfile
+  x-displayName: User Profiles
+  description: 'UserProfile holds the profile information of a user
+
+    <SchemaDefinition schemaRef="#/components/schemas/UserProfileResponse" />
+
+    '
+paths:
+  /current-user:
+    get:
+      tags:
+      - UserProfile
+      summary: Gets the extended profile of the current user
+      operationId: getCurrentUser
+      responses:
+        '200':
+          description: 'The extended user profile of the user.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileExtendedResponse'
+        '401':
+          description: 'No token supplied.
+
+
+            '
+        '403':
+          description: 'Token is not valid for a user.
+
+
+            '
+    patch:
+      tags:
+      - UserProfile
+      summary: Updates the extended profile of the current user.
+      operationId: updateCurrentUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileExtendedRequest'
+      responses:
+        '200':
+          description: 'The extended user profile of the user.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileExtendedResponse'
+        '400':
+          description: 'The request was invalid or the payload malformed.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '401':
+          description: 'No token supplied.
+
+
+            '
+        '403':
+          description: 'Token is not valid for a user.
+
+
+            '
+  /orgs/{orgId}/users:
+    post:
+      tags:
+      - UserProfile
+      summary: Creates a new service user.
+      operationId: createServiceUserInOrg
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewServiceUserRequest'
+            example:
+              name: CI Robot
+              role: manager
+      responses:
+        '200':
+          description: 'The extended user profile of the user.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '400':
+          description: 'The request was invalid or the payload malformed.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: 'Token is not valid for a user.
+
+
+            '
+components:
+  schemas:
+    UserProfileExtendedRequest:
+      description: UserProfileExtended holds the profile information of a user including properties only accessible to the user.
+      example:
+        created_at: '2020-12-19T09:32:46Z'
+        email: jo.trigg@awesomecorp.com
+        id: d510224a-4641-48fd-8054-68efd3537ee2
+        name: Jo Trigg
+        properties:
+          dont_show_welcome_screen: true
+      properties:
+        created_at:
+          description: The time the user was first registered with Humanitec
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        email:
+          description: The email address of the user from the profile
+          type: string
+        id:
+          description: The User ID for this user
+          type: string
+        name:
+          description: The name the user goes by
+          type: string
+        properties:
+          additionalProperties: true
+          type: object
+        roles:
+          additionalProperties:
+            type: string
+          type: object
+        type:
+          description: The type of the account. Could be user, service or system
+          type: string
+      type: object
+    NewServiceUserRequest:
+      description: NewServiceUser holds the definition of a new service user.
+      example:
+        email: ci-service-notifications@awesomecorp.com
+        name: CI Robot
+        role: artefactContributer
+      properties:
+        email:
+          description: The email address that should get notifications about this service user. (Optional)
+          type: string
+        name:
+          description: The name that should be shown for this service user.
+          type: string
+        role:
+          description: The role that the service user should have on the organization it is created in
+          type: string
+      required:
+      - name
+      - role
+      type: object
+    UserProfileResponse:
+      description: UserProfile holds the profile information of a user
+      example:
+        created_at: '2020-12-19T09:32:46Z'
+        email: jo.trigg@awesomecorp.com
+        id: d510224a-4641-48fd-8054-68efd3537ee2
+        name: Jo Trigg
+        type: user
+      properties:
+        created_at:
+          description: The time the user was first registered with Humanitec
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        email:
+          description: The email address of the user from the profile
+          type: string
+        id:
+          description: The User ID for this user
+          type: string
+        name:
+          description: The name the user goes by
+          type: string
+        type:
+          description: The type of the account. Could be user, service or system
+          type: string
+      required:
+      - id
+      - name
+      - created_at
+      - type
+      type: object
+    RolesResponse:
+      additionalProperties:
+        type: string
+      type: object
+    UserProfileExtendedResponse:
+      description: UserProfileExtended holds the profile information of a user including properties only accessible to the user.
+      example:
+        created_at: '2020-12-19T09:32:46Z'
+        email: jo.trigg@awesomecorp.com
+        id: d510224a-4641-48fd-8054-68efd3537ee2
+        name: Jo Trigg
+        properties:
+          dont_show_welcome_screen: true
+      properties:
+        created_at:
+          description: The time the user was first registered with Humanitec
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        email:
+          description: The email address of the user from the profile
+          type: string
+        id:
+          description: The User ID for this user
+          type: string
+        name:
+          description: The name the user goes by
+          type: string
+        properties:
+          additionalProperties: true
+          type: object
+        roles:
+          $ref: '#/components/schemas/RolesResponse'
+        type:
+          description: The type of the account. Could be user, service or system
+          type: string
+      required:
+      - id
+      - name
+      - created_at
+      - type
+      - properties
+      - roles
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

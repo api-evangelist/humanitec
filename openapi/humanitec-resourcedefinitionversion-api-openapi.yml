@@ -1,0 +1,517 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType ResourceDefinitionVersion API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: ResourceDefinitionVersion
+  x-displayName: Definition Versions
+  description: 'A Resource Definition Version represents a version of a Resource Definition.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceDefinitionVersion" />
+
+    '
+paths:
+  /orgs/{orgId}/resources/defs/{defId}/versions:
+    get:
+      tags:
+      - ResourceDefinitionVersion
+      summary: Get Versions of a Resource Definition.
+      description: "First 50 Versions are kept along with all the Versions referenced by an Active Resource.\n\n To obtain Versions of a deleted Resource Definition, the `deleted` parameter needs to be used."
+      operationId: listResourceDefinitionVersions
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/defIdPathParam'
+      - $ref: '#/components/parameters/deletedQueryParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: 'A list or Resource Definition Version.
+
+            '
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceDefinitionVersion'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: The Resource Definition is not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}:
+    get:
+      tags:
+      - ResourceDefinitionVersion
+      summary: Get a Resource Definition Version.
+      operationId: getResourceDefinitionVersion
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/defIdPathParam'
+      - $ref: '#/components/parameters/defVersionIdPathParam'
+      responses:
+        '200':
+          description: The Resource Definition Version with the specified ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceDefinitionVersion'
+        '404':
+          description: The Resource Definition Version is not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}/actions/archive:
+    post:
+      tags:
+      - ResourceDefinitionVersion
+      summary: Mark/unmark the Resource Definition Version as archived.
+      operationId: archiveResourceDefinitionVersion
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/defIdPathParam'
+      - $ref: '#/components/parameters/defVersionIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveDefinitionVersionRequest'
+      responses:
+        '204':
+          description: The Resource Definition Version's archived status changed.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: The Resource Definition Version is not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}/actions/promote:
+    post:
+      tags:
+      - ResourceDefinitionVersion
+      summary: Promote the Resource Definition Version as active.
+      operationId: promoteResourceDefinitionVersion
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/defIdPathParam'
+      - $ref: '#/components/parameters/defVersionIdPathParam'
+      responses:
+        '204':
+          description: The Resource Definition Version became active.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: The Resource Definition Version is not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  parameters:
+    deletedQueryParam:
+      name: deleted
+      in: query
+      description: If to show also deleted records in the response.
+      required: false
+      example: true
+      schema:
+        type: boolean
+        default: false
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    defVersionIdPathParam:
+      name: defVersionId
+      in: path
+      description: The Resource Definition Version ID.
+      example: 01234567-89ab-cdef-0123-4567890abcdef
+      required: true
+      schema:
+        type: string
+    perPageQueryParam:
+      name: per_page
+      in: query
+      description: The maximum number of items to return in a page of results
+      required: false
+      example: 50
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    pageTokenQueryParam:
+      name: page
+      in: query
+      description: The page token to request from
+      required: false
+      example: AAAAAAAAAA==
+      schema:
+        type: string
+    defIdPathParam:
+      name: defId
+      in: path
+      description: The Resource Definition ID.
+      example: sample-def
+      required: true
+      schema:
+        type: string
+  schemas:
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ProvisionDependenciesResponse:
+      description: ProvisionDependencies defines resources which are needed to be co-provisioned with the current resource.
+      properties:
+        is_dependent:
+          description: If the co-provisioned resource is dependendent on the current one.
+          type: boolean
+        match_dependents:
+          description: If the resources dependant on the main resource, are also dependant on the co-provisioned one.
+          type: boolean
+        params:
+          additionalProperties: true
+          description: (Optional) Additional parameters to be passed to the driver which will provision the resource.
+          type: object
+      required:
+      - is_dependent
+      type: object
+    ResourceDefinitionVersion:
+      description: A Resource Definition Version represents a version of a Resource Definition.
+      example:
+        id: 01234567-89ab-cdef-0123-4567890abcdef
+        org_id: test-org
+        def_id: dev-postgres
+        name: Dev Postgres Instance
+        type: postgres
+        driver_type: humanitec/postgres-cloudsql
+        driver_account: gcp-dev-cloudsql
+        driver_inputs:
+          secret_refs:
+            credentials:
+              password:
+                value: <secret>
+              user:
+                ref: vault/path/to/data/secrets/user
+                store: my-external-vault
+                version: '1'
+          values:
+            instance: my-dev-project:my-region:dev-db
+        provision:
+          aws-policy:
+            is_dependent: false
+            match_dependents: false
+          dns#my-dns: {}
+        created_at: '2020-05-23T12:32:16Z'
+        created_by: a.user@example.com
+        action: created
+        archived: false
+        active: true
+        proposed: false
+      properties:
+        id:
+          description: The Resource Definition Version ID.
+          type: string
+        org_id:
+          description: The Organization ID.
+          type: string
+        def_id:
+          description: The Resource Definition ID.
+          type: string
+        name:
+          description: The display name.
+          type: string
+        type:
+          description: The Resource Type.
+          type: string
+        driver_type:
+          description: The driver to be used to create the resource.
+          type: string
+        driver_account:
+          description: (Optional) Security account required by the driver.
+          type: string
+        driver_inputs:
+          $ref: '#/components/schemas/ValuesSecretsRefsResponse'
+          description: (Optional) Additional input data to be passed to the driver.
+        provision:
+          additionalProperties:
+            $ref: '#/components/schemas/ProvisionDependenciesResponse'
+          description: (Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.
+          type: object
+        action:
+          type: string
+          description: The action that generated the Resource Definition Version. Might be one of `created`, `updated` or `deleted`.
+        archived:
+          type: boolean
+          description: Specifies if the version is archived (i.e. can't be used for a new resource).
+        active:
+          type: boolean
+          description: Specifies if the version is active (i.e. is being used if target version is not specified for a resource or a context).
+        proposed:
+          type: boolean
+          description: Specifies if the version is proposed (i.e. is newer than the active version).
+        created_at:
+          description: The timestamp of when this record has been created.
+          example: '2020-06-22T09:37:23.523Z'
+          title: Simplified extended ISO format date/time string.
+          type: string
+          format: date-time
+        created_by:
+          description: The user who created this record.
+          type: string
+      required:
+      - org_id
+      - id
+      - name
+      - def_id
+      - type
+      - driver_type
+      - driver_account
+      - driver_inputs
+      - provision
+      - action
+      - archived
+      - active
+      - proposed
+      - created_at
+      - created_by
+      type: object
+    ValuesSecretsRefsResponse:
+      description: ValuesSecretsRefs stores data that should be passed around split by sensitivity.
+      example:
+        secret_refs:
+          credentials:
+            password:
+              value: <secret>
+            user:
+              ref: vault/path/to/data/secrets/user
+              store: my-external-vault
+              version: '1'
+        secrets:
+          password: vault/path/to/data/.secrets/password
+          user: vault/path/to/data/.secrets/user
+        values:
+          host: 127.0.0.1
+          name: my-database
+      properties:
+        secret_refs:
+          additionalProperties: true
+          description: 'Secrets section of the data set. They can hold sensitive information that will be stored in the primary organization secret store and replaced with the secret store paths when sent outside, or secret references stored in a defined secret store. Can''t be used together with `secrets`.
+
+
+            They can hold a nested structure but leaf objects need to be of type SecretReference, where:
+
+
+            - `store` is a Secret Store id. It can''t be `humanitec`. It''s mandatory if `ref` is defined and can''t be used in request payloads if `value` is defined.
+
+
+            - `ref` is the secret key in the format of the target store. It can''t be used in request payloads if `value` is defined.
+
+
+            - `version` is the version of the secret as defined in the target store. It can be defined only if `ref` is defined.
+
+
+            - `value` is the value to store in the organizations primary secret store. It can''t be used in request payloads if `ref` is defined.'
+          type: object
+        secrets:
+          additionalProperties: true
+          description: Secrets section of the data set. Sensitive information is stored in the primary organization secret store and replaced with the secret store paths when sent outside. Can't be used together with `secret_refs`.
+          type: object
+        values:
+          additionalProperties: true
+          description: Values section of the data set. Passed around as-is.
+          type: object
+      type: object
+    ArchiveDefinitionVersionRequest:
+      example:
+        archive: true
+      properties:
+        archived:
+          description: Indicates whether to set this version archived or non-archived. Optional, true if not specified.
+          type: boolean
+      type: object
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

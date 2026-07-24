@@ -1,0 +1,520 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType AutomationRule API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: AutomationRule
+  x-displayName: Automation Rules
+  description: 'An Automation Rule defining how and when artefacts in an environment should be updated.
+
+    <SchemaDefinition schemaRef="#/components/schemas/AutomationRuleRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/rules:
+    get:
+      tags:
+      - AutomationRule
+      operationId: listAutomationRules
+      summary: List all Automation Rules in an Environment.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      responses:
+        '200':
+          description: A possibly empty array of Automation Rules
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AutomationRuleResponse'
+                type: array
+    post:
+      tags:
+      - AutomationRule
+      operationId: createAutomationRule
+      summary: Create a new Automation Rule for an Environment.
+      description: Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      requestBody:
+        description: The definition of the Automation Rule.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomationRuleRequest'
+      responses:
+        '201':
+          description: The Automation Rule that was created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationRuleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+        '422':
+          $ref: '#/components/responses/422UnprocessableContent'
+  /orgs/{orgId}/apps/{appId}/envs/{envId}/rules/{ruleId}:
+    get:
+      tags:
+      - AutomationRule
+      operationId: getAutomationRule
+      summary: Get a specific Automation Rule for an Environment.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      - name: ruleId
+        in: path
+        description: The Automation Rule ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The Automation Rule.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationRuleResponse'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      tags:
+      - AutomationRule
+      operationId: updateAutomationRule
+      summary: Update an existing Automation Rule for an Environment.
+      description: Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      - name: ruleId
+        in: path
+        description: The Automation Rule ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The definition of the Automation Rule.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomationRuleRequest'
+      responses:
+        '200':
+          description: The updated Automation Rule.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationRuleResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '422':
+          $ref: '#/components/responses/422UnprocessableContent'
+    delete:
+      tags:
+      - AutomationRule
+      operationId: deleteAutomationRule
+      summary: Delete Automation Rule from an Environment.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/envIdPathParam'
+      - name: ruleId
+        in: path
+        description: The Automation Rule ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: The Automation Rule was deleted.
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  schemas:
+    AutomationRuleResponse:
+      description: An Automation Rule defining how and when artefacts in an environment should be updated.
+      properties:
+        active:
+          description: Whether the rule will be processed or not.
+          type: boolean
+          example: true
+        artefacts_filter:
+          description: A list of artefact names to be processed by the rule. If the array is empty, it implies include all. If `exclude_artefacts_filter` is true, this list describes the artefacts to exclude.
+          items:
+            type: string
+          type: array
+          example:
+          - http://registry.org/sample-service
+        created_at:
+          description: The timestamp in UTC of when the Automation Rule was created.
+          example: '2020-06-22T09:37:23.523Z'
+          title: Simplified extended ISO format date/time string.
+          type: string
+          format: date-time
+        exclude_artefacts_filter:
+          description: Whether the artefacts specified in `artefacts_filter` should be excluded (true) or included (false) in the automation rule.
+          type: boolean
+          example: false
+        exclude_images_filter:
+          description: 'DEPRECATED: Whether the images specified in `images_filter` should be excluded (true) or included (false) in the automation rule.'
+          type: boolean
+          example: false
+          deprecated: true
+        id:
+          description: The unique ID for this rule.
+          type: string
+          example: 923486d012f20324
+        images_filter:
+          description: 'DEPRECATED: A list of image IDs to be processed by the rule. If the array is empty, it implies include all. If `exclude_images_filter` is true, this list describes images to exclude.'
+          items:
+            type: string
+          type: array
+          example:
+          - sample-service
+          deprecated: true
+        match:
+          description: 'DEPRECATED: A regular expression applied to the branch or tag name depending on the value of `update_to`. Defaults to match all if omitted or empty.'
+          type: string
+          example: ^pr-[0-9]+-.*$
+          deprecated: true
+        match_ref:
+          description: A regular expression applied to the ref of a new artefact version. Defaults to match all if omitted or empty.
+          type: string
+          example: ^refs/heads/pr-[0-9]+-.*$
+        type:
+          description: Specifies the type of event. Currently, only updates to either branches or tags are supported. Must be `"update"`.
+          pattern: ^(?:update)$
+          type: string
+          example: update
+        update_to:
+          description: 'DEPRECATED: Specifies whether the update occurs on commit to branch or creation of tag. Must be one of `"branch"` or `"tag"`.'
+          pattern: ^(?:branch|tag)$
+          type: string
+          example: branch
+          deprecated: true
+        updated_at:
+          description: The timestamp in UTC of when the Automation Rule was updated.
+          example: '2020-06-22T09:37:23.523Z'
+          title: Simplified extended ISO format date/time string.
+          type: string
+          format: date-time
+      required:
+      - id
+      - active
+      - type
+      - images_filter
+      - artefacts_filter
+      - exclude_images_filter
+      - exclude_artefacts_filter
+      - update_to
+      - match
+      - match_ref
+      - created_at
+      - updated_at
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ErrorResponse:
+      description: A standard error response
+      properties:
+        error:
+          description: 'A short code representing the class of error. This code can be used for tracking and observability or to
+
+            find appropriate troubleshooting documentation.
+
+            '
+          example: API-000
+          type: string
+        message:
+          description: A human-readable explanation of the error.
+          example: Something happened!
+          type: string
+        details:
+          description: An optional payload of metadata associated with the error.
+          additionalProperties: true
+          type: object
+      required:
+      - error
+      - message
+      type: object
+    AutomationRuleRequest:
+      description: An Automation Rule defining how and when artefacts in an environment should be updated.
+      properties:
+        active:
+          description: Whether the rule will be processed or not.
+          type: boolean
+          example: true
+        artefacts_filter:
+          description: A list of artefact names to be processed by the rule. If the array is empty, it implies include all. If `exclude_artefacts_filter` is true, this list describes the artefacts to exclude.
+          items:
+            type: string
+          type: array
+          example:
+          - http://registry.org/sample-service
+        exclude_artefacts_filter:
+          description: Whether the artefacts specified in `artefacts_filter` should be excluded (true) or included (false) in the automation rule.
+          type: boolean
+          example: false
+        exclude_images_filter:
+          description: 'DEPRECATED: Whether the images specified in `images_filter` should be excluded (true) or included (false) in the automation rule.'
+          type: boolean
+          example: false
+          deprecated: true
+        images_filter:
+          description: 'DEPRECATED: A list of image IDs to be processed by the rule. If the array is empty, it implies include all. If `exclude_images_filter` is true, this list describes images to exclude.'
+          items:
+            type: string
+          type: array
+          example:
+          - sample-service
+          deprecated: true
+        match:
+          description: 'DEPRECATED: A regular expression applied to the branch or tag name depending on the value of `update_to`. Defaults to match all if omitted or empty.'
+          type: string
+          example: ^pr-[0-9]+-.*$
+          deprecated: true
+        match_ref:
+          description: A regular expression applied to the ref of a new artefact version. Defaults to match all if omitted or empty.
+          type: string
+          example: ^refs/heads/pr-[0-9]+-.*$
+        type:
+          description: Specifies the type of event. Currently, only updates to either branches or tags are supported. Must be `"update"`.
+          pattern: ^(?:update)$
+          type: string
+          example: update
+        update_to:
+          description: 'DEPRECATED: Specifies whether the update occurs on commit to branch or creation of tag. Must be one of `"branch"` or `"tag"`.'
+          pattern: ^(?:branch|tag)$
+          type: string
+          example: branch
+          deprecated: true
+      required:
+      - type
+      type: object
+  responses:
+    422UnprocessableContent:
+      description: 'Server understands the content type of the request, and the syntax of the request is correct, but it was unable to process the contained instructions
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    409Conflict:
+      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
+
+        More detail can be found in the error body.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    envIdPathParam:
+      name: envId
+      in: path
+      description: The Environment ID
+      example: development
+      required: true
+      schema:
+        type: string
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

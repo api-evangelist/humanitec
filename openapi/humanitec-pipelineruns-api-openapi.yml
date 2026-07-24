@@ -1,0 +1,1087 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType PipelineRuns API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: PipelineRuns
+  x-displayName: Pipeline Runs
+  description: 'Details of a Run within the Pipeline.
+
+    <SchemaDefinition schemaRef="#/components/schemas/PipelineRun" />
+
+    '
+paths:
+  /orgs/{orgId}/pipeline-runs:
+    get:
+      tags:
+      - PipelineRuns
+      operationId: listPipelineRunsByOrg
+      summary: List all pipeline runs within the Org ordered newest to oldest. This can be filtered by app, pipeline, and status.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/byAppIdQueryParam'
+      - $ref: '#/components/parameters/byPipelineIdQueryParam'
+      - $ref: '#/components/parameters/byEnvIdQueryParam'
+      - $ref: '#/components/parameters/byStatusQueryParam'
+      - $ref: '#/components/parameters/byCompletedQueryParam'
+      - $ref: '#/components/parameters/byCreatedAfterParam'
+      - $ref: '#/components/parameters/byCreatedBeforeParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: Successful list response. If the Link header is present, more data may be available.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PipelineRun'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/apps/{appId}/pipeline-runs:
+    post:
+      tags:
+      - PipelineRuns
+      operationId: createPipelineRunByTriggerCriteria
+      summary: Create a Pipeline Run in the appropriate Pipeline based on the trigger and inputs.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/idempotencyKey'
+      - name: dry_run
+        in: query
+        description: Optionally validate the request but do not persist the actual Pipeline Run.
+        example: false
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PipelineRunCreateByTriggerCriteriaBody'
+      responses:
+        '201':
+          description: Successful creation response.
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineRun'
+        '204':
+          description: The request was valid and matched a Pipeline, but not Pipeline Run was persisted.
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+        '422':
+          $ref: '#/components/responses/422UnprocessableContent'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs:
+    get:
+      tags:
+      - PipelineRuns
+      operationId: listPipelineRuns
+      summary: List runs within a pipeline ordered newest to oldest.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/byEnvIdQueryParam'
+      - $ref: '#/components/parameters/byStatusQueryParam'
+      - $ref: '#/components/parameters/byCompletedQueryParam'
+      - $ref: '#/components/parameters/byCreatedAfterParam'
+      - $ref: '#/components/parameters/byCreatedBeforeParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: Successful list response. If the Link header is present, more data may be available.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PipelineRun'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    post:
+      tags:
+      - PipelineRuns
+      operationId: createPipelineRun
+      summary: Create a run within a pipeline.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/idempotencyKey'
+      - name: dry_run
+        in: query
+        description: Optionally validate the request but do not persist the actual Pipeline Run.
+        example: false
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PipelineRunCreateBody'
+      responses:
+        '201':
+          description: Successful creation response.
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineRun'
+        '204':
+          description: The request was valid, but no Pipeline Run was created.
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+        '422':
+          $ref: '#/components/responses/422UnprocessableContent'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}:
+    get:
+      tags:
+      - PipelineRuns
+      operationId: getPipelineRun
+      summary: Get a run within an pipeline.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      responses:
+        '200':
+          description: Successful get response.
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineRun'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+      - PipelineRuns
+      operationId: deletePipelineRun
+      summary: Deleting a completed Run within a Pipeline.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/ifMatchHeaderParam'
+      responses:
+        '204':
+          description: Successfully deleted the Run.
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+        '412':
+          $ref: '#/components/responses/412PreconditionFailed'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/cancel:
+    post:
+      tags:
+      - PipelineRuns
+      operationId: cancelPipelineRun
+      summary: Cancel a Run within an Pipeline.
+      description: 'Attempts to cancel the specified Run. If the Run is in a queued state, this cancellation will be applied
+
+        immediately. If the Run is executing, the cancellation will be stored and will be resolved by the next
+
+        Job or Step that supports in-flight cancellation. Runs that are in any other state, are not cancellable.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/ifMatchHeaderParam'
+      responses:
+        '204':
+          description: Successful cancellation or the Run was already cancelled.
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+        '412':
+          $ref: '#/components/responses/412PreconditionFailed'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/restart:
+    post:
+      tags:
+      - PipelineRuns
+      operationId: restartPipelineRun
+      summary: Restart a Run within an Pipeline by cloning it with the same trigger and inputs.
+      description: 'Attempts to copy and restart the specified Run. The run must be in a completed state.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/idempotencyKey'
+      responses:
+        '201':
+          description: Successful restart response.
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineRun'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+        '422':
+          $ref: '#/components/responses/422UnprocessableContent'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs:
+    get:
+      tags:
+      - PipelineRuns
+      operationId: listPipelineJobs
+      summary: List the details of the jobs within a pipeline run.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/byStatusQueryParam'
+      - $ref: '#/components/parameters/perPageQueryParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: Successful list response.
+          headers:
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PipelineJobPartial'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}:
+    get:
+      tags:
+      - PipelineRuns
+      operationId: getPipelineJob
+      summary: List the details of a Job including Step information
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/jobIdPathParam'
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineJob'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/steps/{stepIndex}/logs:
+    get:
+      tags:
+      - PipelineRuns
+      operationId: listPipelineStepLogs
+      summary: Get a page of log output for a given step within a job.
+      parameters:
+      - $ref: '#/components/parameters/orgIdPathParam'
+      - $ref: '#/components/parameters/appIdPathParam'
+      - $ref: '#/components/parameters/pipelineIdPathParam'
+      - $ref: '#/components/parameters/runIdPathParam'
+      - $ref: '#/components/parameters/jobIdPathParam'
+      - $ref: '#/components/parameters/stepIndexPathParam'
+      - $ref: '#/components/parameters/pageTokenQueryParam'
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Etag:
+              $ref: '#/components/headers/Etag'
+            Link:
+              schema:
+                type: string
+              description: A list of request links, optionally including a "next" page link for pagination.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PipelineStepLog'
+        '307':
+          $ref: '#/components/responses/307TemporaryRedirect'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  parameters:
+    ifMatchHeaderParam:
+      name: If-Match
+      in: header
+      description: Indicate that the request should only succeed if there is an etag match
+      required: false
+      example: 1234567890abcdef
+      schema:
+        type: string
+    runIdPathParam:
+      name: runId
+      in: path
+      description: The Run ID
+      example: 01234567-89ab-cdef-0123-456789abcdef
+      required: true
+      schema:
+        type: string
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    perPageQueryParam:
+      name: per_page
+      in: query
+      description: The maximum number of items to return in a page of results
+      required: false
+      example: 50
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    byStatusQueryParam:
+      name: status
+      description: Optional filter by status.
+      in: query
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          example: executing
+    jobIdPathParam:
+      name: jobId
+      in: path
+      description: The Job ID
+      example: deploy
+      required: true
+      schema:
+        type: string
+    idempotencyKey:
+      name: Idempotency-Key
+      in: header
+      description: The HTTP Idempotency-Key
+      example: 0xr$P0Cu4@DB
+      required: false
+      schema:
+        type: string
+    byCompletedQueryParam:
+      name: completed
+      in: query
+      description: Optional filer by completed or not.
+      required: false
+      example: true
+      schema:
+        type: boolean
+    byCreatedBeforeParam:
+      name: created_before
+      in: query
+      description: Optional filter by creation before date time
+      example: '2018-03-20T09:12:28Z'
+      required: false
+      schema:
+        type: string
+        format: date-time
+    stepIndexPathParam:
+      name: stepIndex
+      in: path
+      description: The index of the step within the Job
+      example: 0
+      required: true
+      schema:
+        type: integer
+    byAppIdQueryParam:
+      name: app
+      description: An optional list of Application IDs.
+      in: query
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          example: sample-app
+          type: string
+    byPipelineIdQueryParam:
+      name: pipeline
+      description: An optional list of Pipeline IDs.
+      in: query
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          example: sample-pipeline
+    byCreatedAfterParam:
+      name: created_after
+      in: query
+      description: Optional filter by creation after date time.
+      example: '2018-03-20T09:12:28Z'
+      required: false
+      schema:
+        type: string
+        format: date-time
+    byEnvIdQueryParam:
+      name: env
+      description: An optional Environment ID
+      in: query
+      required: false
+      schema:
+        example: development
+        type: string
+    pipelineIdPathParam:
+      name: pipelineId
+      in: path
+      description: The Pipeline ID
+      example: sample-pipeline
+      required: true
+      schema:
+        type: string
+    appIdPathParam:
+      name: appId
+      in: path
+      description: The Application ID
+      required: true
+      example: sample-app
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
+        maxLength: 50
+    pageTokenQueryParam:
+      name: page
+      in: query
+      description: The page token to request from
+      required: false
+      example: AAAAAAAAAA==
+      schema:
+        type: string
+  responses:
+    409Conflict:
+      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
+
+        More detail can be found in the error body.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    307TemporaryRedirect:
+      description: The content is available at a different location specified in the Location header.
+      headers:
+        location:
+          schema:
+            type: string
+    412PreconditionFailed:
+      description: 'The request itself is valid however it could not be applied because the Etag does not match.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    422UnprocessableContent:
+      description: 'Server understands the content type of the request, and the syntax of the request is correct, but it was unable to process the contained instructions
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+  schemas:
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ErrorResponse:
+      description: A standard error response
+      properties:
+        error:
+          description: 'A short code representing the class of error. This code can be used for tracking and observability or to
+
+            find appropriate troubleshooting documentation.
+
+            '
+          example: API-000
+          type: string
+        message:
+          description: A human-readable explanation of the error.
+          example: Something happened!
+          type: string
+        details:
+          description: An optional payload of metadata associated with the error.
+          additionalProperties: true
+          type: object
+      required:
+      - error
+      - message
+      type: object
+    PipelineRunCreateBody:
+      description: The parameters for creating a new Run for the Pipeline.
+      required:
+      - inputs
+      properties:
+        inputs:
+          description: The inputs provided for this Run.
+          example:
+            fizz: buzz
+          type: object
+          additionalProperties: true
+    PipelineRunCreateByDeploymentRequestCriteriaBody:
+      description: 'Trigger the pipeline that has a deployment_request trigger and criteria that match this target environment. If "delta_id" or "set_id" is provided, the matching criteria must support deployment type "deploy". If "deployment_id" is provided, the matching criteria must support deployment type "re-deploy".
+
+        When "delta_id" is provided, the inputs to the Pipeline Run will be "env_id", "comment", "delta_id" and "value_set_version_id" if provided. When "deployment_id" is provided, the inputs to the Pipeline Run will be "env_id", "comment", "deployment_id", with "set_id", "value_set_version_id" being retrieved from the deployment itself. When "set_id" is provided, the inputs to the Pipeline Run will be "env_id", "comment", "set_id", and "value_set_version_id" if provided.
+
+        '
+      properties:
+        env_id:
+          description: The target environment within the Application to deploy to.
+          type: string
+        environment:
+          description: The target environment within the Application to deploy to.
+          type: string
+          deprecated: true
+        delta_id:
+          description: A deployment delta to apply to the target environment. This delta must already exist. This field is mutually exclusive with "deployment_id" and "set_id".
+          type: string
+        deployment_id:
+          description: An existing deployment to redeploy into the target environment. The deployment set and value set will be copied. This field is mutually exclusive with "delta_id" and "set_id".
+          type: string
+        set_id:
+          description: A direct deployment set to apply to the target environment. This deployment set must already exist. This field is mutually exclusive with "delta_id" and "set_id".
+          type: string
+        value_set_version_id:
+          description: The exact value set version to use when deploying to the target environment. This value set version must exist. This field can only be used when "delta_id" or "set_id" is specified.
+          type: string
+        comment:
+          description: An optional comment to apply to the Deployment.
+          type: string
+      example:
+        trigger: deployment_request
+        env_id: development
+        delta_id: 0123456789abcdef0123456789abcdef01234567
+        comment: My deployment
+    PipelineStepLog:
+      description: An item from the logs of a Step.
+      required:
+      - at
+      - level
+      - message
+      properties:
+        at:
+          description: The date and time when this message was emitted or captured.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        level:
+          description: The log level of the message.
+          example: INFO
+          type: string
+        message:
+          description: The content of the message.
+          example: Example message
+          type: string
+    PipelineRun:
+      description: Details of a Run within the Pipeline.
+      required:
+      - id
+      - etag
+      - org_id
+      - app_id
+      - env_ids
+      - pipeline_id
+      - pipeline_version
+      - status
+      - status_message
+      - created_at
+      - created_by
+      - timeout_seconds
+      - trigger
+      - inputs
+      - run_as
+      - waiting_for
+      properties:
+        id:
+          description: The unique id of the Run.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        etag:
+          description: The current entity tag value for this Run.
+          example: 1234567890abcdef
+          type: string
+        org_id:
+          description: The id of the Organization containing this Run.
+          example: sample-org
+          type: string
+        app_id:
+          description: The id of the Application containing this Run.
+          example: sample-app
+          type: string
+        env_ids:
+          description: Environments linked to this Pipeline Run through input parameters or step executions.
+          example:
+          - development
+          type: array
+          items:
+            type: string
+        pipeline_id:
+          description: The id of the Pipeline associated with the Run.
+          example: sample-pipeline
+          type: string
+        pipeline_version:
+          description: The id of the Pipeline Version associated with the Run.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        status:
+          description: The current status of this Run.
+          example: executing
+          type: string
+        status_message:
+          description: A human-readable message indicating the reason for the status.
+          example: Example text
+          type: string
+        created_at:
+          description: The date and time when this Run was first created.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        created_by:
+          description: User id that created or triggered the Run.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        executing_at:
+          description: The date and time when this Run entered executing status.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        cancellation_requested_at:
+          description: The date and time when cancellation of this Run was requested.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        completed_at:
+          description: The date and time when this Run entered a successful, failed, or cancelled status.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        timeout_seconds:
+          description: The timeout for this Run.
+          example: 3600
+          type: integer
+        trigger:
+          description: The trigger type that was triggered this Run to start.
+          example: pipeline_call
+          type: string
+        inputs:
+          description: The inputs that were provided for this Run.
+          example:
+            fizz: buzz
+          type: object
+          additionalProperties: true
+        run_as:
+          description: The user id that the pipeline run is executing as when it calls Humanitec APIs.
+          type: string
+          example: s-01234567-89ab-cdef-0123-456789abcdef
+        concurrency_group:
+          description: The optional concurrency group for this run within the application
+          type: string
+          example: my-group
+        waiting_for:
+          description: Aggregated events on which run's jobs are waiting for
+          type: object
+          additionalProperties:
+            type: string
+    PipelineRunCreateByTriggerCriteriaBody:
+      description: The parameters for creating a new Run based on trigger and inputs.
+      required:
+      - trigger
+      properties:
+        trigger:
+          description: The trigger to call
+          type: string
+          example: deployment_request
+      oneOf:
+      - $ref: '#/components/schemas/PipelineRunCreateByDeploymentRequestCriteriaBody'
+      discriminator:
+        propertyName: trigger
+        mapping:
+          deployment_request: '#/components/schemas/PipelineRunCreateByDeploymentRequestCriteriaBody'
+    PipelineJobPartial:
+      description: Partial details of a Job within the Run. The full details, including steps, can be retrieved using the GetPipelineJob operation.
+      required:
+      - id
+      - name
+      - etag
+      - org_id
+      - app_id
+      - pipeline_id
+      - pipeline_version
+      - run_id
+      - status
+      - status_message
+      - created_at
+      - updated_at
+      - timeout_seconds
+      properties:
+        id:
+          description: The id of the Job within the Run.
+          example: my-job
+          type: string
+        etag:
+          description: The current entity tag value for this Job.
+          example: 1234567890abcdef
+          type: string
+        org_id:
+          description: The id of the Organization containing this Job.
+          example: sample-org
+          type: string
+        app_id:
+          description: The id of the Application containing this Job.
+          example: sample-app
+          type: string
+        pipeline_id:
+          description: The id of the Pipeline.
+          example: sample-pipeline
+          type: string
+        pipeline_version:
+          description: The id of the Pipeline Version associated with the Run.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        run_id:
+          description: The id of the Run containing this Job.
+          example: 01234567-89ab-cdef-0123-456789abcdef
+          type: string
+        status:
+          description: The current status of this Job.
+          example: executing
+          type: string
+        waiting_for:
+          description: An event on which job is waiting
+          type: string
+          example: application.environment.deployment(test-deployment-id)
+        status_message:
+          description: A human-readable message indicating the reason for the status.
+          example: Example text
+          type: string
+        created_at:
+          description: The date and time when this Job was first created within the Run.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        updated_at:
+          description: The date and time when this Job was updated while executing.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        cancellation_requested_at:
+          description: The date and time when cancellation of this Job was requested.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        completed_at:
+          description: The date and time when this Job entered a successful, failed, or cancelled status.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        timeout_seconds:
+          description: The timeout for this Job.
+          example: 3600
+          type: integer
+    PipelineStep:
+      description: A Step within a Job.
+      required:
+      - index
+      - name
+      - uses
+      - status
+      - status_message
+      - created_at
+      - timeout_seconds
+      - related_entities
+      properties:
+        index:
+          description: The index of the Step within the Pipeline Schema.
+          type: integer
+        name:
+          description: The name of the step or a generated default.
+          type: string
+        uses:
+          description: The action used by this step.
+          type: string
+        status:
+          description: The current status of this Step within the Job.
+          example: executing
+          type: string
+        status_message:
+          description: A human-readable message indicating the reason for the status.
+          example: Example text
+          type: string
+        created_at:
+          description: The date and time when this Step was first created within the Job.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        completed_at:
+          description: The date and time when this Step entered a successful, failed, or cancelled status.
+          example: '2023-01-01T00:00:00Z'
+          type: string
+          format: date-time
+        timeout_seconds:
+          description: The timeout for this Step.
+          example: 3600
+          type: integer
+        related_entities:
+          description: A map of related object ids that this step created or interacted with.
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            env_id: my-environment
+            deployment_id: 0123456789abcdef
+    PipelineJob:
+      description: A response containing all of the details of an executing or completed Job including Step information.
+      allOf:
+      - $ref: '#/components/schemas/PipelineJobPartial'
+      - required:
+        - steps
+        properties:
+          steps:
+            description: The collection of Steps that completed along with the current Step being executed.
+            type: array
+            items:
+              $ref: '#/components/schemas/PipelineStep'
+  headers:
+    Etag:
+      description: The Etag of the resource
+      example: 1234567890abcdef
+      schema:
+        type: string
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

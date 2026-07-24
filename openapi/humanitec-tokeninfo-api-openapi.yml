@@ -1,0 +1,426 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType TokenInfo API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: TokenInfo
+  x-displayName: Token Info
+  description: 'Holds metadata about a token. `expires_at` is excluded if token does not expire.
+
+    <SchemaDefinition schemaRef="#/components/schemas/TokenInfoResponse" />
+
+    '
+paths:
+  /users/{userId}/tokens:
+    get:
+      tags:
+      - TokenInfo
+      summary: Lists tokens associated with a user
+      operationId: listUserTokens
+      parameters:
+      - name: userId
+        in: path
+        description: 'The user ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A possibly empty list of tokens.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TokenInfoResponse'
+                type: array
+        '403':
+          description: 'Calling user does not have permission to list tokens for this user.
+
+
+            '
+    post:
+      tags:
+      - TokenInfo
+      summary: Creates a new static token for a user.
+      operationId: createUserToken
+      description: This is only supported for users of type `service`.
+      parameters:
+      - name: userId
+        in: path
+        description: 'The user ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'The definition of the token.
+
+
+          '
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenDefinitionRequest'
+      responses:
+        '200':
+          description: 'The issued static token.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: 'The request was invalid or the payload malformed.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: 'Calling user does not have permission to list tokens for this user.
+
+
+            '
+        '409':
+          description: 'There is already a token with the given ID.
+
+
+            '
+  /users/{userId}/tokens/{tokenId}:
+    get:
+      tags:
+      - TokenInfo
+      summary: Gets a specific token associated with a user
+      operationId: getUserToken
+      parameters:
+      - name: userId
+        in: path
+        description: 'The user ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: tokenId
+        in: path
+        description: 'The token ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'Metadata about the token.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenInfoResponse'
+        '403':
+          description: 'Calling user does not have permission to list tokens for this user.
+
+
+            '
+        '404':
+          description: 'This token ID is not available for the user.
+
+
+            '
+    delete:
+      tags:
+      - TokenInfo
+      summary: Deletes a specific token associated with a user
+      operationId: deleteUserToken
+      description: This endpoint deletes a user's session token. The deleted token can no longer be used to access the API. All other tokens for this user can still be used.
+      parameters:
+      - name: userId
+        in: path
+        description: 'The user ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: tokenId
+        in: path
+        description: 'The token ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'The token was successfully deleted.
+
+
+            '
+        '400':
+          description: 'The request is invalid.
+
+
+            '
+        '403':
+          description: 'The calling user does not have permission to delete the token.
+
+
+            '
+        '404':
+          description: 'This token id is not available for the user or the user does not exist.
+
+
+            '
+components:
+  schemas:
+    TokenInfoResponse:
+      description: Holds metadata about a token. `expires_at` is excluded if token does not expire.
+      example:
+        created_at: '2021-04-30T19:47:01Z'
+        description: Humanitec API Calls from CircleCI Pipelines
+        expires_at: '2022-04-30T19:47:01Z'
+        id: circle-ci-token
+        type: static
+        user_id: a7a04740ae985f12af58545e4edbac6a
+      properties:
+        created_at:
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          type: string
+        description:
+          type: string
+        expires_at:
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        id:
+          type: string
+        type:
+          type: string
+      required:
+      - created_by
+      - created_at
+      - type
+      - id
+      - description
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    TokenResponse:
+      description: Token holds the token and its type.
+      example:
+        token: a7a04740ae985f12af58545e4edbac6a
+        type: jwt
+      properties:
+        token:
+          type: string
+        type:
+          type: string
+      required:
+      - token
+      type: object
+    TokenDefinitionRequest:
+      description: Defines the token to be created.
+      example:
+        description: Humanitec API Calls from CircleCI Pipelines
+        expires_at: '2022-04-30T19:47:01Z'
+        id: circle-ci-token
+        type: static
+      properties:
+        description:
+          description: A description of the token. (Optional)
+          type: string
+        expires_at:
+          description: The time the token expires. If not set, the token will not expire. (Optional)
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        id:
+          description: Identifier of the token. Must be unique for the user.
+          type: string
+        type:
+          description: The type of the token. Can only be "static".
+          type: string
+      required:
+      - id
+      - type
+      type: object
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

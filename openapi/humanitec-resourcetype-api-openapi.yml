@@ -1,0 +1,696 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType ResourceType API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: ResourceType
+  x-displayName: Resources Types
+  description: 'Resources Types define the technology that Applications can have dependencies on.
+
+
+    Each Resource Type also defines a set of input parameters (`inputs_schema`), and a set of output data (`outputs_schema`). When provisioning a resource, these are treated as inputs and outputs respectively.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceTypeRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/resources/types:
+    get:
+      tags:
+      - ResourceType
+      summary: List Resource Types.
+      operationId: listResourceTypes
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'A possibly empty list of Resources Types.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResourceTypeResponse'
+                type: array
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    post:
+      tags:
+      - ResourceType
+      summary: Creates a new Resources Type.
+      operationId: createResourceType
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceTypeRequest'
+      responses:
+        '200':
+          description: 'The newly created Resources Type details.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeResponse'
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: 'This operation is forbidden.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '409':
+          description: 'A Resources Type already exists.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/resources/types/{typeId}:
+    delete:
+      tags:
+      - ResourceType
+      summary: Delete a Resource Type.
+      operationId: deleteResourceType
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: typeId
+        in: path
+        description: 'The Resource Type id. The type id should be provided as url encoded string.
+
+          '
+        example: my-org%2Fmy-type
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'Record deleted.
+
+
+            '
+        '400':
+          description: 'Some resources is related to the Resource Type with ''typeId'' as id.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: 'This operation is forbidden.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'A Resource Type with the ''typeId'' id is not found.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    patch:
+      tags:
+      - ResourceType
+      summary: Update a Resource Type.
+      operationId: patchResourceType
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: typeId
+        in: path
+        description: 'The Resource Type id. The type id should be provided as url encoded string.
+
+          '
+        example: my-org%2Fmy-type
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'The Resource Type record details.
+
+
+          The PATCH operation would change the value of the property if it is included in the request payload JSON, and not `null`. Missing and `null` properties are ignored.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchResourceTypeRequestRequest'
+      responses:
+        '200':
+          description: 'The updated Resource Type.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeResponse'
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: 'This operation is forbidden.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'A Resource Type with the ''typeId'' id is not found.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    put:
+      tags:
+      - ResourceType
+      summary: Update a Resource Type.
+      operationId: updateResourceType
+      parameters:
+      - name: orgId
+        in: path
+        description: 'The Organization ID.
+
+          '
+        required: true
+        schema:
+          type: string
+      - name: typeId
+        in: path
+        description: 'The Resource Type id. The type id should be provided as url encoded string.
+
+          '
+        example: my-org%2Fmy-type
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'The Resource Type record details.
+
+
+          The PUT operation updates a resource type using the provided payload. An empty inputs_schema or outputs_schema property will unset the existing values.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceTypeRequestRequest'
+      responses:
+        '200':
+          description: 'The updated Resource Type.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTypeResponse'
+        '400':
+          description: 'One or more request parameters is missing or invalid.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: 'This operation is forbidden.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '404':
+          description: 'A Resource Type with the ''typeId'' id is not found.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '500':
+          description: 'Internal application error.
+
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    UpdateResourceTypeRequestRequest:
+      properties:
+        category:
+          description: Category name (used to group similar resources on the UI).
+          type: string
+        inputs_schema:
+          additionalProperties: true
+          description: (Optional) A JSON Schema specifying the type-specific parameters for the driver (input).
+          type: object
+        name:
+          description: (Optional) Resource display name.
+          type: string
+        outputs_schema:
+          additionalProperties: true
+          description: (Optional) A JSON Schema specifying the type-specific data passed to the deployment (output).
+          type: object
+        use:
+          description: 'Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.'
+          type: string
+      type: object
+      required:
+      - use
+    ResourceTypeRequest:
+      description: 'Resources Types define the technology that Applications can have dependencies on.
+
+
+        Each Resource Type also defines a set of input parameters (`inputs_schema`), and a set of output data (`outputs_schema`). When provisioning a resource, these are treated as inputs and outputs respectively.'
+      example:
+        inputs_schema:
+          values:
+            properties:
+              extensions:
+                additionalProperties:
+                  properties:
+                    schema:
+                      type: string
+                    version:
+                      type: string
+                  type: object
+            type: object
+        name: PostgreSQL
+        outputs_schema:
+          secrets:
+            properties:
+              password:
+                type: string
+              username:
+                type: string
+            required:
+            - username
+            - password
+            type: object
+          values:
+            properties:
+              host:
+                type: string
+              name:
+                type: string
+              port:
+                maximum: 65535
+                minimum: 0
+                type: integer
+            required:
+            - name
+            - host
+            - port
+            type: object
+        type: my-org/postgres
+        use: direct
+      properties:
+        category:
+          description: Category name (used to group similar resources on the UI).
+          type: string
+        inputs_schema:
+          additionalProperties: true
+          description: A JSON Schema specifying the type-specific parameters for the driver (input).
+          type: object
+        name:
+          description: Display name.
+          type: string
+        outputs_schema:
+          additionalProperties: true
+          description: A JSON Schema specifying the type-specific data passed to the deployment (output).
+          type: object
+        type:
+          description: Unique resource type identifier (system-wide, across all organizations). It should start with the Humanitec Organization ID followed by "/".
+          type: string
+          example: my-org/my-private-type
+        use:
+          description: 'Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.'
+          type: string
+      required:
+      - type
+      - use
+      type: object
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    PatchResourceTypeRequestRequest:
+      properties:
+        category:
+          description: (Optional) Category name (used to group similar resources on the UI).
+          type: string
+        inputs_schema:
+          additionalProperties: true
+          description: (Optional) A JSON Schema specifying the type-specific parameters for the driver (input).
+          type: object
+        name:
+          description: (Optional) Resource display name.
+          type: string
+        outputs_schema:
+          additionalProperties: true
+          description: (Optional) A JSON Schema specifying the type-specific data passed to the deployment (output).
+          type: object
+        use:
+          description: '(Optional) Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.'
+          type: string
+      type: object
+    ResourceTypeResponse:
+      description: 'Resources Types define the technology that Applications can have dependencies on.
+
+
+        Each Resource Type also defines a set of input parameters (`inputs_schema`), and a set of output data (`outputs_schema`). When provisioning a resource, these are treated as inputs and outputs respectively.'
+      example:
+        inputs_schema:
+          values:
+            properties:
+              extensions:
+                additionalProperties:
+                  properties:
+                    schema:
+                      type: string
+                    version:
+                      type: string
+                  type: object
+            type: object
+        name: PostgreSQL
+        outputs_schema:
+          secrets:
+            properties:
+              password:
+                type: string
+              username:
+                type: string
+            required:
+            - username
+            - password
+            type: object
+          values:
+            properties:
+              host:
+                type: string
+              name:
+                type: string
+              port:
+                maximum: 65535
+                minimum: 0
+                type: integer
+            required:
+            - name
+            - host
+            - port
+            type: object
+        type: postgres
+        use: direct
+      properties:
+        category:
+          description: Category name (used to group similar resources on the UI).
+          type: string
+        inputs_schema:
+          additionalProperties: true
+          description: A JSON Schema specifying the type-specific parameters for the driver (input).
+          type: object
+        name:
+          description: Display name.
+          type: string
+        outputs_schema:
+          additionalProperties: true
+          description: A JSON Schema specifying the type-specific data passed to the deployment (output).
+          type: object
+        type:
+          description: Unique resource type identifier (system-wide, across all organizations).
+          type: string
+        use:
+          description: 'Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.'
+          type: string
+      required:
+      - type
+      - use
+      - name
+      - category
+      - inputs_schema
+      - outputs_schema
+      type: object
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

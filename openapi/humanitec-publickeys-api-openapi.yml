@@ -1,0 +1,345 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType PublicKeys API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: PublicKeys
+  x-displayName: Keys
+  description: 'PublicKey stores a Public Key an organization shares with Humanitec.
+
+    <SchemaDefinition schemaRef="#/components/schemas/PublicKey" />
+
+    '
+paths:
+  /orgs/{orgId}/keys:
+    post:
+      tags:
+      - PublicKeys
+      operationId: createPublicKey
+      summary: Associate a new RSA public key to an organization.
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits. It should be provided as a single line. This might be accomplished through the usage of `awk` bash tool: `awk -v ORS=''\n'' ''1'' public_key.pem`'
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+            example: '-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAo22jj/h+WPhL5M8RUyqC\nEqRK3FOYD6KuDTyUHZL2QUX/q35bT1aGIOtu+22oM/8hTZ/6+BTknvF+Z+e7At8E\n/I6/qNZilJFH/HqNHYflykceILVCFQM6v0ar6CSPh88DjwQPGLrh+UYp0NKBF6D5\n2LEVQpxsM/0qV4fOZngRVI9UeKiYehk8aXJi20nI5Cj9GnV7BuEo7sKq7NewTOMN\nwHqSnCtMV+E7SIgyy4+aKAFHOR0Y4FgJN14bAjE2GX/VUmAYBNtPgGwkCNDbA9v1\nJJnFmdKflp8foqeWwC9UcUDLqjZzMT2a16pnL89iHV4fJ4vI6h26Jf2wUJbb7xE3\nxJNhCR9Qf2IHx8TTVetIRl5I/ZUPkRrq5iskOIWV4+I+NzS+gbnCUv6sCO3cnZaa\noZ4Wk5V+5qfctANeTn0TEAabYAJ/zFgYcs2IwYNqcN5eTss99zGNgtDL3oJr/A6g\neGBgzad3p80qPMb1le64cHAAFZaerI2kcdnNpWGLXJ/J7IKF9uNfsrvi7Zdv8AXg\nVAyqBARfzSkgnUKN6iWkWxAAzylKnQ3Etw81huaLwDG/6Lqd8I5OePMwHEZkollD\nEBD16L/iyV9veru2zLVXkX/nL64YtZERLOWI5NUMaSurAR4N3ptFAsDRcO5Z4+Dq\nO3pqszSh1aCyJvyl6cjQLT8CAwEAAQ==\n-----END PUBLIC KEY-----\n'
+      responses:
+        '200':
+          description: Public Key added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKey'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '409':
+          $ref: '#/components/responses/409Conflict'
+    get:
+      tags:
+      - PublicKeys
+      operationId: listPublicKeys
+      summary: List all public keys associated to an organization.
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        schema:
+          type: string
+      - name: fingerprint
+        in: query
+        schema:
+          type: string
+        description: The fingerprint (the hexadecimal representation of the sha256 hash of the DER representation of the key) of the requested key. If a value is provided, the result will contain a single key, if any.
+      responses:
+        '200':
+          description: A possible empty list of public keys associated to an organization, sorted descending by creation date.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PublicKey'
+                type: array
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+  /orgs/{orgId}/keys/{keyId}:
+    delete:
+      tags:
+      - PublicKeys
+      operationId: deletePublicKey
+      summary: Delete a public key associated to an organization.
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        description: The public key ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Public Key successfully removed.
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    get:
+      tags:
+      - PublicKeys
+      operationId: getPublicKey
+      summary: Retrieve a single public key associated to an organization.
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        description: The public key ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A public key associated to an organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKey'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  responses:
+    403Forbidden:
+      description: Server understands the request but refuses to authorize it.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    409Conflict:
+      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
+
+        More detail can be found in the error body.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+  schemas:
+    PublicKey:
+      description: PublicKey stores a Public Key an organization shares with Humanitec.
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        created_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Simplified extended ISO format date/time string.
+          type: string
+        created_by:
+          type: string
+        expired_at:
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          title: Date of key expiration.
+          type: string
+        fingerprint:
+          description: It's the hexadecimal representation of the sha256 hash of the DER representation of the key, it's computed and stored when a new key is uploaded.
+          type: string
+      required:
+      - id
+      - key
+      - created_at
+      - created_by
+      - expired_at
+      - fingerprint
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo

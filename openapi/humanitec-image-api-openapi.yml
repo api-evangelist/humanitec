@@ -1,0 +1,430 @@
+openapi: 3.0.0
+info:
+  title: Humanitec AccountType Image API
+  version: 0.28.24
+  description: '# Introduction
+
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
+
+    The API is a REST based API. It is based around a set of concepts:
+
+
+    * Core
+
+    * External Resources
+
+    * Sets and Deltas
+
+
+    ## Authentication
+
+
+    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
+
+
+    ## Content Types
+
+    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
+
+
+    ## Response Codes
+
+    ### Success
+
+    Any response code in the `2xx` range should be regarded as success.
+
+
+    | **Code** | **Meaning**                         |
+
+    |----------|-------------------------------------|
+
+    | `200`    | Success                             |
+
+    | `201`    | Success, a new resource was created |
+
+    | `204`    | Success, but no content in response |
+
+
+    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
+
+
+    ### Failure
+
+    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
+
+
+    | **Code** | **Meaning**                                                                                                           |
+
+    |----------|-----------------------------------------------------------------------------------------------------------------------|
+
+    | `400`    | General error. (Body will contain details)                                                                            |
+
+    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
+
+    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
+
+    | `404`    | Resource not found.                                                                                                   |
+
+    | `405`    | Method not allowed                                                                                                    |
+
+    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
+
+    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
+
+    | `429`    | Too many requests - request rate limit has been reached.                                                              |
+
+    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
+
+    '
+  contact:
+    name: Humanitec Support
+    email: support@humanitec.com
+  x-logo:
+    url: humanitec-logo.png
+    altText: Humanitec logo
+servers:
+- url: https://api.humanitec.io/
+tags:
+- name: Image
+  x-displayName: Image
+  description: 'DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+    Container Images (known simply as Images) can be registered with Humanitec. Continuous Integration (CI) pipelines can then notify Humanitec when a new build of a Container Image becomes available. Humanitec tracks the Image along with metadata about how it was built.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ImageRequest" />
+
+    '
+paths:
+  /orgs/{orgId}/images:
+    get:
+      tags:
+      - Image
+      summary: List all Container Images
+      description: 'DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+        Lists all of the Container Images registered for this organization.'
+      operationId: listDeprecatedImages
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Possibly empty list of Container Images.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ImageResponse'
+                type: array
+  /orgs/{orgId}/images/{imageId}:
+    get:
+      tags:
+      - Image
+      summary: Get a specific Image Object
+      description: 'DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+        The response includes a list of Image Builds as well as some metadata about the Image such as its Image Source.
+
+
+        Note, `imageId` may not be the same as the container name. `imageId` is determined by the system making notifications about new builds.'
+      operationId: getDeprecatedImage
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        description: The Image ID.
+        example: sample-app
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The Image Object requested.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+        '404':
+          description: No Image with an ID of `imageId` found within the organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+  /orgs/{orgId}/images/{imageId}/builds:
+    get:
+      tags:
+      - Image
+      summary: Lists all the Builds of an Image
+      description: 'DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+        The response lists all available Image Builds of an Image.'
+      operationId: listDeprecatedImageBuilds
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        description: The Image ID.
+        example: sample-app
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Possibly empty list of Builds of Container Images.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ImageBuildResponse'
+                type: array
+        '404':
+          description: No Image with an ID of `imageId` found within the organization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+    post:
+      tags:
+      - Image
+      summary: Add a new Image Build
+      description: 'DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+        This endpoint is used by Continuous Integration (CI) pipelines to notify Humanitec that a new Image Build is available.
+
+
+        If there is no Image with ID `imageId`, it will be automatically created.'
+      operationId: createDeprecatedImageBuild
+      parameters:
+      - name: orgId
+        in: path
+        description: The organization ID.
+        required: true
+        example: sample-org
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        description: The Image ID.
+        example: sample-app
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The metadata associated with the build.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageBuildRequest'
+      responses:
+        '204':
+          description: Build successfully added.
+        '400':
+          description: The supplied `imageId` is invalid or a required field is missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '401':
+          description: Request unauthorised.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+        '403':
+          description: A build cannot be added to a builtin image.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanitecErrorResponse'
+components:
+  schemas:
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    ImageBuildRequest:
+      description: 'DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+        Holds the metadata associated withe a Container Image Build'
+      properties:
+        branch:
+          description: The branch name of the branch the build was built on
+          example: master
+          type: string
+        commit:
+          description: The commit ID that this build was built from.
+          example: 884bccaa807ea27cc1997a7492a3b6279fd7bd55
+          type: string
+        image:
+          description: The fully qualified Image URL including registry, repository and tag.
+          example: registry.humanitec.io/my-org/my-service:1.2.7
+          pattern: ^((?:[\w.\-_]+(?:(?::\d+|)(?=/[a-z0-9._-]+/[a-z0-9._-]+))|)(?:/|)(?:[a-z0-9.\-_]+(?:/[a-z0-9.\-_]+|)))(?::)?((?:[\w.\-]{1,127}|)(?:0[xX][0-9a-fA-F]+|))?$'
+          type: string
+        tags:
+          description: The tag that the build was built from.
+          items:
+            type: string
+          type: array
+      type: object
+    ImageResponse:
+      description: 'DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+        Container Images (known simply as Images) can be registered with Humanitec. Continuous Integration (CI) pipelines can then notify Humanitec when a new build of a Container Image becomes available. Humanitec tracks the Image along with metadata about how it was built.'
+      properties:
+        added_at:
+          description: The time the first build of this Image was added to the organization
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        builds:
+          description: A list of Image Builds ordered by addition date.
+          items:
+            $ref: '#/components/schemas/ImageBuildResponse'
+          type: array
+        id:
+          description: The ID used to group different builds of the same Image together.
+          example: my-service
+          type: string
+        source:
+          description: The Image Source that this Image is added via
+          example: github
+          type: string
+      required:
+      - id
+      - source
+      - builds
+      - added_at
+      type: object
+    ImageBuildResponse:
+      description: 'DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+        Holds the metadata associated withe a Container Image Build'
+      properties:
+        added_at:
+          description: The time when the build was added to Humanitec.
+          example: '2020-06-22T09:37:23.523Z'
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?Z$
+          title: Simplified extended ISO format date/time string.
+          type: string
+        branch:
+          description: The branch name of the branch the build was built on
+          example: master
+          type: string
+        commit:
+          description: The commit ID that this build was built from.
+          example: 884bccaa807ea27cc1997a7492a3b6279fd7bd55
+          type: string
+        image:
+          description: The fully qualified Image URL including registry, repository and tag.
+          example: registry.humanitec.io/my-org/my-service:1.2.7
+          pattern: ^((?:[\w.\-_]+(?:(?::\d+|)(?=/[a-z0-9._-]+/[a-z0-9._-]+))|)(?:/|)(?:[a-z0-9.\-_]+(?:/[a-z0-9.\-_]+|)))(?::)?((?:[\w.\-]{1,127}|)(?:0[xX][0-9a-fA-F]+|))?$'
+          type: string
+        tags:
+          description: The tag that the build was built from.
+          items:
+            type: string
+          type: array
+      required:
+      - image
+      - commit
+      - branch
+      - tags
+      type: object
+externalDocs:
+  description: Find out more about how to use Humanitec in your every-day development work.
+  url: https://developer.humanitec.com/
+x-tagGroups:
+- name: Core
+  tags:
+  - Agents
+  - Application
+  - Artefact
+  - ArtefactVersion
+  - AuditLogs
+  - Logs
+  - Deployment
+  - EnvironmentType
+  - Environment
+  - Image
+  - PublicKeys
+  - Organization
+  - Registry
+  - RuntimeInfo
+  - SecretStore
+  - Value
+  - ValueSetVersion
+- name: App Configuration
+  tags:
+  - Delta
+  - Set
+  - WorkloadProfile
+- name: Resources
+  tags:
+  - ActiveResource
+  - DriverDefinition
+  - MatchingCriteria
+  - ResourceDefinition
+  - ResourceDefinitionVersion
+  - ResourceProvision
+  - AccountType
+  - ResourceAccount
+  - ResourceType
+  - ResourceClass
+- name: Automation
+  tags:
+  - AutomationRule
+  - Event
+  - Pipelines
+  - PipelineRuns
+  - PipelineApprovals
+- name: Users
+  tags:
+  - UserProfile
+  - UserRole
+  - Group
+  - TokenInfo
