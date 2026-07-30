@@ -6,7 +6,19 @@ description: >-
   Platform Orchestrator API enables teams to programmatically manage organizations, applications, environments,
   deployments, workloads, resources, and integrations.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/humanitec.png
 tags:
   - Deployments
   - DevOps
@@ -18,31 +30,1165 @@ created: '2026-03-16'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - aid: humanitec:humanitec-platform-orchestrator-api
-    name: Humanitec Platform Orchestrator API
-    description: >-
-      The Humanitec Platform Orchestrator API provides programmatic access to manage organizations, applications,
-      environments, deployments, workloads, resources, integrations, pipelines, and other platform components within the
-      Humanitec Internal Developer Platform.
-    humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
-    baseURL: https://api.humanitec.io
-    tags:
-      - Deployments
-      - Environments
-      - Platform Engineering
-      - Resources
-      - Workloads
-    properties:
-      - type: Documentation
-        url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/openapi/humanitec-openapi.yml
-      - type: GettingStarted
-        url: https://developer.humanitec.com/introduction/overview/
-      - type: Authentication
-        url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
-      - type: Rules
-        url: https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-accounttype-api
+  name: Humanitec AccountType API
+  description: >-
+    Resource Account Types define cloud providers or protocols to which a resource account can belong.
+
+    <SchemaDefinition schemaRef="#/components/schemas/AccountTypeRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - AccountType
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-accounttype-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-activeresource-api
+  name: Humanitec ActiveResource API
+  description: >-
+    Active Resources represent the concrete resources provisioned for an Environment. They are provisioned
+    on the first deployment after a dependency on a particular resource type is introduced into an Environment.
+    In general, Active Resources are only deleted when their introductory Environment is deleted.
+
+
+    Active Resources are provisioned based on a Resource Definition. The Resource Definition describes
+    how to provision a concrete resource based on a Resource Type and metadata about the Environment (for
+    example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition
+    is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted,
+    the concrete resource represented by an Active Resource might be deleted and reprovisioned when a
+    deployment occurs in the Environment.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ActiveResourceRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ActiveResource
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-activeresource-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-agents-api
+  name: Humanitec Agents API
+  description: >-
+    An object containing the details of an Agent.
+
+    <SchemaDefinition schemaRef="#/components/schemas/Agent" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Agents
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-agents-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-application-api
+  name: Humanitec Application API
+  description: >-
+    An Application is a collection of Workloads that work together. When deployed, all Workloads in an
+    Application are deployed to the same namespace.
+
+
+    Apps are the root of the configuration tree holding Environments, Deployments, Shared Values, and
+    Secrets.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ApplicationRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Application
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-application-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-artefact-api
+  name: Humanitec Artefact API
+  description: >-
+    Artefacts can be registered with Humanitec. Continuous Integration (CI) pipelines notify Humanitec
+    when a new version of an Artefact becomes available. Humanitec tracks the Artefact along with metadata
+    about how it was built.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ArtefactResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Artefact
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-artefact-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-artefactversion-api
+  name: Humanitec ArtefactVersion API
+  description: >-
+    Details of a Container Artefact Version
+
+    <SchemaDefinition schemaRef="#/components/schemas/ContainerArtefactVersion" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ArtefactVersion
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-artefactversion-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-auditlogs-api
+  name: Humanitec AuditLogs API
+  description: >-
+    An entry in the audit log
+
+    <SchemaDefinition schemaRef="#/components/schemas/AuditLogEntry" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - AuditLogs
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-auditlogs-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-automationrule-api
+  name: Humanitec AutomationRule API
+  description: >-
+    An Automation Rule defining how and when artefacts in an environment should be updated.
+
+    <SchemaDefinition schemaRef="#/components/schemas/AutomationRuleRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - AutomationRule
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-automationrule-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-delta-api
+  name: Humanitec Delta API
+  description: >-
+    A Deployment Delta (or just "Delta") describes the changes that must be applied to one Deployment
+    Set to generate another Deployment Set. Deployment Deltas are the only way to create new Deployment
+    Sets.
+
+
+    Deployment Deltas can be created fully formed or combined together via PATCHing. They can also be
+    generated from the difference between two Deployment Sets.
+
+
+    **Basic Structure**
+
+
+    ```
+     {
+       "id": <ID of the Deployment Delta.>,
+       "metadata": {
+         <Properties such as who created the Delta, which Environment it is associated to and a Human-friendly
+    name>
+       }
+       "modules" : {
+         "add" : {
+           <ID of Module to add to the Deployment Set> : {
+             <An entire Modules object>
+           }
+         },
+         "remove": [
+           <An array of Module IDs that should be removed from the Deployment Set>
+         ],
+        "update": {
+           <ID of Module already in the Set to be updated> : [
+             <An array of JSON Patch (Search Results (RFC 6902) objects scoped to the module>
+           ]
+         }
+       }
+     }
+    ```
+
+    <SchemaDefinition schemaRef="#/components/schemas/DeltaRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Delta
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-delta-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-deployment-api
+  name: Humanitec Deployment API
+  description: >-
+    Deployments represent updates to the running state of an Environment.
+
+
+    Deployments are made by applying _Deltas_ to a state defined by an existing Deployment. The Environment’s
+    from_deploy property defines the Deployment. This Deployment is usually but not always in the current
+    Environment. If the Deployment is from another Environment, the state of that Environment will be
+    "cloned" into the current Environment with the option to apply a Delta.
+
+    <SchemaDefinition schemaRef="#/components/schemas/DeploymentRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Deployment
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-deployment-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-driverdefinition-api
+  name: Humanitec DriverDefinition API
+  description: >-
+    DriverDefinition describes the resource driver.
+
+
+    Resource Drivers are code that fulfils the Humanitec Resource Driver Interface. This interface allows
+    for certain actions to be performed on resources such as creation and destruction. Humanitec provides
+    numerous Resource Drivers “out of the box”. It is also possible to use 3rd party Resource Drivers
+    or write your own.
+
+    <SchemaDefinition schemaRef="#/components/schemas/DriverDefinitionResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - DriverDefinition
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-driverdefinition-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-environment-api
+  name: Humanitec Environment API
+  description: >-
+    Environments are independent spaces where Applications can run. An Application is always deployed
+    into an Environment.
+
+    <SchemaDefinition schemaRef="#/components/schemas/EnvironmentResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Environment
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-environment-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-environmentpausedinfo-api
+  name: Humanitec EnvironmentPausedInfo API
+  description: The EnvironmentPausedInfo API from Humanitec — 1 operation(s) for environmentpausedinfo.
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - EnvironmentPausedInfo
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-environmentpausedinfo-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-environmenttype-api
+  name: Humanitec EnvironmentType API
+  description: >-
+    Environment Types are a way of grouping and managing Environments. Every Environment has exactly 1
+    Environment Type.
+
+
+    Environment Types can be used with External Resources to manage where resources such as databases
+    are provisioned or even which cluster to deploy to.
+
+    <SchemaDefinition schemaRef="#/components/schemas/EnvironmentTypeRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - EnvironmentType
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-environmenttype-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-event-api
+  name: Humanitec Event API
+  description: >-
+    Webhook is a special type of a Job. It performs an HTTPS request to a specified URL with specified
+    headers.
+
+    <SchemaDefinition schemaRef="#/components/schemas/WebhookRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Event
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-event-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-group-api
+  name: Humanitec Group API
+  description: >-
+    GroupRequest holds the definition of a new group.
+
+    <SchemaDefinition schemaRef="#/components/schemas/GroupRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Group
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-group-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-humanitecpublickeys-api
+  name: Humanitec HumanitecPublicKeys API
+  description: The HumanitecPublicKeys API from Humanitec — 1 operation(s) for humanitecpublickeys.
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - HumanitecPublicKeys
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-humanitecpublickeys-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-image-api
+  name: Humanitec Image API
+  description: >-
+    DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact
+    API](https://api-docs.humanitec.com/#tag/Artefact) instead.
+
+
+    Container Images (known simply as Images) can be registered with Humanitec. Continuous Integration
+    (CI) pipelines can then notify Humanitec when a new build of a Container Image becomes available.
+    Humanitec tracks the Image along with metadata about how it was built.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ImageRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Image
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-image-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-logs-api
+  name: Humanitec Logs API
+  description: >-
+    A container log entry.
+
+    <SchemaDefinition schemaRef="#/components/schemas/OutputEntryResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-logs-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-matchingcriteria-api
+  name: Humanitec MatchingCriteria API
+  description: >-
+    Matching Criteria are a set of rules used to choose which Resource Definition to use to provision
+    a particular Resource Type.
+
+
+    Matching criteria are made up in order of specificity with least specific first:
+
+
+    - Environment Type (`env_type`)
+
+
+    - Application (`app_id`)
+
+
+    - Environment (`env_id`)
+
+
+    - Resource (`res_id`)
+
+
+    When selecting matching criteria, the most specific one is selected. In general, this means of all
+    the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific
+    element filled is chosen. If there is a tie, the next most specific elements are compared and so on
+    until one is chosen.
+
+
+    **NOTE:**
+
+
+    Humanitec will reject the registration of matching criteria rules that duplicate rules already present
+    for a Resource Type.
+
+    <SchemaDefinition schemaRef="#/components/schemas/MatchingCriteriaResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - MatchingCriteria
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-matchingcriteria-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-organization-api
+  name: Humanitec Organization API
+  description: >-
+    An Organization is the top level object in Humanitec. All other objects belong to an Organization.
+
+    <SchemaDefinition schemaRef="#/components/schemas/OrganizationResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-organization-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-pipelineapprovals-api
+  name: Humanitec PipelineApprovals API
+  description: >-
+    An approval object
+
+    <SchemaDefinition schemaRef="#/components/schemas/PipelineApprovalRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - PipelineApprovals
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-pipelineapprovals-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-pipelineruns-api
+  name: Humanitec PipelineRuns API
+  description: >-
+    Details of a Run within the Pipeline.
+
+    <SchemaDefinition schemaRef="#/components/schemas/PipelineRun" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - PipelineRuns
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-pipelineruns-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-pipelines-api
+  name: Humanitec Pipelines API
+  description: >-
+    An object containing the details of a Pipeline.
+
+    <SchemaDefinition schemaRef="#/components/schemas/Pipeline" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Pipelines
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-pipelines-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-public-api
+  name: Humanitec public API
+  description: The public API from Humanitec — 141 operation(s) for public.
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - public
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-public-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-publickeys-api
+  name: Humanitec PublicKeys API
+  description: >-
+    PublicKey stores a Public Key an organization shares with Humanitec.
+
+    <SchemaDefinition schemaRef="#/components/schemas/PublicKey" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - PublicKeys
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-publickeys-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-registry-api
+  name: Humanitec Registry API
+  description: >-
+    Humanitec can be used to manage registry credentials. The Registry object represents how to match
+    credentials to a particular registry.
+
+
+    Humanitec supports all Docker compatible registries as well as the custom authentication formats used
+    by AWS Elastic Container Registry and Google Container Registry. It also supports the injection of
+    a specific secret to be copied from an existing namespace in the cluster.
+
+    <SchemaDefinition schemaRef="#/components/schemas/RegistryRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Registry
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-registry-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-replicas-api
+  name: Humanitec Replicas API
+  description: >-
+    null
+
+    <SchemaDefinition schemaRef="#/components/schemas/ReplicasRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Replicas
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-replicas-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-resourceaccount-api
+  name: Humanitec ResourceAccount API
+  description: >-
+    ResourceAccount represents the account being used to access a resource.
+
+
+    Resource Accounts hold credentials that are required to provision and manage resources.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceAccountResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ResourceAccount
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-resourceaccount-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-resourceclass-api
+  name: Humanitec ResourceClass API
+  description: The ResourceClass API from Humanitec — 3 operation(s) for resourceclass.
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ResourceClass
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-resourceclass-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-resourcedefinition-api
+  name: Humanitec ResourceDefinition API
+  description: >-
+    A Resource Definitions describes how and when a resource should be provisioned. It links a driver
+    (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke
+    a particular driver for the required Resource Type in the context of a particular Application and
+    Environment.
+
+
+    The schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition
+    identified by the `driver_type` property.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceDefinitionResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ResourceDefinition
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-resourcedefinition-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-resourcedefinitionversion-api
+  name: Humanitec ResourceDefinitionVersion API
+  description: >-
+    A Resource Definition Version represents a version of a Resource Definition.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceDefinitionVersion" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ResourceDefinitionVersion
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-resourcedefinitionversion-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-resourceprovision-api
+  name: Humanitec ResourceProvision API
+  description: >-
+    ResourceProvisionRequest is the payload passed to the resource provisioner, specifying the resources
+    to be provisioned.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceProvisionRequestRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ResourceProvision
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-resourceprovision-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-resourcetype-api
+  name: Humanitec ResourceType API
+  description: >-
+    Resources Types define the technology that Applications can have dependencies on.
+
+
+    Each Resource Type also defines a set of input parameters (`inputs_schema`), and a set of output data
+    (`outputs_schema`). When provisioning a resource, these are treated as inputs and outputs respectively.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ResourceTypeRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ResourceType
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-resourcetype-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-runtimeinfo-api
+  name: Humanitec RuntimeInfo API
+  description: >-
+    RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules
+    and controllers (deployments and stateful sets).
+
+    <SchemaDefinition schemaRef="#/components/schemas/RuntimeInfoResponseV2" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - RuntimeInfo
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-runtimeinfo-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-secretstore-api
+  name: Humanitec SecretStore API
+  description: >-
+    Secret Store represents external secret management system used by an organization to store secrets
+    referenced in Humanitec.
+
+    <SchemaDefinition schemaRef="#/components/schemas/SecretStoreRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - SecretStore
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-secretstore-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-set-api
+  name: Humanitec Set API
+  description: >-
+    A Deployment Set (or just "Set") defines all of the non-Environment specific configuration for Modules
+    and External Resources. Each of these Modules or External Resources has a unique name.
+
+
+    Deployment Sets are immutable and their ID is a cryptographic hash of their content. This means that
+    a Deployment Set can be globally identified based on its ID. It also means that referencing a Deployment
+    Set by ID will always return the same Deployment Set.
+
+
+    Deployment Sets cannot be created directly, instead they are created by applying a Deployment Delta
+    to an existing Deployment Set.
+
+
+    **Basic Structure**
+
+
+    ```
+     {
+       "id": <ID of the Deployment Set>,
+       "modules" : {
+         <ID of Module> : {
+           "profile": <Defines how the optional "spec" property is interpreted>
+           "spec": {
+             <Properties that depend on the "profile" property.>
+           }
+           "externals": {
+             <External Resource Name> : {
+               "type": <Resource Type>,
+               "params": {
+                 <Properties which parametrize the resource depending on the Resource Type.>
+               }
+             }
+           }
+         }
+       }
+     }
+    ```
+
+
+    For details about how the Humanitec provided profiles work, see (Deployment Set Profiles)[].
+
+    <SchemaDefinition schemaRef="#/components/schemas/SetRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Set
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-set-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-tokeninfo-api
+  name: Humanitec TokenInfo API
+  description: >-
+    Holds metadata about a token. `expires_at` is excluded if token does not expire.
+
+    <SchemaDefinition schemaRef="#/components/schemas/TokenInfoResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - TokenInfo
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-tokeninfo-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-userinvite-api
+  name: Humanitec UserInvite API
+  description: The UserInvite API from Humanitec — 1 operation(s) for userinvite.
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - UserInvite
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-userinvite-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-userprofile-api
+  name: Humanitec UserProfile API
+  description: >-
+    UserProfile holds the profile information of a user
+
+    <SchemaDefinition schemaRef="#/components/schemas/UserProfileResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - UserProfile
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-userprofile-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-userrole-api
+  name: Humanitec UserRole API
+  description: >-
+    Holds the mapping of role for a subject on a particular object.
+
+    <SchemaDefinition schemaRef="#/components/schemas/UserRoleRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - UserRole
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-userrole-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-value-api
+  name: Humanitec Value API
+  description: >-
+    Shared Values can be used to manage variables and configuration that might vary between environments.
+    They are also the way that secrets can be stored securely.
+
+
+    Shared Values are by default shared across all environments in an application. However, they can be
+    overridden on an Environment by Environment basis.
+
+
+    For example: There might be 2 API keys that are used in an application. One development key used in
+    the development and staging environments and another used for production. The development API key
+    would be set at the Application level. The value would then be overridden at the Environment level
+    for the production Environment.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ValueRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - Value
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-value-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-valuesetversion-api
+  name: Humanitec ValueSetVersion API
+  description: >-
+    A Value Set Version can be used as a track record of Shared Values changes, to restore a previous
+    version of a Shared Value or Value Set, or to purge a Shared Value if it shouldn't be accessible anymore.
+
+    <SchemaDefinition schemaRef="#/components/schemas/ValueSetVersionResponse" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - ValueSetVersion
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-valuesetversion-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-workloadprofile-api
+  name: Humanitec WorkloadProfile API
+  description: >-
+    Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers
+    can configure various features of a workload profile to suit their needs. Examples of features might
+    be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled
+    by a Kubernetes Deployment.
+
+
+    Workloads in Humanitec are implemented as Helm Charts which must implement a specific schema.
+
+    <SchemaDefinition schemaRef="#/components/schemas/WorkloadProfileRequest" />
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - WorkloadProfile
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-workloadprofile-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
+- aid: humanitec:humanitec-workloadprofilefeatures-api
+  name: Humanitec WorkloadProfileFeatures API
+  description: >-
+    The WorkloadProfileFeatures API from Humanitec — 1 operation(s) for workloadprofilefeatures.
+  humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  baseURL: https://api.humanitec.io
+  tags:
+  - WorkloadProfileFeatures
+  properties:
+  - type: OpenAPI
+    url: openapi/humanitec-workloadprofilefeatures-api-openapi.yml
+  - type: Documentation
+    url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
+  - type: GettingStarted
+    url: https://developer.humanitec.com/introduction/overview/
+  - type: Authentication
+    url: https://developer.humanitec.com/platform-orchestrator/security/api-tokens/
+  - type: Rules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
 common:
   - type: AgenticAccess
     url: agentic-access/humanitec-agentic-access.yml
