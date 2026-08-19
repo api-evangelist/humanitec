@@ -1,0 +1,139 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType DriverDefinition API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DriverDefinition",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Resource Drivers.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/drivers",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ]
+          },
+          "docs": "List Resource Drivers."
+        },
+        {
+          "info": {
+            "name": "Register a new Resource Driver.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/drivers",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a new Resource Driver."
+        },
+        {
+          "info": {
+            "name": "Get a Resource Driver.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/drivers/:driverId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "driverId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Driver ID.\n\n"
+              }
+            ]
+          },
+          "docs": "# Only drivers that belongs to the given organization or registered as `public` are accessible through this endpoint"
+        },
+        {
+          "info": {
+            "name": "Update a Resource Driver.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/drivers/:driverId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "driverId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Driver ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Resource Driver."
+        },
+        {
+          "info": {
+            "name": "Delete a Resources Driver.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/drivers/:driverId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "driverId",
+                "value": "",
+                "type": "path",
+                "description": "The Resources Driver ID to delete.\n\n"
+              }
+            ]
+          },
+          "docs": "Delete a Resources Driver."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,564 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Pipelines API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pipelines",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Pipelines within an Organization. This can be filtered by Application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/pipelines",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "app",
+                "value": "",
+                "type": "query",
+                "description": "An optional list of Application IDs."
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              },
+              {
+                "name": "trigger",
+                "value": "pipeline_call",
+                "type": "query",
+                "description": "An optional filter by trigger type."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter by pipeline metadata"
+              }
+            ]
+          },
+          "docs": "List all Pipelines within an Organization. This can be filtered by Application."
+        },
+        {
+          "info": {
+            "name": "List Pipelines within an Application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              },
+              {
+                "name": "trigger",
+                "value": "pipeline_call",
+                "type": "query",
+                "description": "An optional filter by trigger type."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter by pipeline metadata"
+              }
+            ]
+          },
+          "docs": "List Pipelines within an Application."
+        },
+        {
+          "info": {
+            "name": "Create a Pipeline within an Application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "dry_run",
+                "value": "false",
+                "type": "query",
+                "description": "Optionally validate the request but do not persist the actual Pipeline."
+              }
+            ]
+          },
+          "docs": "Create a Pipeline within an Application."
+        },
+        {
+          "info": {
+            "name": "Get a Pipeline within an Application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "version",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "query",
+                "description": "An optional Pipeline Version ID."
+              }
+            ]
+          },
+          "docs": "Get a Pipeline within an Application."
+        },
+        {
+          "info": {
+            "name": "update a Pipeline within an Application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId",
+            "headers": [
+              {
+                "name": "If-Match",
+                "value": "1234567890abcdef"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "dry_run",
+                "value": "false",
+                "type": "query",
+                "description": "Optionally validate the request but do not persist the update."
+              }
+            ]
+          },
+          "docs": "update a Pipeline within an Application."
+        },
+        {
+          "info": {
+            "name": "Delete a pipeline within an application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId",
+            "headers": [
+              {
+                "name": "If-Match",
+                "value": "1234567890abcdef"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              }
+            ]
+          },
+          "docs": "Delete a pipeline within an application."
+        },
+        {
+          "info": {
+            "name": "List all versions of the pipeline",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "List all versions of the pipeline"
+        },
+        {
+          "info": {
+            "name": "Get a pipeline schema.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/schema",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "version",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "query",
+                "description": "An optional Pipeline Version ID."
+              }
+            ]
+          },
+          "docs": "Get a pipeline schema."
+        },
+        {
+          "info": {
+            "name": "List the trigger matching criteria defined for Pipelines in this Application.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipeline-criteria",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipeline",
+                "value": "",
+                "type": "query",
+                "description": "An optional filter by Pipeline ID."
+              },
+              {
+                "name": "match",
+                "value": "[object Object]",
+                "type": "query",
+                "description": "Optional key value match filters on the criteria."
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "Lists the trigger matching criteria defined for Pipelines in this Application. Trigger matching criteria link requests in an environment to the appropriate Pipeline based on the trigger and inputs.\n"
+        },
+        {
+          "info": {
+            "name": "Create a new trigger matching criteria for this Pipeline.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/criteria",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new trigger matching criteria for this Pipeline. This must not conflict with an existing criteria for the same trigger on this or any other Pipeline that applies to this Application.\n"
+        },
+        {
+          "info": {
+            "name": "Get the Pipeline Criteria with the given id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/criteria/:criteriaId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "criteriaId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Criteria ID"
+              }
+            ]
+          },
+          "docs": "Get the Pipeline Criteria with the given id."
+        },
+        {
+          "info": {
+            "name": "Delete the Pipeline Criteria with the given id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/criteria/:criteriaId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "criteriaId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Criteria ID"
+              }
+            ]
+          },
+          "docs": "Delete the Pipeline Criteria with the given id."
+        },
+        {
+          "info": {
+            "name": "Gets the latest pipeline schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/pipeline-schemas/latest",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ]
+          },
+          "docs": "Gets the latest pipeline schema"
+        },
+        {
+          "info": {
+            "name": "Read the current state of a trigger batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/batches/:batchType",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "batchType",
+                "value": "artefact",
+                "type": "path",
+                "description": "The batch type, only artefact is implemented."
+              }
+            ]
+          },
+          "docs": "Read the current state of a trigger batch for a Pipeline if one exists"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

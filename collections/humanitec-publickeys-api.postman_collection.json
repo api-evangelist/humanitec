@@ -1,0 +1,807 @@
+{
+  "item": [
+    {
+      "id": "6ae82cbf-1aca-43d5-a133-a14e409c544b",
+      "name": "PublicKeys",
+      "description": {
+        "content": "PublicKey stores a Public Key an organization shares with Humanitec.\n<SchemaDefinition schemaRef=\"#/components/schemas/PublicKey\" />\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6c799acf-e142-4ccc-b422-6d45d1eb37c5",
+          "name": "Associate a new RSA public key to an organization.",
+          "request": {
+            "name": "Associate a new RSA public key to an organization.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The organization ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<string>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4d41a85a-dbda-4e72-b4d4-f01ad16d5b1a",
+              "name": "Public Key added successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAo22jj/h+WPhL5M8RUyqC\\nEqRK3FOYD6KuDTyUHZL2QUX/q35bT1aGIOtu+22oM/8hTZ/6+BTknvF+Z+e7At8E\\n/I6/qNZilJFH/HqNHYflykceILVCFQM6v0ar6CSPh88DjwQPGLrh+UYp0NKBF6D5\\n2LEVQpxsM/0qV4fOZngRVI9UeKiYehk8aXJi20nI5Cj9GnV7BuEo7sKq7NewTOMN\\nwHqSnCtMV+E7SIgyy4+aKAFHOR0Y4FgJN14bAjE2GX/VUmAYBNtPgGwkCNDbA9v1\\nJJnFmdKflp8foqeWwC9UcUDLqjZzMT2a16pnL89iHV4fJ4vI6h26Jf2wUJbb7xE3\\nxJNhCR9Qf2IHx8TTVetIRl5I/ZUPkRrq5iskOIWV4+I+NzS+gbnCUv6sCO3cnZaa\\noZ4Wk5V+5qfctANeTn0TEAabYAJ/zFgYcs2IwYNqcN5eTss99zGNgtDL3oJr/A6g\\neGBgzad3p80qPMb1le64cHAAFZaerI2kcdnNpWGLXJ/J7IKF9uNfsrvi7Zdv8AXg\\nVAyqBARfzSkgnUKN6iWkWxAAzylKnQ3Etw81huaLwDG/6Lqd8I5OePMwHEZkollD\\nEBD16L/iyV9veru2zLVXkX/nL64YtZERLOWI5NUMaSurAR4N3ptFAsDRcO5Z4+Dq\\nO3pqszSh1aCyJvyl6cjQLT8CAwEAAQ==\\n-----END PUBLIC KEY-----\\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"key\": \"string\",\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"expired_at\": \"2020-06-22T09:37:23.523Z\",\n  \"fingerprint\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf833c6a-b6a4-4376-ac06-636cfe072d2a",
+              "name": "The request was invalid. More detail can be found in the error body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAo22jj/h+WPhL5M8RUyqC\\nEqRK3FOYD6KuDTyUHZL2QUX/q35bT1aGIOtu+22oM/8hTZ/6+BTknvF+Z+e7At8E\\n/I6/qNZilJFH/HqNHYflykceILVCFQM6v0ar6CSPh88DjwQPGLrh+UYp0NKBF6D5\\n2LEVQpxsM/0qV4fOZngRVI9UeKiYehk8aXJi20nI5Cj9GnV7BuEo7sKq7NewTOMN\\nwHqSnCtMV+E7SIgyy4+aKAFHOR0Y4FgJN14bAjE2GX/VUmAYBNtPgGwkCNDbA9v1\\nJJnFmdKflp8foqeWwC9UcUDLqjZzMT2a16pnL89iHV4fJ4vI6h26Jf2wUJbb7xE3\\nxJNhCR9Qf2IHx8TTVetIRl5I/ZUPkRrq5iskOIWV4+I+NzS+gbnCUv6sCO3cnZaa\\noZ4Wk5V+5qfctANeTn0TEAabYAJ/zFgYcs2IwYNqcN5eTss99zGNgtDL3oJr/A6g\\neGBgzad3p80qPMb1le64cHAAFZaerI2kcdnNpWGLXJ/J7IKF9uNfsrvi7Zdv8AXg\\nVAyqBARfzSkgnUKN6iWkWxAAzylKnQ3Etw81huaLwDG/6Lqd8I5OePMwHEZkollD\\nEBD16L/iyV9veru2zLVXkX/nL64YtZERLOWI5NUMaSurAR4N3ptFAsDRcO5Z4+Dq\\nO3pqszSh1aCyJvyl6cjQLT8CAwEAAQ==\\n-----END PUBLIC KEY-----\\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48588904-f248-4f5b-8a6a-2eb6713893c5",
+              "name": "Server understands the request but refuses to authorize it.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAo22jj/h+WPhL5M8RUyqC\\nEqRK3FOYD6KuDTyUHZL2QUX/q35bT1aGIOtu+22oM/8hTZ/6+BTknvF+Z+e7At8E\\n/I6/qNZilJFH/HqNHYflykceILVCFQM6v0ar6CSPh88DjwQPGLrh+UYp0NKBF6D5\\n2LEVQpxsM/0qV4fOZngRVI9UeKiYehk8aXJi20nI5Cj9GnV7BuEo7sKq7NewTOMN\\nwHqSnCtMV+E7SIgyy4+aKAFHOR0Y4FgJN14bAjE2GX/VUmAYBNtPgGwkCNDbA9v1\\nJJnFmdKflp8foqeWwC9UcUDLqjZzMT2a16pnL89iHV4fJ4vI6h26Jf2wUJbb7xE3\\nxJNhCR9Qf2IHx8TTVetIRl5I/ZUPkRrq5iskOIWV4+I+NzS+gbnCUv6sCO3cnZaa\\noZ4Wk5V+5qfctANeTn0TEAabYAJ/zFgYcs2IwYNqcN5eTss99zGNgtDL3oJr/A6g\\neGBgzad3p80qPMb1le64cHAAFZaerI2kcdnNpWGLXJ/J7IKF9uNfsrvi7Zdv8AXg\\nVAyqBARfzSkgnUKN6iWkWxAAzylKnQ3Etw81huaLwDG/6Lqd8I5OePMwHEZkollD\\nEBD16L/iyV9veru2zLVXkX/nL64YtZERLOWI5NUMaSurAR4N3ptFAsDRcO5Z4+Dq\\nO3pqszSh1aCyJvyl6cjQLT8CAwEAAQ==\\n-----END PUBLIC KEY-----\\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c4f7a9f-95b3-49a1-8b40-ddaeae99d460",
+              "name": "The request itself is valid however it could not be applied based on the current state of the resource.\nMore detail can be found in the error body.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAo22jj/h+WPhL5M8RUyqC\\nEqRK3FOYD6KuDTyUHZL2QUX/q35bT1aGIOtu+22oM/8hTZ/6+BTknvF+Z+e7At8E\\n/I6/qNZilJFH/HqNHYflykceILVCFQM6v0ar6CSPh88DjwQPGLrh+UYp0NKBF6D5\\n2LEVQpxsM/0qV4fOZngRVI9UeKiYehk8aXJi20nI5Cj9GnV7BuEo7sKq7NewTOMN\\nwHqSnCtMV+E7SIgyy4+aKAFHOR0Y4FgJN14bAjE2GX/VUmAYBNtPgGwkCNDbA9v1\\nJJnFmdKflp8foqeWwC9UcUDLqjZzMT2a16pnL89iHV4fJ4vI6h26Jf2wUJbb7xE3\\nxJNhCR9Qf2IHx8TTVetIRl5I/ZUPkRrq5iskOIWV4+I+NzS+gbnCUv6sCO3cnZaa\\noZ4Wk5V+5qfctANeTn0TEAabYAJ/zFgYcs2IwYNqcN5eTss99zGNgtDL3oJr/A6g\\neGBgzad3p80qPMb1le64cHAAFZaerI2kcdnNpWGLXJ/J7IKF9uNfsrvi7Zdv8AXg\\nVAyqBARfzSkgnUKN6iWkWxAAzylKnQ3Etw81huaLwDG/6Lqd8I5OePMwHEZkollD\\nEBD16L/iyV9veru2zLVXkX/nL64YtZERLOWI5NUMaSurAR4N3ptFAsDRcO5Z4+Dq\\nO3pqszSh1aCyJvyl6cjQLT8CAwEAAQ==\\n-----END PUBLIC KEY-----\\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ddd46df5-a9a1-414d-a637-9482997e6b93",
+          "name": "List all public keys associated to an organization.",
+          "request": {
+            "name": "List all public keys associated to an organization.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fingerprint",
+                  "value": "<string>",
+                  "description": "The fingerprint (the hexadecimal representation of the sha256 hash of the DER representation of the key) of the requested key. If a value is provided, the result will contain a single key, if any."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The organization ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6d2d01a1-3f9f-440d-a781-baf3848a16f8",
+              "name": "A possible empty list of public keys associated to an organization, sorted descending by creation date.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fingerprint",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"key\": \"string\",\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\",\n    \"expired_at\": \"2020-06-22T09:37:23.523Z\",\n    \"fingerprint\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"key\": \"string\",\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\",\n    \"expired_at\": \"2020-06-22T09:37:23.523Z\",\n    \"fingerprint\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25f97b5c-e649-460f-b2e1-ac41856159f4",
+              "name": "The request was invalid. More detail can be found in the error body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fingerprint",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c3fc15a-0f35-4cf6-8848-438d9ecae747",
+          "name": "Delete a public key associated to an organization.",
+          "request": {
+            "name": "Delete a public key associated to an organization.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "keys",
+                ":keyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The organization ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "keyId",
+                  "description": "(Required) The public key ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "14bf5974-85fc-443d-bc29-c0b08a3a5c95",
+              "name": "Public Key successfully removed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys",
+                    ":keyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyId",
+                      "description": "(Required) The public key ID."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "25e14f2d-53da-4b66-9008-6e75f444ca6a",
+              "name": "Server understands the request but refuses to authorize it.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys",
+                    ":keyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyId",
+                      "description": "(Required) The public key ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "368a89a0-6eea-4837-bbee-458a48177333",
+              "name": "Either the resource or a related resource could not be found. More detail can be found in the error body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys",
+                    ":keyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyId",
+                      "description": "(Required) The public key ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e74f177a-7965-4926-8dd8-427c09496a6c",
+          "name": "Retrieve a single public key associated to an organization.",
+          "request": {
+            "name": "Retrieve a single public key associated to an organization.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "keys",
+                ":keyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The organization ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "keyId",
+                  "description": "(Required) The public key ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "26c7c86a-c74e-4112-856e-e77e20f3d11a",
+              "name": "A public key associated to an organization.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys",
+                    ":keyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyId",
+                      "description": "(Required) The public key ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"key\": \"string\",\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"expired_at\": \"2020-06-22T09:37:23.523Z\",\n  \"fingerprint\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1c6caea-cbc5-428a-aad2-aa0af90ac72a",
+              "name": "Either the resource or a related resource could not be found. More detail can be found in the error body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "keys",
+                    ":keyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The organization ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyId",
+                      "description": "(Required) The public key ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.humanitec.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "464301e7-8f6a-460b-b17f-ad737fefd2b0",
+    "name": "Humanitec AccountType PublicKeys API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n\n\nContact Support:\n Name: Humanitec Support\n Email: support@humanitec.com",
+      "type": "text/plain"
+    }
+  }
+}

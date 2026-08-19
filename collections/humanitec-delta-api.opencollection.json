@@ -1,0 +1,290 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Delta API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Delta",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Deltas in an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/deltas",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "If true, return archived Deltas.\n\n"
+              },
+              {
+                "name": "env",
+                "value": "",
+                "type": "query",
+                "description": "Only return Deltas associated with the specified Environment.\n\n"
+              }
+            ]
+          },
+          "docs": "List Deltas in an Application"
+        },
+        {
+          "info": {
+            "name": "Create a new Delta",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/deltas",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new Delta"
+        },
+        {
+          "info": {
+            "name": "Fetch an existing Delta",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/deltas/:deltaId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "deltaId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Delta to fetch.\n\n"
+              }
+            ]
+          },
+          "docs": "Fetch an existing Delta"
+        },
+        {
+          "info": {
+            "name": "Update an existing Delta",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/deltas/:deltaId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "deltaId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Delta to update.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing Delta"
+        },
+        {
+          "info": {
+            "name": "Update an existing Delta",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/deltas/:deltaId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "deltaId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Delta to update.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing Delta"
+        },
+        {
+          "info": {
+            "name": "Mark a Delta as \"archived\"",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/deltas/:deltaId/metadata/archived",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "deltaId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Deployment Delta.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Archived Deltas are still accessible but can no longer be updated."
+        },
+        {
+          "info": {
+            "name": "Change the Environment of a Delta",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/deltas/:deltaId/metadata/env_id",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "deltaId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Deployment Delta.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change the Environment of a Delta"
+        },
+        {
+          "info": {
+            "name": "Change the name of a Delta",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/deltas/:deltaId/metadata/name",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "deltaId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Deployment Delta.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change the name of a Delta"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,342 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ResourceDefinition API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ResourceDefinition",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Resource Definitions.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "app",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter Resource Definitions that may match a specific Application.\n\n"
+              },
+              {
+                "name": "env",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter Resource Definitions that may match a specific Environment.\n\n"
+              },
+              {
+                "name": "env_type",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter Resource Definitions that may match a specific Environment Type.\n\n"
+              },
+              {
+                "name": "res",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter Resource Definitions that may match a specific Resource.\n\n"
+              },
+              {
+                "name": "res_type",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter Resource Definitions that may match a specific Resource Type.\n\n"
+              },
+              {
+                "name": "class",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter Resource Definitions that may match a specific Class.\n\n"
+              },
+              {
+                "name": "deleted",
+                "value": "",
+                "type": "query",
+                "description": "If returns also resource definitions which has been deleted."
+              }
+            ]
+          },
+          "docs": "Filter criteria can be applied to obtain all the resource definitions that could match the filters, grouped by type and sorted by matching rank. Resources marked as deleted are not listed in the response, unless specified via `deleted` query parameter."
+        },
+        {
+          "info": {
+            "name": "Create a new Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new Resource Definition."
+        },
+        {
+          "info": {
+            "name": "Get a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              },
+              {
+                "name": "deleted",
+                "value": "",
+                "type": "query",
+                "description": "If returns the resource definition even if it has been deleted."
+              }
+            ]
+          },
+          "docs": "If the resource is marked as deleted it is not shown in the response, unless specified via `deleted` query parameter."
+        },
+        {
+          "info": {
+            "name": "Update a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Resource Definition."
+        },
+        {
+          "info": {
+            "name": "Update a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Resource Definition."
+        },
+        {
+          "info": {
+            "name": "Delete a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query",
+                "description": "If set to `true`, will mark the Resource Definition for deletion, even if it affects existing Active Resources.\n\n"
+              }
+            ]
+          },
+          "docs": "If there **are no** Active Resources provisioned via the current definition, the Resource Definition is deleted immediately.\n\nIf there **are** Active Resources provisioned via the current definition, the request fails. The response will describe the changes to the affected Active Resources if operation is forced.\n\nThe request can take an optional `force` query parameter. If set to `true`, the current Resource Definition is deleted immediately even if there are Active Resources linked to it.  \nTh"
+        },
+        {
+          "info": {
+            "name": "Add a new Matching Criteria to a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/criteria",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Applicati"
+        },
+        {
+          "info": {
+            "name": "Update all Matching Criteria of a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/criteria",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Applicati"
+        },
+        {
+          "info": {
+            "name": "Delete a Matching Criteria from a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/criteria/:criteriaId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              },
+              {
+                "name": "criteriaId",
+                "value": "",
+                "type": "path",
+                "description": "The Matching Criteria ID.\n\n"
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query",
+                "description": "If set to `true`, the Matching Criteria is deleted immediately, even if this action affects existing Active Resources.\n\n"
+              }
+            ]
+          },
+          "docs": "If there **are no** Active Resources that would match to a different Resource Definition when the current Matching Criteria is deleted, the Matching Criteria is deleted immediately.\n\nIf there **are** Active Resources that would match to a different Resource Definition, the request fails with HTTP status code 409 (Conflict). The response content will list all of affected Active Resources and their new matches.\n\nThe request can take an optional `force` query parameter. If set to `true`, the Matchi"
+        },
+        {
+          "info": {
+            "name": "List Active Resources provisioned via a specific Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/resources",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              }
+            ]
+          },
+          "docs": "List Active Resources provisioned via a specific Resource Definition."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

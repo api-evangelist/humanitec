@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AccountType",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Resource Account Types available to the organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/account-types",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ]
+          },
+          "docs": "List Resource Account Types available to the organization."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

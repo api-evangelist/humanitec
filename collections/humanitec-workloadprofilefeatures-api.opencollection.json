@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType WorkloadProfileFeatures API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "WorkloadProfileFeatures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List workload profile features available to the organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profile-features",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ]
+          },
+          "docs": "List workload profile features available to the organization."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

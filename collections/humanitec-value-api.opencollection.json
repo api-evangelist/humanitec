@@ -1,0 +1,414 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Value API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Value",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Shared Values in an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/values",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              }
+            ]
+          },
+          "docs": "The returned values will be the base Application values with the Environment overrides where applicable. The `source` field will specify the level from which the value is from."
+        },
+        {
+          "info": {
+            "name": "Create a Shared Value for an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/values",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The Shared Value created will only be available to the specific Environment.\n\nIf a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated."
+        },
+        {
+          "info": {
+            "name": "Delete all Shared Value for an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/values",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              }
+            ]
+          },
+          "docs": "All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted."
+        },
+        {
+          "info": {
+            "name": "Update Shared Value for an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/values/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The key to update.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the value or description of the Shared Value. Shared Values marked as secret can also be updated."
+        },
+        {
+          "info": {
+            "name": "Update Shared Value for an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/values/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The key to update.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the value or description of the Shared Value. Shared Values marked as secret can also be updated."
+        },
+        {
+          "info": {
+            "name": "Delete Shared Value for an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/values/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The key to update.\n\n"
+              }
+            ]
+          },
+          "docs": "The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted."
+        },
+        {
+          "info": {
+            "name": "List Shared Values in an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/values",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              }
+            ]
+          },
+          "docs": "The returned values will be the \"base\" values for the Application. The overridden value for the Environment can be retrieved via the `/orgs/{orgId}/apps/{appId}/envs/{envId}/values` endpoint."
+        },
+        {
+          "info": {
+            "name": "Create a Shared Value for an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/values",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The Shared Value created will be available to all Environments in that Application.\n\nIf a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated."
+        },
+        {
+          "info": {
+            "name": "Delete all Shared Value for an App",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/values",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              }
+            ]
+          },
+          "docs": "All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted."
+        },
+        {
+          "info": {
+            "name": "Update Shared Value for an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/values/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The key to update.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the value or description of the Shared Value. Shared Values marked as secret can also be updated."
+        },
+        {
+          "info": {
+            "name": "Update Shared Value for an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/values/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The key to update.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the value or description of the Shared Value. Shared Values marked as secret can also be updated."
+        },
+        {
+          "info": {
+            "name": "Delete Shared Value for an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/values/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The key to update.\n\n"
+              }
+            ]
+          },
+          "docs": "The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1632 @@
+{
+  "item": [
+    {
+      "id": "b177c6a8-1522-4eb6-8cac-0d820a07436e",
+      "name": "Registry",
+      "description": {
+        "content": "Humanitec can be used to manage registry credentials. The Registry object represents how to match credentials to a particular registry.\n\nHumanitec supports all Docker compatible registries as well as the custom authentication formats used by AWS Elastic Container Registry and Google Container Registry. It also supports the injection of a specific secret to be copied from an existing namespace in the cluster.\n<SchemaDefinition schemaRef=\"#/components/schemas/RegistryRequest\" />\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c2502219-1c94-4e47-aad4-830a9d3e0149",
+          "name": "Lists available registries for the organization.",
+          "request": {
+            "name": "Lists available registries for the organization.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "registries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "36437664-4c9d-49b2-b490-492124d4e758",
+              "name": "A Possibly empty list of Registries.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"822q-klt3a\",\n    \"registry\": \"string\",\n    \"type\": \"string\",\n    \"enable_ci\": false,\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\",\n    \"secrets\": {\n      \"*\": {\n        \"namespace\": \"dev-secrets\",\n        \"secret\": \"custom-regcred\"\n      },\n      \"cluster-A\": {\n        \"namespace\": \"prod-secrets\",\n        \"secret\": \"custom-regcred\"\n      }\n    }\n  },\n  {\n    \"id\": \"roptq1k5pxf\",\n    \"registry\": \"string\",\n    \"type\": \"string\",\n    \"enable_ci\": false,\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\",\n    \"secrets\": {\n      \"*\": {\n        \"namespace\": \"dev-secrets\",\n        \"secret\": \"custom-regcred\"\n      },\n      \"cluster-A\": {\n        \"namespace\": \"prod-secrets\",\n        \"secret\": \"custom-regcred\"\n      }\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58d99c1c-7a18-490c-b389-fbc4e9db1bd5",
+              "name": "Request parameters are incomplete or invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14c88d79-31f2-4f74-9c30-b7ffa4bf8e1a",
+              "name": "Specified 'orgId' does not match any record.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5a0a4689-4264-4b8a-b7b9-11c038730f3a",
+          "name": "Creates a new registry record.",
+          "request": {
+            "name": "Creates a new registry record.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "registries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"username\": \"<string>\",\n    \"password\": \"<string>\",\n    \"expires\": \"<string>\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"key_0\": {\n      \"namespace\": \"<string>\",\n      \"secret\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aaf7cbd3-4d3e-40ff-ac19-4c18c8a9daef",
+              "name": "A newly created record details.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"z38trbc76ofb\",\n  \"registry\": \"string\",\n  \"type\": \"string\",\n  \"enable_ci\": true,\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a68840a6-0328-4126-b32f-e3f869efe74d",
+              "name": "Request parameters or payload are incomplete or invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d199b43b-2fc5-4a46-844d-796dfec0bae9",
+              "name": "Authentication token is missing or invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b33762fc-291d-4520-a2bd-c4e4bada06f5",
+              "name": "Specified 'orgId' does not match any record.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5432ee9-8cf5-419b-9013-f76fad3d09c5",
+              "name": "The record with the same ID or name (prefix) already exists within the organization.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d01e9b8d-aa55-44a2-8f70-352e525e3378",
+          "name": "Loads a registry record details.",
+          "request": {
+            "name": "Loads a registry record details.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "registries",
+                ":regId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "regId",
+                  "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "40915f16-7251-4e2f-b324-5a914760faac",
+              "name": "A registry details.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"z38trbc76ofb\",\n  \"registry\": \"string\",\n  \"type\": \"string\",\n  \"enable_ci\": true,\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b524766-8258-40c9-bd26-ac6c0c99d3c6",
+              "name": "Request parameters are incomplete or invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f44ac9a-a0ac-4b87-8087-665d41e96912",
+              "name": "Specified 'orgId' or 'regId' do not match any record.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "af390fa5-f637-48db-848b-f9a2080aa43b",
+          "name": "Deletes an existing registry record and all associated credentials and secrets.",
+          "request": {
+            "name": "Deletes an existing registry record and all associated credentials and secrets.",
+            "description": {
+              "content": "_Deletions are currently irreversible._",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "registries",
+                ":regId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "regId",
+                  "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "34740d41-494e-4872-9bdc-b265f953b1dc",
+              "name": "Deleted successfully.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cfc8a8e0-71e5-418f-8875-2b8343f5d268",
+              "name": "Request parameters are incomplete or invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b0d7d02-dec1-4cf6-b77f-0eda229c92a7",
+              "name": "Built-in 'humanitec' registry can't be deleted.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be0f8c00-28f6-4a2f-9f86-efe2c3f149a0",
+              "name": "Specified 'orgId' or 'regId' do not match any record.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6dab0c44-0867-4a32-854d-2c51fca3d461",
+          "name": "Updates (patches) an existing registry record.",
+          "request": {
+            "name": "Updates (patches) an existing registry record.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "registries",
+                ":regId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "regId",
+                  "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"username\": \"<string>\",\n    \"password\": \"<string>\",\n    \"expires\": \"<string>\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"key_0\": {\n      \"namespace\": \"<string>\",\n      \"secret\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "76d80557-67d0-48eb-a7e9-9542a185b7c8",
+              "name": "Updated record details.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"z38trbc76ofb\",\n  \"registry\": \"string\",\n  \"type\": \"string\",\n  \"enable_ci\": true,\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9f0fb98-6cf5-44d2-a871-5f4b76195108",
+              "name": "Request parameters or payload are incomplete or invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5bbd7fd0-2bf5-44b1-8f83-a03affebb564",
+              "name": "Built-in 'humanitec' registry can't be changed.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c706872-4b6d-42f4-a37e-6bb7e6081ce6",
+              "name": "Specified 'orgId' or 'regId' do not match any record.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d33bbd86-731d-4f1c-a61f-cb6e40c8017a",
+              "name": "The record with the same name (prefix) already exists within the organization.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"registry\": \"<string>\",\n  \"type\": \"<string>\",\n  \"creds\": {\n    \"expires\": \"2020-05-22T14:53:27Z\",\n    \"password\": \"\",\n    \"username\": \"\"\n  },\n  \"enable_ci\": \"<boolean>\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4cf3f9cd-d9d4-461e-b0a5-337d69ddcaad",
+          "name": "Returns current account credentials or secret details for the registry.",
+          "request": {
+            "name": "Returns current account credentials or secret details for the registry.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "registries",
+                ":regId",
+                "creds"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "regId",
+                  "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a67f0cb1-235c-4428-8575-410af1f408cf",
+              "name": "Current account credentials or secret details for the registry.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId",
+                    "creds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"expires\": \"2020-05-22T14:53:27Z\",\n  \"password\": \"\",\n  \"registry\": \"registry.io/project\",\n  \"secrets\": {\n    \"*\": {\n      \"namespace\": \"dev-secrets\",\n      \"secret\": \"custom-regcred\"\n    },\n    \"cluster-A\": {\n      \"namespace\": \"prod-secrets\",\n      \"secret\": \"custom-regcred\"\n    }\n  },\n  \"username\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d8553f6-5f39-471c-b534-fb884c29fa22",
+              "name": "Request parameters are incomplete or invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId",
+                    "creds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1d95eb5-faad-4121-8321-1c892d080458",
+              "name": "Authentication token is missing or invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId",
+                    "creds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f9c89c3c-6796-4f9e-b02a-0806200b38fd",
+              "name": "Specified 'orgId' or 'regId' do not match any record.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "registries",
+                    ":regId",
+                    "creds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) Unique (alpha-numerical) organization identifier.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "regId",
+                      "description": "(Required) Unique (alpha-numerical) registry identifier.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.humanitec.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b70bd6f7-53b9-4a2f-9338-3c18b0e04d43",
+    "name": "Humanitec AccountType Registry API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n\n\nContact Support:\n Name: Humanitec Support\n Email: support@humanitec.com",
+      "type": "text/plain"
+    }
+  }
+}

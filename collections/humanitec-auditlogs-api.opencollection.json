@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType AuditLogs API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AuditLogs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List audit log entries by Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/audit-logs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              },
+              {
+                "name": "from",
+                "value": "2023-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Optional filter for entries created after the given time."
+              },
+              {
+                "name": "to",
+                "value": "2023-01-01T00:00:00Z",
+                "type": "query",
+                "description": "Optional filter for entries created before the given time."
+              }
+            ]
+          },
+          "docs": "List all available audit log entries in the Organization that match the specified filters. This API returns entries from newest to oldest and is paginated. Only successful create, modify, or delete requests are stored in  the audit log. This API may return a lot of data, depending on the size of the Organization, so it is  recommended to use the \"to\" and \"from\" query parameters to limit the returned data to the time window of interest. Each response contains at most 32 days worth of data for per"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

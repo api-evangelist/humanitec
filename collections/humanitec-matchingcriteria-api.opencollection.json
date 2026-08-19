@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType MatchingCriteria API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "MatchingCriteria",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add a new Matching Criteria to a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/criteria",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Applicati"
+        },
+        {
+          "info": {
+            "name": "Update all Matching Criteria of a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/criteria",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Applicati"
+        },
+        {
+          "info": {
+            "name": "Delete a Matching Criteria from a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/criteria/:criteriaId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              },
+              {
+                "name": "criteriaId",
+                "value": "",
+                "type": "path",
+                "description": "The Matching Criteria ID.\n\n"
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query",
+                "description": "If set to `true`, the Matching Criteria is deleted immediately, even if this action affects existing Active Resources.\n\n"
+              }
+            ]
+          },
+          "docs": "If there **are no** Active Resources that would match to a different Resource Definition when the current Matching Criteria is deleted, the Matching Criteria is deleted immediately.\n\nIf there **are** Active Resources that would match to a different Resource Definition, the request fails with HTTP status code 409 (Conflict). The response content will list all of affected Active Resources and their new matches.\n\nThe request can take an optional `force` query parameter. If set to `true`, the Matchi"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

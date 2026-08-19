@@ -1,0 +1,143 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ResourceType API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ResourceType",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Resource Types.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ]
+          },
+          "docs": "List Resource Types."
+        },
+        {
+          "info": {
+            "name": "Creates a new Resources Type.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Resources Type."
+        },
+        {
+          "info": {
+            "name": "Update a Resource Type.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types/:typeId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n"
+              },
+              {
+                "name": "typeId",
+                "value": "my-org%2Fmy-type",
+                "type": "path",
+                "description": "The Resource Type id. The type id should be provided as url encoded string.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Resource Type."
+        },
+        {
+          "info": {
+            "name": "Update a Resource Type.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types/:typeId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "typeId",
+                "value": "my-org%2Fmy-type",
+                "type": "path",
+                "description": "The Resource Type id. The type id should be provided as url encoded string.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Resource Type."
+        },
+        {
+          "info": {
+            "name": "Delete a Resource Type.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types/:typeId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "typeId",
+                "value": "my-org%2Fmy-type",
+                "type": "path",
+                "description": "The Resource Type id. The type id should be provided as url encoded string.\n"
+              }
+            ]
+          },
+          "docs": "Delete a Resource Type."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

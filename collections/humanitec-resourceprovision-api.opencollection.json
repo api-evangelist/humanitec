@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ResourceProvision API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ResourceProvision",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lists the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/resources/graph",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is deprecated. Use `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs` instead."
+        },
+        {
+          "info": {
+            "name": "Create a Dependency Graph which is composed by the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/resources/graphs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Dependency Graph which is composed by the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Dependency Graph by its ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/resources/graphs/:graphId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              },
+              {
+                "name": "graphId",
+                "value": "01234567-89ab-cdef-0123-4567890abcdef",
+                "type": "path",
+                "description": "The Dependency Graph ID."
+              }
+            ]
+          },
+          "docs": "Retrieve a Dependency Graph by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

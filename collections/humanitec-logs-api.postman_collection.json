@@ -1,0 +1,507 @@
+{
+  "item": [
+    {
+      "id": "6122f245-5fc5-40b6-9964-951c07e19203",
+      "name": "Logs",
+      "description": {
+        "content": "A container log entry.\n<SchemaDefinition schemaRef=\"#/components/schemas/OutputEntryResponse\" />\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c48d5ad7-29f7-4a87-8b88-2ac08b955fb2",
+          "name": "Get container log entries for the environment",
+          "request": {
+            "name": "Get container log entries for the environment",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "envs",
+                ":envId",
+                "logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "workload_id",
+                  "value": "<string>",
+                  "description": "filter by workload ID\n\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "container_id",
+                  "value": "<string>",
+                  "description": "filter by container ID\n\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "deployment_id",
+                  "value": "<string>",
+                  "description": "filter by deployment ID\n\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp_from",
+                  "value": "<string>",
+                  "description": "filter by min time, RFC 3339 format, e.g. \"2021-10-02T15:01:23.045Z\"\n\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp_to",
+                  "value": "<string>",
+                  "description": "filter by max time, RFC 3330 format, e.g. \"2021-10-02T15:01:23.045Z\"\n\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<string>",
+                  "description": "limit log entries returned\n\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "asc",
+                  "value": "<boolean>",
+                  "description": "if true request results in ascending order, default order is descending\n\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "invert",
+                  "value": "<boolean>",
+                  "description": "if true reverse the order of the log entries in the output\n\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "envId",
+                  "description": "(Required) The Environment ID\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dd8352cd-31eb-42e1-80ec-42c47f7f541c",
+              "name": "List of log entries returned.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "workload_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "container_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "deployment_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timestamp_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timestamp_to",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "asc",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invert",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"level\": \"string\",\n    \"payload\": \"string\",\n    \"timestamp\": \"string\",\n    \"workload_id\": \"string\",\n    \"container_id\": \"string\"\n  },\n  {\n    \"level\": \"string\",\n    \"payload\": \"string\",\n    \"timestamp\": \"string\",\n    \"workload_id\": \"string\",\n    \"container_id\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6d00d34-793d-4ab1-a23f-f0a8525fc8a2",
+              "name": "The request is invalid.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "workload_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "container_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "deployment_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timestamp_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timestamp_to",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "asc",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invert",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID\n\n"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b33caf00-0ef6-464a-b7ca-b38c4d077d33",
+              "name": "The environment is not found.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "workload_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "container_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "deployment_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timestamp_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timestamp_to",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "asc",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invert",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID\n\n"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6212f3e0-6924-427b-b514-b5f83b395487",
+              "name": "Too Many Requests.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "workload_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "container_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "deployment_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timestamp_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timestamp_to",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "asc",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invert",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID\n\n"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.humanitec.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a4612d26-38c8-415b-8bf3-a43ad850c6ba",
+    "name": "Humanitec AccountType Logs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n\n\nContact Support:\n Name: Humanitec Support\n Email: support@humanitec.com",
+      "type": "text/plain"
+    }
+  }
+}

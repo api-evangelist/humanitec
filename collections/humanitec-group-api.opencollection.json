@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Group API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Group",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a group in an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/groups",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a group in an organization"
+        },
+        {
+          "info": {
+            "name": "List users in a group.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/groups/:groupId/users",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "groupId",
+                "value": "g-61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The Group Id."
+              }
+            ]
+          },
+          "docs": "List users in a group."
+        },
+        {
+          "info": {
+            "name": "Get the groups in an organization a user belongs to.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/users/:userId/groups",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ]
+          },
+          "docs": "Get the groups in an organization a user belongs to."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

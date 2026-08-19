@@ -1,0 +1,2490 @@
+{
+  "item": [
+    {
+      "id": "c686f8a6-fb1a-4987-8fcc-8dc3b06cf26f",
+      "name": "ValueSetVersion",
+      "description": {
+        "content": "A Value Set Version can be used as a track record of Shared Values changes, to restore a previous version of a Shared Value or Value Set, or to purge a Shared Value if it shouldn't be accessible anymore.\n<SchemaDefinition schemaRef=\"#/components/schemas/ValueSetVersionResponse\" />\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9ca1d8a8-1c83-4de1-816a-3958b9fcff7f",
+          "name": "List Value Set Versions in an Environment of an App",
+          "request": {
+            "name": "List Value Set Versions in an Environment of an App",
+            "description": {
+              "content": "A new Value Set Version is created on every modification of a Value inside the an Environment of an App. In case this environment has no overrides the response is the same as the App level endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "envs",
+                ":envId",
+                "value-set-versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "key_changed",
+                  "value": "<string>",
+                  "description": "(Optional) Return only value set version where the specified key changed\n\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "envId",
+                  "description": "(Required) The Environment ID.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "edc4897a-b140-464f-8914-58445c29d07a",
+              "name": "A possibly empty list of ValueSetVersion.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "key_changed",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"values\": {\n      \"key_0\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"is_secret\": true,\n        \"description\": \"string\",\n        \"created_at\": \"2020-06-22T09:37:23.523Z\",\n        \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n        \"source\": \"app\",\n        \"secret_key\": \"string\",\n        \"secret_version\": \"string\",\n        \"secret_store_id\": \"string\"\n      },\n      \"key_1\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"is_secret\": false,\n        \"description\": \"string\",\n        \"created_at\": \"2020-06-22T09:37:23.523Z\",\n        \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n        \"source\": \"env\",\n        \"secret_key\": \"string\",\n        \"secret_version\": \"string\",\n        \"secret_store_id\": \"string\"\n      }\n    },\n    \"change\": [\n      {\n        \"op\": \"string\",\n        \"path\": \"string\",\n        \"value\": \"\"\n      },\n      {\n        \"op\": \"string\",\n        \"path\": \"string\",\n        \"value\": \"\"\n      }\n    ],\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\",\n    \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n    \"result_of\": \"app_value_update\",\n    \"comment\": \"string\",\n    \"source_value_set_version_id\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"values\": {\n      \"key_0\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"is_secret\": true,\n        \"description\": \"string\",\n        \"created_at\": \"2020-06-22T09:37:23.523Z\",\n        \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n        \"source\": \"env\",\n        \"secret_key\": \"string\",\n        \"secret_version\": \"string\",\n        \"secret_store_id\": \"string\"\n      },\n      \"key_1\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"is_secret\": true,\n        \"description\": \"string\",\n        \"created_at\": \"2020-06-22T09:37:23.523Z\",\n        \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n        \"source\": \"app\",\n        \"secret_key\": \"string\",\n        \"secret_version\": \"string\",\n        \"secret_store_id\": \"string\"\n      }\n    },\n    \"change\": [\n      {\n        \"op\": \"string\",\n        \"path\": \"string\",\n        \"value\": \"\"\n      },\n      {\n        \"op\": \"string\",\n        \"path\": \"string\",\n        \"value\": \"\"\n      }\n    ],\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\",\n    \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n    \"result_of\": \"app_values_delete\",\n    \"comment\": \"string\",\n    \"source_value_set_version_id\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bbab4932-9b0c-43f7-9ccc-19c9df427da0",
+          "name": "Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000) will return the latest Value Set Version.",
+          "request": {
+            "name": "Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000) will return the latest Value Set Version.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "envs",
+                ":envId",
+                "value-set-versions",
+                ":valueSetVersionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "envId",
+                  "description": "(Required) The Environment ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "valueSetVersionId",
+                  "description": "(Required) The ValueSetVersion ID.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "28659dfd-72f5-402d-bbc6-d52e0413460c",
+              "name": "The requested ValueSetVersion\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"values\": {\n    \"key_0\": {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"is_secret\": true,\n      \"description\": \"string\",\n      \"created_at\": \"2020-06-22T09:37:23.523Z\",\n      \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n      \"source\": \"env\",\n      \"secret_key\": \"string\",\n      \"secret_version\": \"string\",\n      \"secret_store_id\": \"string\"\n    }\n  },\n  \"change\": [\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    },\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    }\n  ],\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n  \"result_of\": \"app_values_delete\",\n  \"comment\": \"string\",\n  \"source_value_set_version_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8289ee3-442a-4f13-87d0-11df66e326ef",
+              "name": "ValueSetVersion with `valueSetVersionId` in Environment.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6cc22d37-b4df-440a-bf6f-8b42ef97190d",
+          "name": "Purge the value of a specific Shared Value from the App Environment Version history.",
+          "request": {
+            "name": "Purge the value of a specific Shared Value from the App Environment Version history.",
+            "description": {
+              "content": "Purging permanently removes the value of a specific Shared Value in an application. A purged value is no longer accessible, can't be restored and can't be used\nby deployments referencing a Value Set Version where the value was present.\n\nLearn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "envs",
+                ":envId",
+                "value-set-versions",
+                ":valueSetVersionId",
+                "purge",
+                ":key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "envId",
+                  "description": "(Required) The Environment ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "valueSetVersionId",
+                  "description": "(Required) The ValueSetVersion ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "key",
+                  "description": "(Required) Key of the value to be purged.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f5eede9f-b3f7-4c29-af7b-f8399c158dc7",
+              "name": "key successfully purged\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "purge",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be purged.\n\n"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5608e728-3714-4fac-84a5-d87bbfbc5657",
+              "name": "The specified key can't be purged in this version.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "purge",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be purged.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f8ff7f6c-5585-43d2-97ad-bae269e90028",
+              "name": "No ValueSetVersion with `valueSetVersionId` in App Environment.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "purge",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be purged.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "344bb01f-3826-4f53-a8f9-c30bb45e6c14",
+          "name": "Restore a Value Set Version in an Environment of an App",
+          "request": {
+            "name": "Restore a Value Set Version in an Environment of an App",
+            "description": {
+              "content": "Restore the values of all Shared Values in an environment from a specific version. Keys not existing in the selected version are deleted.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "envs",
+                ":envId",
+                "value-set-versions",
+                ":valueSetVersionId",
+                "restore"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "envId",
+                  "description": "(Required) The Environment ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "valueSetVersionId",
+                  "description": "(Required) The ValueSetVersion ID.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dbe2d4b3-1b8c-4b86-b777-7ac5594b49be",
+              "name": "The resulting ValueSetVersion\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"values\": {\n    \"key_0\": {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"is_secret\": true,\n      \"description\": \"string\",\n      \"created_at\": \"2020-06-22T09:37:23.523Z\",\n      \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n      \"source\": \"env\",\n      \"secret_key\": \"string\",\n      \"secret_version\": \"string\",\n      \"secret_store_id\": \"string\"\n    }\n  },\n  \"change\": [\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    },\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    }\n  ],\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n  \"result_of\": \"app_values_delete\",\n  \"comment\": \"string\",\n  \"source_value_set_version_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53b201bc-7d27-433d-a338-18da2b9e1ef7",
+              "name": "No ValueSetVersion with `valueSetVersionId` in App Environment.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "92f8b57d-8678-4997-aaf7-ce228ae7167b",
+          "name": "Restore a specific key from the Value Set Version in an Environment of an App",
+          "request": {
+            "name": "Restore a specific key from the Value Set Version in an Environment of an App",
+            "description": {
+              "content": "Restore the values of a single Shared Value in an Environment from a specific version.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "envs",
+                ":envId",
+                "value-set-versions",
+                ":valueSetVersionId",
+                "restore",
+                ":key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "envId",
+                  "description": "(Required) The Environment ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "valueSetVersionId",
+                  "description": "(Required) The ValueSetVersion ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "key",
+                  "description": "(Required) Key of the value to be restored.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "afdfd887-5598-45cd-8804-0791c19ebdba",
+              "name": "The resulting ValueSetVersion\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be restored.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"values\": {\n    \"key_0\": {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"is_secret\": true,\n      \"description\": \"string\",\n      \"created_at\": \"2020-06-22T09:37:23.523Z\",\n      \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n      \"source\": \"env\",\n      \"secret_key\": \"string\",\n      \"secret_version\": \"string\",\n      \"secret_store_id\": \"string\"\n    }\n  },\n  \"change\": [\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    },\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    }\n  ],\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n  \"result_of\": \"app_values_delete\",\n  \"comment\": \"string\",\n  \"source_value_set_version_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ccd472ea-0026-4567-8f31-d7a7b0090d4d",
+              "name": "Invalid request\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be restored.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9cc3b737-74de-4d1e-958e-03e1bfaf7073",
+              "name": "No ValueSetVersion with `valueSetVersionId` in App Environment.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "envs",
+                    ":envId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "envId",
+                      "description": "(Required) The Environment ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be restored.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80bbc874-220f-4b26-874f-03c55733c0b8",
+          "name": "List Value Set Versions in the App",
+          "request": {
+            "name": "List Value Set Versions in the App",
+            "description": {
+              "content": "A new Value Set Version is created on every modification of a Value inside the app.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "value-set-versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "key_changed",
+                  "value": "<string>",
+                  "description": "(Optional) Return only value set version where the specified key changed\n\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b2c4202a-7d8a-43e5-891f-30019e05d5b0",
+              "name": "A possibly empty list of ValueSetVersion.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "key_changed",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"values\": {\n      \"key_0\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"is_secret\": true,\n        \"description\": \"string\",\n        \"created_at\": \"2020-06-22T09:37:23.523Z\",\n        \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n        \"source\": \"app\",\n        \"secret_key\": \"string\",\n        \"secret_version\": \"string\",\n        \"secret_store_id\": \"string\"\n      }\n    },\n    \"change\": [\n      {\n        \"op\": \"string\",\n        \"path\": \"string\",\n        \"value\": \"\"\n      },\n      {\n        \"op\": \"string\",\n        \"path\": \"string\",\n        \"value\": \"\"\n      }\n    ],\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\",\n    \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n    \"result_of\": \"env_value_create\",\n    \"comment\": \"string\",\n    \"source_value_set_version_id\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"values\": {\n      \"key_0\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"is_secret\": false,\n        \"description\": \"string\",\n        \"created_at\": \"2020-06-22T09:37:23.523Z\",\n        \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n        \"source\": \"env\",\n        \"secret_key\": \"string\",\n        \"secret_version\": \"string\",\n        \"secret_store_id\": \"string\"\n      },\n      \"key_1\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"is_secret\": true,\n        \"description\": \"string\",\n        \"created_at\": \"2020-06-22T09:37:23.523Z\",\n        \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n        \"source\": \"app\",\n        \"secret_key\": \"string\",\n        \"secret_version\": \"string\",\n        \"secret_store_id\": \"string\"\n      },\n      \"key_2\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"is_secret\": true,\n        \"description\": \"string\",\n        \"created_at\": \"2020-06-22T09:37:23.523Z\",\n        \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n        \"source\": \"env\",\n        \"secret_key\": \"string\",\n        \"secret_version\": \"string\",\n        \"secret_store_id\": \"string\"\n      }\n    },\n    \"change\": [\n      {\n        \"op\": \"string\",\n        \"path\": \"string\",\n        \"value\": \"\"\n      },\n      {\n        \"op\": \"string\",\n        \"path\": \"string\",\n        \"value\": \"\"\n      }\n    ],\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\",\n    \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n    \"result_of\": \"app_value_create\",\n    \"comment\": \"string\",\n    \"source_value_set_version_id\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2329366-ed7b-4cd4-b465-d431bddc34d5",
+          "name": "Get a single Value Set Version from the App",
+          "request": {
+            "name": "Get a single Value Set Version from the App",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "value-set-versions",
+                ":valueSetVersionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "valueSetVersionId",
+                  "description": "(Required) The ValueSetVersion ID.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ae01ffe4-614b-4a00-972e-c0f6a756d206",
+              "name": "The requested ValueSetVersion\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"values\": {\n    \"key_0\": {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"is_secret\": true,\n      \"description\": \"string\",\n      \"created_at\": \"2020-06-22T09:37:23.523Z\",\n      \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n      \"source\": \"env\",\n      \"secret_key\": \"string\",\n      \"secret_version\": \"string\",\n      \"secret_store_id\": \"string\"\n    }\n  },\n  \"change\": [\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    },\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    }\n  ],\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n  \"result_of\": \"app_values_delete\",\n  \"comment\": \"string\",\n  \"source_value_set_version_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ebcb4a07-4ce5-4062-b21a-9a229c1c9192",
+              "name": "ValueSetVersion with `valueSetVersionId` in App.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "092b9724-8665-4044-b6d5-e111e79c220d",
+          "name": "Purge the value of a specific Shared Value from the App Version history.",
+          "request": {
+            "name": "Purge the value of a specific Shared Value from the App Version history.",
+            "description": {
+              "content": "Purging permanently removes the value of a specific Shared Value in an Application. A purged value is no longer accessible, can't be restored and can't be used\nby deployments referencing a Value Set Version where the value was present.\n\nLearn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "value-set-versions",
+                ":valueSetVersionId",
+                "purge",
+                ":key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "valueSetVersionId",
+                  "description": "(Required) The ValueSetVersion ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "key",
+                  "description": "(Required) Key of the value to be purged.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fd95e131-d479-4ecd-a790-9e8e4da29fbf",
+              "name": "key successfully purged\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "purge",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be purged.\n\n"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "47a5d74a-702e-4b27-b957-65356f8514dc",
+              "name": "The specified key can't be purged in this version.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "purge",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be purged.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59638be9-33c8-46d1-ba54-98020fa832c6",
+              "name": "No ValueSetVersion with `valueSetVersionId` in App.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "purge",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be purged.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4acb6c9f-2816-4346-86a9-e7605c21f8bd",
+          "name": "Restore a Value Set Version in an App",
+          "request": {
+            "name": "Restore a Value Set Version in an App",
+            "description": {
+              "content": "Restore the values of all Shared Values in an application from a specific version. Keys not existing in the selected version are deleted.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "value-set-versions",
+                ":valueSetVersionId",
+                "restore"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "valueSetVersionId",
+                  "description": "(Required) The ValueSetVersion ID.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "18eec571-9cdc-4af1-a065-e21f754be283",
+              "name": "The resulting ValueSetVersion\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"values\": {\n    \"key_0\": {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"is_secret\": true,\n      \"description\": \"string\",\n      \"created_at\": \"2020-06-22T09:37:23.523Z\",\n      \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n      \"source\": \"env\",\n      \"secret_key\": \"string\",\n      \"secret_version\": \"string\",\n      \"secret_store_id\": \"string\"\n    }\n  },\n  \"change\": [\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    },\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    }\n  ],\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n  \"result_of\": \"app_values_delete\",\n  \"comment\": \"string\",\n  \"source_value_set_version_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b3f300a-0ed2-432c-8d25-4dcf05e35e3f",
+              "name": "No ValueSetVersion with `valueSetVersionId` in App.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a4aa2532-5df5-4f64-b064-68370a5e54e5",
+          "name": "Restore a specific key from the Value Set Version in an App",
+          "request": {
+            "name": "Restore a specific key from the Value Set Version in an App",
+            "description": {
+              "content": "Restore the values of a single Shared Value in an application from a specific version.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "value-set-versions",
+                ":valueSetVersionId",
+                "restore",
+                ":key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "valueSetVersionId",
+                  "description": "(Required) The ValueSetVersion ID.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "key",
+                  "description": "(Required) Key of the value to be restored.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ac14ff2f-8dce-45b1-a261-9acbca5aaac4",
+              "name": "The resulting ValueSetVersion\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be restored.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"values\": {\n    \"key_0\": {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"is_secret\": true,\n      \"description\": \"string\",\n      \"created_at\": \"2020-06-22T09:37:23.523Z\",\n      \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n      \"source\": \"env\",\n      \"secret_key\": \"string\",\n      \"secret_version\": \"string\",\n      \"secret_store_id\": \"string\"\n    }\n  },\n  \"change\": [\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    },\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"value\": \"\"\n    }\n  ],\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\",\n  \"updated_at\": \"2020-06-22T09:37:23.523Z\",\n  \"result_of\": \"app_values_delete\",\n  \"comment\": \"string\",\n  \"source_value_set_version_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "898ad03d-71c6-447f-bb42-19678c15d0ee",
+              "name": "Invalid request\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be restored.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "287ce16a-07bc-4690-9516-2f906ea98686",
+              "name": "No ValueSetVersion with `valueSetVersionId` in App.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "value-set-versions",
+                    ":valueSetVersionId",
+                    "restore",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "valueSetVersionId",
+                      "description": "(Required) The ValueSetVersion ID.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the value to be restored.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.humanitec.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8d674b03-3407-466d-9261-b180fa339d70",
+    "name": "Humanitec AccountType ValueSetVersion API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n\n\nContact Support:\n Name: Humanitec Support\n Email: support@humanitec.com",
+      "type": "text/plain"
+    }
+  }
+}

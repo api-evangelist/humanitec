@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType PublicKeys API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PublicKeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all public keys associated to an organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/keys",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "fingerprint",
+                "value": "",
+                "type": "query",
+                "description": "The fingerprint (the hexadecimal representation of the sha256 hash of the DER representation of the key) of the requested key. If a value is provided, the result will contain a single key, if any."
+              }
+            ]
+          },
+          "docs": "List all public keys associated to an organization."
+        },
+        {
+          "info": {
+            "name": "Associate a new RSA public key to an organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/keys",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Associate a new RSA public key to an organization."
+        },
+        {
+          "info": {
+            "name": "Retrieve a single public key associated to an organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/keys/:keyId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path",
+                "description": "The public key ID."
+              }
+            ]
+          },
+          "docs": "Retrieve a single public key associated to an organization."
+        },
+        {
+          "info": {
+            "name": "Delete a public key associated to an organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/keys/:keyId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path",
+                "description": "The public key ID."
+              }
+            ]
+          },
+          "docs": "Delete a public key associated to an organization."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType TokenInfo API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "TokenInfo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lists tokens associated with a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/users/:userId/tokens",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The user ID.\n\n"
+              }
+            ]
+          },
+          "docs": "Lists tokens associated with a user"
+        },
+        {
+          "info": {
+            "name": "Creates a new static token for a user.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/users/:userId/tokens",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The user ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This is only supported for users of type `service`."
+        },
+        {
+          "info": {
+            "name": "Gets a specific token associated with a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/users/:userId/tokens/:tokenId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The user ID.\n\n"
+              },
+              {
+                "name": "tokenId",
+                "value": "",
+                "type": "path",
+                "description": "The token ID.\n\n"
+              }
+            ]
+          },
+          "docs": "Gets a specific token associated with a user"
+        },
+        {
+          "info": {
+            "name": "Deletes a specific token associated with a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/users/:userId/tokens/:tokenId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The user ID.\n\n"
+              },
+              {
+                "name": "tokenId",
+                "value": "",
+                "type": "path",
+                "description": "The token ID.\n\n"
+              }
+            ]
+          },
+          "docs": "This endpoint deletes a user's session token. The deleted token can no longer be used to access the API. All other tokens for this user can still be used."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

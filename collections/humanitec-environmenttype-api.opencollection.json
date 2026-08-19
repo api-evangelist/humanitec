@@ -1,0 +1,139 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType EnvironmentType API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "EnvironmentType",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Environment Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ]
+          },
+          "docs": "Lists all Environment Types in an Organization."
+        },
+        {
+          "info": {
+            "name": "Add a new Environment Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new Environment Type to an Organization."
+        },
+        {
+          "info": {
+            "name": "Get an Environment Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types/:envTypeId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "envTypeId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Environment Type.\n\n"
+              }
+            ]
+          },
+          "docs": "Gets a specific Environment Type within an Organization."
+        },
+        {
+          "info": {
+            "name": "Updates Environment Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types/:envTypeId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "envTypeId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Environment Type.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates Environment Type."
+        },
+        {
+          "info": {
+            "name": "Deletes an Environment Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types/:envTypeId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "envTypeId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Environment Type.\n\n"
+              }
+            ]
+          },
+          "docs": "Deletes a specific Environment Type from an Organization. If there are Environments with this Type in the Organization, the operation will fail."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,176 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ActiveResource API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ActiveResource",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Active Resources provisioned in an environment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/resources",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "scheduled_deletion",
+                "value": "",
+                "type": "query",
+                "description": "If set to `true` or `false`, filters resources scheduled or not scheduled for deletion correspondingly.\n"
+              }
+            ]
+          },
+          "docs": "List Active Resources provisioned in an environment."
+        },
+        {
+          "info": {
+            "name": "Delete Active Resource.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/resources/:type/:resId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Type, may include a resource class: {type}.{class}.\n\n"
+              },
+              {
+                "name": "resId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource ID.\n\n"
+              },
+              {
+                "name": "detach",
+                "value": "",
+                "type": "query",
+                "description": "If set to `true`, will detach an active resource. The resource continues to exist and is not deleted, but it is no longer connected to the Platform Orchestrator. \nDetaching can be done for any active resource. In case that the resource is an active one (i.e. not marked to be deleted), it would stay in use until the next deployment.\nDetaching active resources can cause inconsistent status (e.g. detaching a k8s-cluster might make it impossible to retrieve runtime information by or un-pause an environment)\nIf the resource has been provisioned via the Humanitec Operator, this does not delete the resource CR in the cluster. This must be done manually.\n"
+              }
+            ]
+          },
+          "docs": "Delete Active Resource."
+        },
+        {
+          "info": {
+            "name": "Pin Active Resource to a target Resource Definition Version.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/resources/:type/:resId/actions/pin",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Type, may include a resource class: {type}.{class}.\n"
+              },
+              {
+                "name": "resId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Pin Active Resource to a target Resource Definition Version."
+        },
+        {
+          "info": {
+            "name": "List Active Resources provisioned via a specific Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/resources",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "defId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Definition ID.\n\n"
+              }
+            ]
+          },
+          "docs": "List Active Resources provisioned via a specific Resource Definition."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

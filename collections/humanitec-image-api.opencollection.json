@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Image API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Image",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Container Images",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/images",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              }
+            ]
+          },
+          "docs": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nLists all of the Container Images registered for this organization."
+        },
+        {
+          "info": {
+            "name": "Get a specific Image Object",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/images/:imageId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "imageId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Image ID."
+              }
+            ]
+          },
+          "docs": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThe response includes a list of Image Builds as well as some metadata about the Image such as its Image Source.\n\nNote, `imageId` may not be the same as the container name. `imageId` is determined by the system making notifications about new builds."
+        },
+        {
+          "info": {
+            "name": "Lists all the Builds of an Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/images/:imageId/builds",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "imageId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Image ID."
+              }
+            ]
+          },
+          "docs": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThe response lists all available Image Builds of an Image."
+        },
+        {
+          "info": {
+            "name": "Add a new Image Build",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/images/:imageId/builds",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "imageId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Image ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThis endpoint is used by Continuous Integration (CI) pipelines to notify Humanitec that a new Image Build is available.\n\nIf there is no Image with ID `imageId`, it will be automatically created."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,163 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ResourceClass API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ResourceClass",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List resource classes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/classes",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID.\n"
+              }
+            ]
+          },
+          "docs": "List resource classes."
+        },
+        {
+          "info": {
+            "name": "Creates a new resources class.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types/:typeId/classes",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID.\n"
+              },
+              {
+                "name": "typeId",
+                "value": "",
+                "type": "path",
+                "description": "The resource type.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new resources class."
+        },
+        {
+          "info": {
+            "name": "Get resource class by ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types/:typeId/classes/:classId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID.\n"
+              },
+              {
+                "name": "typeId",
+                "value": "",
+                "type": "path",
+                "description": "The resource type.\n"
+              },
+              {
+                "name": "classId",
+                "value": "",
+                "type": "path",
+                "description": "The resource class ID.\n"
+              }
+            ]
+          },
+          "docs": "Get resource class by ID."
+        },
+        {
+          "info": {
+            "name": "Update a resource class description.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types/:typeId/classes/:classId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID.\n"
+              },
+              {
+                "name": "typeId",
+                "value": "",
+                "type": "path",
+                "description": "The resource type ID.\n"
+              },
+              {
+                "name": "classId",
+                "value": "",
+                "type": "path",
+                "description": "The resource class ID.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a resource class description."
+        },
+        {
+          "info": {
+            "name": "Delete a resource class.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/types/:typeId/classes/:classId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID.\n"
+              },
+              {
+                "name": "typeId",
+                "value": "",
+                "type": "path",
+                "description": "The resource type.\n"
+              },
+              {
+                "name": "classId",
+                "value": "",
+                "type": "path",
+                "description": "The resource class id.\n"
+              }
+            ]
+          },
+          "docs": "Delete a resource class."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

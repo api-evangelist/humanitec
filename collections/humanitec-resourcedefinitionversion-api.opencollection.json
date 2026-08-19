@@ -1,0 +1,158 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ResourceDefinitionVersion API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ResourceDefinitionVersion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Versions of a Resource Definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "defId",
+                "value": "sample-def",
+                "type": "path",
+                "description": "The Resource Definition ID."
+              },
+              {
+                "name": "deleted",
+                "value": "true",
+                "type": "query",
+                "description": "If to show also deleted records in the response."
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "First 50 Versions are kept along with all the Versions referenced by an Active Resource.\n\n To obtain Versions of a deleted Resource Definition, the `deleted` parameter needs to be used."
+        },
+        {
+          "info": {
+            "name": "Get a Resource Definition Version.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/versions/:defVersionId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "defId",
+                "value": "sample-def",
+                "type": "path",
+                "description": "The Resource Definition ID."
+              },
+              {
+                "name": "defVersionId",
+                "value": "01234567-89ab-cdef-0123-4567890abcdef",
+                "type": "path",
+                "description": "The Resource Definition Version ID."
+              }
+            ]
+          },
+          "docs": "Get a Resource Definition Version."
+        },
+        {
+          "info": {
+            "name": "Mark/unmark the Resource Definition Version as archived.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/versions/:defVersionId/actions/archive",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "defId",
+                "value": "sample-def",
+                "type": "path",
+                "description": "The Resource Definition ID."
+              },
+              {
+                "name": "defVersionId",
+                "value": "01234567-89ab-cdef-0123-4567890abcdef",
+                "type": "path",
+                "description": "The Resource Definition Version ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Mark/unmark the Resource Definition Version as archived."
+        },
+        {
+          "info": {
+            "name": "Promote the Resource Definition Version as active.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/defs/:defId/versions/:defVersionId/actions/promote",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "defId",
+                "value": "sample-def",
+                "type": "path",
+                "description": "The Resource Definition ID."
+              },
+              {
+                "name": "defVersionId",
+                "value": "01234567-89ab-cdef-0123-4567890abcdef",
+                "type": "path",
+                "description": "The Resource Definition Version ID."
+              }
+            ]
+          },
+          "docs": "Promote the Resource Definition Version as active."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

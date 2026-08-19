@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType RuntimeInfo API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "RuntimeInfo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Runtime information about the environment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/runtime",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              }
+            ]
+          },
+          "docs": "Runtime info are fetched from the cluster provisioned by the Orchestrator with Resource Id `k8s-cluster-runtime`. If no cluster with that id is found, the system fetches information from a cluster provisioned with the default Resource Id  `k8s-cluster`."
+        },
+        {
+          "info": {
+            "name": "Get Runtime information about specific multiple environments.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/runtime",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filter environments by ID (required). Up to 5 ids can be supplied per request."
+              }
+            ]
+          },
+          "docs": "Get Runtime information about specific multiple environments."
+        },
+        {
+          "info": {
+            "name": "Provision and check the cluster connectivity in an environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/runtime/actions/check-connectivity",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provision and check the cluster connectivity in an environment"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

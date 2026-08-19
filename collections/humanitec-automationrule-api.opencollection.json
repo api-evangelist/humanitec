@@ -1,0 +1,199 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType AutomationRule API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AutomationRule",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Automation Rules in an Environment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/rules",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              }
+            ]
+          },
+          "docs": "List all Automation Rules in an Environment."
+        },
+        {
+          "info": {
+            "name": "Create a new Automation Rule for an Environment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/rules",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`."
+        },
+        {
+          "info": {
+            "name": "Get a specific Automation Rule for an Environment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/rules/:ruleId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              },
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "The Automation Rule ID."
+              }
+            ]
+          },
+          "docs": "Get a specific Automation Rule for an Environment."
+        },
+        {
+          "info": {
+            "name": "Update an existing Automation Rule for an Environment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/rules/:ruleId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              },
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "The Automation Rule ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`."
+        },
+        {
+          "info": {
+            "name": "Delete Automation Rule from an Environment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/rules/:ruleId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              },
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "The Automation Rule ID."
+              }
+            ]
+          },
+          "docs": "Delete Automation Rule from an Environment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

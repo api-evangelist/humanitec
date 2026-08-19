@@ -1,0 +1,406 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ValueSetVersion API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ValueSetVersion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Value Set Versions in an Environment of an App",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/value-set-versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "key_changed",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Return only value set version where the specified key changed\n\n"
+              }
+            ]
+          },
+          "docs": "A new Value Set Version is created on every modification of a Value inside the an Environment of an App. In case this environment has no overrides the response is the same as the App level endpoint."
+        },
+        {
+          "info": {
+            "name": "Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000) will return the latest Value Set Version.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/value-set-versions/:valueSetVersionId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "valueSetVersionId",
+                "value": "",
+                "type": "path",
+                "description": "The ValueSetVersion ID.\n\n"
+              }
+            ]
+          },
+          "docs": "Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000) will return the latest Value Set Version."
+        },
+        {
+          "info": {
+            "name": "Purge the value of a specific Shared Value from the App Environment Version history.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/value-set-versions/:valueSetVersionId/purge/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "valueSetVersionId",
+                "value": "",
+                "type": "path",
+                "description": "The ValueSetVersion ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the value to be purged.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Purging permanently removes the value of a specific Shared Value in an application. A purged value is no longer accessible, can't be restored and can't be used\nby deployments referencing a Value Set Version where the value was present.\n\nLearn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge).\n"
+        },
+        {
+          "info": {
+            "name": "Restore a Value Set Version in an Environment of an App",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/value-set-versions/:valueSetVersionId/restore",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "valueSetVersionId",
+                "value": "",
+                "type": "path",
+                "description": "The ValueSetVersion ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Restore the values of all Shared Values in an environment from a specific version. Keys not existing in the selected version are deleted.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n"
+        },
+        {
+          "info": {
+            "name": "Restore a specific key from the Value Set Version in an Environment of an App",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/value-set-versions/:valueSetVersionId/restore/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID.\n\n"
+              },
+              {
+                "name": "valueSetVersionId",
+                "value": "",
+                "type": "path",
+                "description": "The ValueSetVersion ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the value to be restored.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Restore the values of a single Shared Value in an Environment from a specific version.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n"
+        },
+        {
+          "info": {
+            "name": "List Value Set Versions in the App",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/value-set-versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "key_changed",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Return only value set version where the specified key changed\n\n"
+              }
+            ]
+          },
+          "docs": "A new Value Set Version is created on every modification of a Value inside the app."
+        },
+        {
+          "info": {
+            "name": "Get a single Value Set Version from the App",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/value-set-versions/:valueSetVersionId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "valueSetVersionId",
+                "value": "",
+                "type": "path",
+                "description": "The ValueSetVersion ID.\n\n"
+              }
+            ]
+          },
+          "docs": "Get a single Value Set Version from the App"
+        },
+        {
+          "info": {
+            "name": "Purge the value of a specific Shared Value from the App Version history.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/value-set-versions/:valueSetVersionId/purge/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "valueSetVersionId",
+                "value": "",
+                "type": "path",
+                "description": "The ValueSetVersion ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the value to be purged.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Purging permanently removes the value of a specific Shared Value in an Application. A purged value is no longer accessible, can't be restored and can't be used\nby deployments referencing a Value Set Version where the value was present.\n\nLearn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge).\n"
+        },
+        {
+          "info": {
+            "name": "Restore a Value Set Version in an App",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/value-set-versions/:valueSetVersionId/restore",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "valueSetVersionId",
+                "value": "",
+                "type": "path",
+                "description": "The ValueSetVersion ID.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Restore the values of all Shared Values in an application from a specific version. Keys not existing in the selected version are deleted.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n"
+        },
+        {
+          "info": {
+            "name": "Restore a specific key from the Value Set Version in an App",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/value-set-versions/:valueSetVersionId/restore/:key",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID.\n\n"
+              },
+              {
+                "name": "valueSetVersionId",
+                "value": "",
+                "type": "path",
+                "description": "The ValueSetVersion ID.\n\n"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the value to be restored.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Restore the values of a single Shared Value in an application from a specific version.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

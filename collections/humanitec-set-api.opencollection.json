@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Set API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Set",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Deployment Sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/sets",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              }
+            ]
+          },
+          "docs": "Get all Deployment Sets"
+        },
+        {
+          "info": {
+            "name": "Get a Deployment Set",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/sets/:setId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "setId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Deployment Set.\n\n"
+              },
+              {
+                "name": "diff",
+                "value": "",
+                "type": "query",
+                "description": "ID of the Deployment Set to compared against."
+              }
+            ]
+          },
+          "docs": "Get a Deployment Set"
+        },
+        {
+          "info": {
+            "name": "Apply a Deployment Delta to a Deployment Set",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/sets/:setId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "setId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Deployment Set.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply a Deployment Delta to a Deployment Set"
+        },
+        {
+          "info": {
+            "name": "Get Resource Inputs for the given Deployment Set",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/sets/:setId/resources",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "setId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Deployment Set."
+              }
+            ]
+          },
+          "docs": "Get Resource Inputs for the given Deployment Set"
+        },
+        {
+          "info": {
+            "name": "Get the difference between 2 Deployment Sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/sets/:setId/diff/:sourceSetId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "setId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Deployment Set.\n\n"
+              },
+              {
+                "name": "sourceSetId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Deployment Set to diff against.\n\n"
+              }
+            ]
+          },
+          "docs": "Get the difference between 2 Deployment Sets"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

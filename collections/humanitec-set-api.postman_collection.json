@@ -1,0 +1,1132 @@
+{
+  "item": [
+    {
+      "id": "ceaa980f-7201-4732-b4ba-1e8854d5e3d5",
+      "name": "Set",
+      "description": {
+        "content": "A Deployment Set (or just \"Set\") defines all of the non-Environment specific configuration for Modules and External Resources. Each of these Modules or External Resources has a unique name.\n\nDeployment Sets are immutable and their ID is a cryptographic hash of their content. This means that a Deployment Set can be globally identified based on its ID. It also means that referencing a Deployment Set by ID will always return the same Deployment Set.\n\nDeployment Sets cannot be created directly, instead they are created by applying a Deployment Delta to an existing Deployment Set.\n\n**Basic Structure**\n\n```\n {\n   \"id\": <ID of the Deployment Set>,\n   \"modules\" : {\n     <ID of Module> : {\n       \"profile\": <Defines how the optional \"spec\" property is interpreted>\n       \"spec\": {\n         <Properties that depend on the \"profile\" property.>\n       }\n       \"externals\": {\n         <External Resource Name> : {\n           \"type\": <Resource Type>,\n           \"params\": {\n             <Properties which parametrize the resource depending on the Resource Type.>\n           }\n         }\n       }\n     }\n   }\n }\n```\n\nFor details about how the Humanitec provided profiles work, see (Deployment Set Profiles)[].\n<SchemaDefinition schemaRef=\"#/components/schemas/SetRequest\" />\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f763329b-a9b4-4dfa-a562-b2cdde3185e3",
+          "name": "Get all Deployment Sets",
+          "request": {
+            "name": "Get all Deployment Sets",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "sets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c3d1b7d8-6c9c-4859-be2c-8b234183562b",
+              "name": "The Requested Deployment Set.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"modules\": {\n      \"key_0\": {\n        \"profile\": \"string\",\n        \"spec\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"externals\": {\n          \"key_0\": 8116\n        },\n        \"deploy\": {\n          \"when\": \"string\",\n          \"success\": \"string\",\n          \"timeout\": 7724\n        }\n      },\n      \"key_1\": {\n        \"profile\": \"string\",\n        \"spec\": {\n          \"key_0\": \"string\",\n          \"key_1\": true\n        },\n        \"externals\": {\n          \"key_0\": 2534.7167509549217\n        },\n        \"deploy\": {\n          \"when\": \"string\",\n          \"success\": \"string\",\n          \"timeout\": 9875\n        }\n      }\n    },\n    \"shared\": {\n      \"key_0\": true,\n      \"key_1\": 5094.645209332206\n    },\n    \"version\": 593\n  },\n  {\n    \"id\": \"string\",\n    \"modules\": {\n      \"key_0\": {\n        \"profile\": \"string\",\n        \"spec\": {\n          \"key_0\": 9679.761909848448\n        },\n        \"externals\": {\n          \"key_0\": 8310.977359335395,\n          \"key_1\": \"string\"\n        },\n        \"deploy\": {\n          \"when\": \"string\",\n          \"success\": \"string\",\n          \"timeout\": 7041\n        }\n      },\n      \"key_1\": {\n        \"profile\": \"string\",\n        \"spec\": {\n          \"key_0\": 3157.266484623824,\n          \"key_1\": 546.6337079048267,\n          \"key_2\": 8784\n        },\n        \"externals\": {\n          \"key_0\": 3156.358918268157,\n          \"key_1\": false\n        },\n        \"deploy\": {\n          \"when\": \"string\",\n          \"success\": \"string\",\n          \"timeout\": 2715\n        }\n      },\n      \"key_2\": {\n        \"profile\": \"string\",\n        \"spec\": {\n          \"key_0\": \"string\"\n        },\n        \"externals\": {\n          \"key_0\": 9492.12356097782,\n          \"key_1\": 3552\n        },\n        \"deploy\": {\n          \"when\": \"string\",\n          \"success\": \"string\",\n          \"timeout\": 3315\n        }\n      }\n    },\n    \"shared\": {\n      \"key_0\": 3974.6590629997204,\n      \"key_1\": true\n    },\n    \"version\": 7089\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26f929f8-28f5-4109-a917-0138869263d4",
+              "name": "No Deployment Set with ID `setId` found in Application.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "903d67dc-381b-4f00-908d-3bf01fbb86da",
+          "name": "Get a Deployment Set",
+          "request": {
+            "name": "Get a Deployment Set",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "sets",
+                ":setId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "diff",
+                  "value": "<string>",
+                  "description": "ID of the Deployment Set to compared against."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "setId",
+                  "description": "(Required) ID of the Deployment Set.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0b45239a-a441-4a51-bfdc-112bbb216085",
+              "name": "The Requested Deployment Set.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "diff",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"modules\": {\n    \"key_0\": {\n      \"profile\": \"string\",\n      \"spec\": {\n        \"key_0\": 5320.44658564283,\n        \"key_1\": 7145.175321954284,\n        \"key_2\": 9645.221228535629\n      },\n      \"externals\": {\n        \"key_0\": true\n      },\n      \"deploy\": {\n        \"when\": \"string\",\n        \"success\": \"string\",\n        \"timeout\": 1957\n      }\n    },\n    \"key_1\": {\n      \"profile\": \"string\",\n      \"spec\": {\n        \"key_0\": 1475.0093187133418,\n        \"key_1\": false\n      },\n      \"externals\": {\n        \"key_0\": \"string\",\n        \"key_1\": 4211\n      },\n      \"deploy\": {\n        \"when\": \"string\",\n        \"success\": \"string\",\n        \"timeout\": 4109\n      }\n    }\n  },\n  \"shared\": {\n    \"key_0\": 4207.4552118122565,\n    \"key_1\": false\n  },\n  \"version\": 9216\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "afaf7fc2-8e60-4c27-9527-e8a5f08c58d5",
+              "name": "No Deployment Set with ID `setId` found in Application.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "diff",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "25f1e2ba-57b9-4d9e-84a6-0c2e7dee1cb2",
+          "name": "Apply a Deployment Delta to a Deployment Set",
+          "request": {
+            "name": "Apply a Deployment Delta to a Deployment Set",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "sets",
+                ":setId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "setId",
+                  "description": "(Required) ID of the Deployment Set.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"metadata\": {\n    \"archived\": \"<boolean>\",\n    \"contributers\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"created_at\": \"<dateTime>\",\n    \"created_by\": \"<string>\",\n    \"env_id\": \"<string>\",\n    \"last_modified_at\": \"<dateTime>\",\n    \"name\": \"<string>\",\n    \"shared\": \"<boolean>\"\n  },\n  \"modules\": {\n    \"add\": {\n      \"key_0\": {\n        \"deploy\": {\n          \"success\": \"<string>\",\n          \"timeout\": \"<integer>\",\n          \"when\": \"<string>\"\n        },\n        \"externals\": {\n          \"key_0\": \"string\",\n          \"key_1\": 8550,\n          \"key_2\": 5056\n        },\n        \"profile\": \"<string>\",\n        \"spec\": {\n          \"key_0\": \"string\"\n        }\n      },\n      \"key_1\": {\n        \"deploy\": {\n          \"success\": \"<string>\",\n          \"timeout\": \"<integer>\",\n          \"when\": \"<string>\"\n        },\n        \"externals\": {\n          \"key_0\": 1270.3879817943541\n        },\n        \"profile\": \"<string>\",\n        \"spec\": {\n          \"key_0\": 1606.8345922000226,\n          \"key_1\": 4669.625711312529\n        }\n      },\n      \"key_2\": {\n        \"deploy\": {\n          \"success\": \"<string>\",\n          \"timeout\": \"<integer>\",\n          \"when\": \"<string>\"\n        },\n        \"externals\": {\n          \"key_0\": 4910,\n          \"key_1\": \"string\"\n        },\n        \"profile\": \"<string>\",\n        \"spec\": {\n          \"key_0\": false,\n          \"key_1\": 1850.859443722156\n        }\n      },\n      \"key_3\": {\n        \"deploy\": {\n          \"success\": \"<string>\",\n          \"timeout\": \"<integer>\",\n          \"when\": \"<string>\"\n        },\n        \"externals\": {\n          \"key_0\": 8179,\n          \"key_1\": \"string\",\n          \"key_2\": true,\n          \"key_3\": 5240\n        },\n        \"profile\": \"<string>\",\n        \"spec\": {\n          \"key_0\": \"string\",\n          \"key_1\": 7535,\n          \"key_2\": 3544.9994485821735\n        }\n      }\n    },\n    \"remove\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"update\": {\n      \"key_0\": [\n        {\n          \"from\": \"<string>\",\n          \"op\": \"<string>\",\n          \"path\": \"<string>\",\n          \"value\": {}\n        },\n        {\n          \"from\": \"<string>\",\n          \"op\": \"<string>\",\n          \"path\": \"<string>\",\n          \"value\": {}\n        }\n      ],\n      \"key_1\": [\n        {\n          \"from\": \"<string>\",\n          \"op\": \"<string>\",\n          \"path\": \"<string>\",\n          \"value\": {}\n        },\n        {\n          \"from\": \"<string>\",\n          \"op\": \"<string>\",\n          \"path\": \"<string>\",\n          \"value\": {}\n        }\n      ]\n    }\n  },\n  \"shared\": [\n    {\n      \"from\": \"<string>\",\n      \"op\": \"<string>\",\n      \"path\": \"<string>\",\n      \"value\": {}\n    },\n    {\n      \"from\": \"<string>\",\n      \"op\": \"<string>\",\n      \"path\": \"<string>\",\n      \"value\": {}\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2e2dc7c6-853a-4a62-9971-10b81bebb4d2",
+              "name": "A Deployment Delta which if applied to the Set with ID `sourceSetId` gives the Set with ID `setId`.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"modules\": {\n    \"remove\": [\n      \"module-one\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "715d2a29-67ad-4d2e-92b8-83698e2c7425",
+              "name": "Deployment Delta is incompatible with the Deployment Set specified by `setId`.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"modules\": {\n    \"remove\": [\n      \"module-one\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a1ff79af-e45c-403b-b861-8b8acca091be",
+              "name": "No Deployment Set with ID `setId` found in Application.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"modules\": {\n    \"remove\": [\n      \"module-one\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da023327-65cd-4eaf-9e38-041c125d2e4e",
+          "name": "Get Resource Inputs for the given Deployment Set",
+          "request": {
+            "name": "Get Resource Inputs for the given Deployment Set",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "sets",
+                ":setId",
+                "resources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "setId",
+                  "description": "(Required) ID of the Deployment Set."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e61cf170-e9a2-46ac-a339-f7c1f59997aa",
+              "name": "Resource Inputs of the requested Deployment Set.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"type\": \"string\",\n    \"class\": \"string\",\n    \"resource\": {\n      \"key_0\": true\n    }\n  },\n  {\n    \"id\": \"string\",\n    \"type\": \"string\",\n    \"class\": \"string\",\n    \"resource\": {\n      \"key_0\": false\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa51500f-405f-4f5c-a1b4-6d47ef007027",
+              "name": "Invalid resources in the Deployment Set",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0ea2e30-e528-4fdc-ab03-ffc565a0cdd6",
+              "name": "No Deployment Set with ID `setId` found in Application.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d74ddb65-5f84-40cd-a530-864a1de316ea",
+          "name": "Get the difference between 2 Deployment Sets",
+          "request": {
+            "name": "Get the difference between 2 Deployment Sets",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "apps",
+                ":appId",
+                "sets",
+                ":setId",
+                "diff",
+                ":sourceSetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appId",
+                  "description": "(Required) The Application ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "setId",
+                  "description": "(Required) ID of the Deployment Set.\n\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sourceSetId",
+                  "description": "(Required) ID of the Deployment Set to diff against.\n\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4fa368a2-7440-4066-8e80-f669b57d69d9",
+              "name": "A Deployment Delta which if applied to the Set with ID `sourceSetId` gives the Set with ID `setId`.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId",
+                    "diff",
+                    ":sourceSetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sourceSetId",
+                      "description": "(Required) ID of the Deployment Set to diff against.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"modules\": {\n    \"add\": {\n      \"key_0\": {\n        \"profile\": \"string\",\n        \"spec\": {\n          \"key_0\": \"string\"\n        },\n        \"externals\": {\n          \"key_0\": 9988,\n          \"key_1\": 9875,\n          \"key_2\": 1583,\n          \"key_3\": \"string\"\n        },\n        \"deploy\": {\n          \"when\": \"string\",\n          \"success\": \"string\",\n          \"timeout\": 7663\n        }\n      }\n    },\n    \"remove\": [\n      \"string\",\n      \"string\"\n    ],\n    \"update\": {\n      \"key_0\": [\n        {\n          \"op\": \"string\",\n          \"path\": \"string\",\n          \"from\": \"string\",\n          \"value\": \"\"\n        },\n        {\n          \"op\": \"string\",\n          \"path\": \"string\",\n          \"from\": \"string\",\n          \"value\": \"\"\n        }\n      ],\n      \"key_1\": [\n        {\n          \"op\": \"string\",\n          \"path\": \"string\",\n          \"from\": \"string\",\n          \"value\": \"\"\n        },\n        {\n          \"op\": \"string\",\n          \"path\": \"string\",\n          \"from\": \"string\",\n          \"value\": \"\"\n        }\n      ],\n      \"key_2\": [\n        {\n          \"op\": \"string\",\n          \"path\": \"string\",\n          \"from\": \"string\",\n          \"value\": \"\"\n        },\n        {\n          \"op\": \"string\",\n          \"path\": \"string\",\n          \"from\": \"string\",\n          \"value\": \"\"\n        }\n      ]\n    }\n  },\n  \"shared\": [\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"from\": \"string\",\n      \"value\": \"\"\n    },\n    {\n      \"op\": \"string\",\n      \"path\": \"string\",\n      \"from\": \"string\",\n      \"value\": \"\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf0502bf-683d-4f46-b0db-629996b82639",
+              "name": "No Deployment Set with ID `setId` or `sourceSetId` found in Application.\n\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "apps",
+                    ":appId",
+                    "sets",
+                    ":setId",
+                    "diff",
+                    ":sourceSetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appId",
+                      "description": "(Required) The Application ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "setId",
+                      "description": "(Required) ID of the Deployment Set.\n\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sourceSetId",
+                      "description": "(Required) ID of the Deployment Set to diff against.\n\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.humanitec.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6b46a943-7d49-4fc7-8d64-d1de4f5c80cd",
+    "name": "Humanitec AccountType Set API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n\n\nContact Support:\n Name: Humanitec Support\n Email: support@humanitec.com",
+      "type": "text/plain"
+    }
+  }
+}

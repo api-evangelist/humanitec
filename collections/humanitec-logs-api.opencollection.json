@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Logs API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get container log entries for the environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/logs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID\n\n"
+              },
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The Application ID\n\n"
+              },
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path",
+                "description": "The Environment ID\n\n"
+              },
+              {
+                "name": "workload_id",
+                "value": "",
+                "type": "query",
+                "description": "filter by workload ID\n\n"
+              },
+              {
+                "name": "container_id",
+                "value": "",
+                "type": "query",
+                "description": "filter by container ID\n\n"
+              },
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "filter by deployment ID\n\n"
+              },
+              {
+                "name": "timestamp_from",
+                "value": "",
+                "type": "query",
+                "description": "filter by min time, RFC 3339 format, e.g. \"2021-10-02T15:01:23.045Z\"\n\n"
+              },
+              {
+                "name": "timestamp_to",
+                "value": "",
+                "type": "query",
+                "description": "filter by max time, RFC 3330 format, e.g. \"2021-10-02T15:01:23.045Z\"\n\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "limit log entries returned\n\n"
+              },
+              {
+                "name": "asc",
+                "value": "",
+                "type": "query",
+                "description": "if true request results in ascending order, default order is descending\n\n"
+              },
+              {
+                "name": "invert",
+                "value": "",
+                "type": "query",
+                "description": "if true reverse the order of the log entries in the output\n\n"
+              }
+            ]
+          },
+          "docs": "Get container log entries for the environment"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

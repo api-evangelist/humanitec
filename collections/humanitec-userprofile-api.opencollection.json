@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType UserProfile API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "UserProfile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets the extended profile of the current user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/current-user"
+          },
+          "docs": "Gets the extended profile of the current user"
+        },
+        {
+          "info": {
+            "name": "Updates the extended profile of the current user.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/current-user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the extended profile of the current user."
+        },
+        {
+          "info": {
+            "name": "Creates a new service user.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/users",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new service user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

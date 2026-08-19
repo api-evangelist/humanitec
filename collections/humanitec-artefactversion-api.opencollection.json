@@ -1,0 +1,228 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ArtefactVersion API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ArtefactVersion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Artefacts Versions in the org.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefact-versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "name",
+                "value": "registry.humanitec.io/public/sample-app",
+                "type": "query",
+                "description": "(Optional) Filter Artefact Versions by name."
+              },
+              {
+                "name": "reference",
+                "value": "registry.humanitec.io/public/sample-app:v1@sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
+                "type": "query",
+                "description": "(Optional) Filter Artefact Versions by the reference to a Version of the same Artefact. This cannot be used together with `name`."
+              },
+              {
+                "name": "archived",
+                "value": "false",
+                "type": "query",
+                "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned."
+              },
+              {
+                "name": "type",
+                "value": "containers",
+                "type": "query",
+                "description": "(Optional) Filter by artefact type."
+              }
+            ]
+          },
+          "docs": "Returns the Artefact Versions registered with your organization. If no elements are found, an empty list is returned."
+        },
+        {
+          "info": {
+            "name": "Register a new Artefact Version with your organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefact-versions",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "vcs",
+                "value": "git",
+                "type": "query",
+                "description": "(Optional) Which version control system the version comes from. Default value is \"git\". If this parameter is not supplied or its value is \"git\", the provided ref, if not empty, is checked to ensure that it has the prefix \"refs/\"."
+              },
+              {
+                "name": "dry_run",
+                "value": "false",
+                "type": "query",
+                "description": "Optionally validate the request but do not persist the actual artefact. If the Accept type is set to \"application/x.workload-deployment-set+json\" or \"application/x.workload-deployment-set+x-yaml\", the generated deployment set will be returned."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a new Artefact Version with your organization."
+        },
+        {
+          "info": {
+            "name": "Get an Artefacts Versions.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefact-versions/:artefactVersionId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "artefactVersionId",
+                "value": "662b80db-cc71-40cf-b601-08d57983f6e4",
+                "type": "path",
+                "description": "The Artefact Version ID."
+              }
+            ]
+          },
+          "docs": "Returns a specific Artefact Version."
+        },
+        {
+          "info": {
+            "name": "List all Artefact Versions of an Artefact.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefacts/:artefactId/versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "artefactId",
+                "value": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
+                "type": "path",
+                "description": "The Artefact ID."
+              },
+              {
+                "name": "archived",
+                "value": "false",
+                "type": "query",
+                "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned."
+              },
+              {
+                "name": "reference",
+                "value": "registry.humanitec.io/public/sample-app:v1@sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
+                "type": "query",
+                "description": "(Optional) Filter Artefact Versions by by name including a version or digest."
+              },
+              {
+                "name": "limit",
+                "value": "20",
+                "type": "query",
+                "description": "(Optional) Limit the number of versions returned by the endpoint."
+              }
+            ]
+          },
+          "docs": "Returns the Artefact Versions of a specified Artefact registered with your organization. If no elements are found, an empty list is returned."
+        },
+        {
+          "info": {
+            "name": "Update Version of an Artefact.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefacts/:artefactId/versions/:versionId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "artefactId",
+                "value": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
+                "type": "path",
+                "description": "The Artefact ID."
+              },
+              {
+                "name": "versionId",
+                "value": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
+                "type": "path",
+                "description": "The Version ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the version of a specified Artefact registered with your organization\"."
+        },
+        {
+          "info": {
+            "name": "Convert a Score specification, optional overrides, and extensions into the contents for a deployment set.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefact-versions/convert-score",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Convert a Score specification, optional overrides, and extensions into the contents for a deployment set."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

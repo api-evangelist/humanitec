@@ -1,0 +1,188 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType ResourceAccount API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ResourceAccount",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Resource Accounts in the organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/accounts",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              }
+            ]
+          },
+          "docs": "List Resource Accounts in the organization."
+        },
+        {
+          "info": {
+            "name": "Create a new Resource Account in the organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/accounts",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID."
+              },
+              {
+                "name": "dry_run",
+                "value": "true",
+                "type": "query",
+                "description": "Validate the request but do not persist the change."
+              },
+              {
+                "name": "check_credential",
+                "value": "true",
+                "type": "query",
+                "description": "Validate that the Account credential authenticates successfully."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new Resource Account in the organization."
+        },
+        {
+          "info": {
+            "name": "Get a Resource Account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/accounts/:accId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "accId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Account ID.\n\n"
+              }
+            ]
+          },
+          "docs": "Get a Resource Account."
+        },
+        {
+          "info": {
+            "name": "Update a Resource Account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/accounts/:accId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "accId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Account ID.\n\n"
+              },
+              {
+                "name": "dry_run",
+                "value": "true",
+                "type": "query",
+                "description": "Validate the request but do not persist the change."
+              },
+              {
+                "name": "check_credential",
+                "value": "true",
+                "type": "query",
+                "description": "Validate that the Account credential authenticates successfully."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Resource Account."
+        },
+        {
+          "info": {
+            "name": "Delete an unused Resource Account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/accounts/:accId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID.\n\n"
+              },
+              {
+                "name": "accId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Account ID.\n\n"
+              }
+            ]
+          },
+          "docs": "A Resource Account can be deleted if it is not referenced or referenced only by deleted Resource Definitions.\nResource Definition Versions which reference the deleted Resource Account cannot be used in deployments.\n"
+        },
+        {
+          "info": {
+            "name": "Check the credentials of an existing Resource Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/resources/accounts/:accId/actions/check",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The Organization ID."
+              },
+              {
+                "name": "accId",
+                "value": "",
+                "type": "path",
+                "description": "The Resource Account ID."
+              }
+            ]
+          },
+          "docs": "Check the validity of a Resource Account and return any problems that may cause it to not work as expected."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

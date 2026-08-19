@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType HumanitecPublicKeys API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "HumanitecPublicKeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all the public keys Humanitec shares with an organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/humanitec-keys",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "active",
+                "value": "",
+                "type": "query",
+                "description": "If set to true, the response includes only the active key, if set to false only non-active keys, otherwise both active and non-active keys."
+              }
+            ]
+          },
+          "docs": "List all the public keys Humanitec shares with an organization."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

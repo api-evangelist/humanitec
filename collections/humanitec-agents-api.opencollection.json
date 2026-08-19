@@ -1,0 +1,205 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Agents API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all the agents in an Organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/agents",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "fingerprint",
+                "value": "9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d",
+                "type": "query",
+                "description": "The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key)."
+              }
+            ]
+          },
+          "docs": "List all the agents in an Organization."
+        },
+        {
+          "info": {
+            "name": "Register a new Agent under an Organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/agents",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a new Agent under an Organization."
+        },
+        {
+          "info": {
+            "name": "Update the description of an Agent.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/agents/:agentId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "agentId",
+                "value": "my-agent",
+                "type": "path",
+                "description": "The Agent id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the description of an Agent."
+        },
+        {
+          "info": {
+            "name": "Delete an Agent (and its keys) stored under an Organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/agents/:agentId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "agentId",
+                "value": "my-agent",
+                "type": "path",
+                "description": "The Agent id."
+              }
+            ]
+          },
+          "docs": "Delete an Agent (and its keys) stored under an Organization."
+        },
+        {
+          "info": {
+            "name": "List all the keys registered under an Agent in an Organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/agents/:agentId/keys",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "agentId",
+                "value": "my-agent",
+                "type": "path",
+                "description": "The Agent id."
+              }
+            ]
+          },
+          "docs": "List all the keys registered under an Agent in an Organization."
+        },
+        {
+          "info": {
+            "name": "Register a new Key under an Agent in an Organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/agents/:agentId/keys",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "agentId",
+                "value": "my-agent",
+                "type": "path",
+                "description": "The Agent id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a new Key under an Agent in an Organization."
+        },
+        {
+          "info": {
+            "name": "Delete a key registered under a Agent.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/agents/:agentId/keys/:fingerprint",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "agentId",
+                "value": "my-agent",
+                "type": "path",
+                "description": "The Agent id."
+              },
+              {
+                "name": "fingerprint",
+                "value": "9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d",
+                "type": "path",
+                "description": "The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key)."
+              }
+            ]
+          },
+          "docs": "Delete a key registered under a Agent."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

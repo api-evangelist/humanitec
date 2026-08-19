@@ -1,0 +1,571 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType PipelineRuns API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PipelineRuns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all pipeline runs within the Org ordered newest to oldest. This can be filtered by app, pipeline, and status.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/pipeline-runs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "app",
+                "value": "",
+                "type": "query",
+                "description": "An optional list of Application IDs."
+              },
+              {
+                "name": "pipeline",
+                "value": "",
+                "type": "query",
+                "description": "An optional list of Pipeline IDs."
+              },
+              {
+                "name": "env",
+                "value": "",
+                "type": "query",
+                "description": "An optional Environment ID"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter by status."
+              },
+              {
+                "name": "completed",
+                "value": "true",
+                "type": "query",
+                "description": "Optional filer by completed or not."
+              },
+              {
+                "name": "created_after",
+                "value": "2018-03-20T09:12:28Z",
+                "type": "query",
+                "description": "Optional filter by creation after date time."
+              },
+              {
+                "name": "created_before",
+                "value": "2018-03-20T09:12:28Z",
+                "type": "query",
+                "description": "Optional filter by creation before date time"
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "List all pipeline runs within the Org ordered newest to oldest. This can be filtered by app, pipeline, and status."
+        },
+        {
+          "info": {
+            "name": "Create a Pipeline Run in the appropriate Pipeline based on the trigger and inputs.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipeline-runs",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": "0xr$P0Cu4@DB"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "dry_run",
+                "value": "false",
+                "type": "query",
+                "description": "Optionally validate the request but do not persist the actual Pipeline Run."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Pipeline Run in the appropriate Pipeline based on the trigger and inputs."
+        },
+        {
+          "info": {
+            "name": "List runs within a pipeline ordered newest to oldest.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "env",
+                "value": "",
+                "type": "query",
+                "description": "An optional Environment ID"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter by status."
+              },
+              {
+                "name": "completed",
+                "value": "true",
+                "type": "query",
+                "description": "Optional filer by completed or not."
+              },
+              {
+                "name": "created_after",
+                "value": "2018-03-20T09:12:28Z",
+                "type": "query",
+                "description": "Optional filter by creation after date time."
+              },
+              {
+                "name": "created_before",
+                "value": "2018-03-20T09:12:28Z",
+                "type": "query",
+                "description": "Optional filter by creation before date time"
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "List runs within a pipeline ordered newest to oldest."
+        },
+        {
+          "info": {
+            "name": "Create a run within a pipeline.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": "0xr$P0Cu4@DB"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "dry_run",
+                "value": "false",
+                "type": "query",
+                "description": "Optionally validate the request but do not persist the actual Pipeline Run."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a run within a pipeline."
+        },
+        {
+          "info": {
+            "name": "Get a run within an pipeline.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              }
+            ]
+          },
+          "docs": "Get a run within an pipeline."
+        },
+        {
+          "info": {
+            "name": "Deleting a completed Run within a Pipeline.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId",
+            "headers": [
+              {
+                "name": "If-Match",
+                "value": "1234567890abcdef"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              }
+            ]
+          },
+          "docs": "Deleting a completed Run within a Pipeline."
+        },
+        {
+          "info": {
+            "name": "Cancel a Run within an Pipeline.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId/cancel",
+            "headers": [
+              {
+                "name": "If-Match",
+                "value": "1234567890abcdef"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              }
+            ]
+          },
+          "docs": "Attempts to cancel the specified Run. If the Run is in a queued state, this cancellation will be applied\nimmediately. If the Run is executing, the cancellation will be stored and will be resolved by the next\nJob or Step that supports in-flight cancellation. Runs that are in any other state, are not cancellable.\n"
+        },
+        {
+          "info": {
+            "name": "Restart a Run within an Pipeline by cloning it with the same trigger and inputs.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId/restart",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": "0xr$P0Cu4@DB"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              }
+            ]
+          },
+          "docs": "Attempts to copy and restart the specified Run. The run must be in a completed state.\n"
+        },
+        {
+          "info": {
+            "name": "List the details of the jobs within a pipeline run.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId/jobs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter by status."
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "List the details of the jobs within a pipeline run."
+        },
+        {
+          "info": {
+            "name": "List the details of a Job including Step information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId/jobs/:jobId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              },
+              {
+                "name": "jobId",
+                "value": "deploy",
+                "type": "path",
+                "description": "The Job ID"
+              }
+            ]
+          },
+          "docs": "List the details of a Job including Step information"
+        },
+        {
+          "info": {
+            "name": "Get a page of log output for a given step within a job.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId/jobs/:jobId/steps/:stepIndex/logs",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              },
+              {
+                "name": "jobId",
+                "value": "deploy",
+                "type": "path",
+                "description": "The Job ID"
+              },
+              {
+                "name": "stepIndex",
+                "value": "0",
+                "type": "path",
+                "description": "The index of the step within the Job"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "Get a page of log output for a given step within a job."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

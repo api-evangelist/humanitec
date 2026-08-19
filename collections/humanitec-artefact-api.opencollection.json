@@ -1,0 +1,136 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Artefact API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Artefact",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the spec of this Workload Artefact Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefact-versions/:artefactVersionId/workload-spec",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "artefactVersionId",
+                "value": "662b80db-cc71-40cf-b601-08d57983f6e4",
+                "type": "path",
+                "description": "The Artefact Version ID."
+              }
+            ]
+          },
+          "docs": "Returns the spec of this Artefact Version if it is of type workload. An error will be\nreturned if it is not.\n"
+        },
+        {
+          "info": {
+            "name": "Get the Humanitec module definition of this Workload Artefact Version as a deployment set",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefact-versions/:artefactVersionId/workload-deployment-set",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "artefactVersionId",
+                "value": "662b80db-cc71-40cf-b601-08d57983f6e4",
+                "type": "path",
+                "description": "The Artefact Version ID."
+              }
+            ]
+          },
+          "docs": "Returns the Humanitec workload module of this Artefact Version if it is of type workload. An error will be\nreturned if it is not.\n"
+        },
+        {
+          "info": {
+            "name": "List all Artefacts.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefacts",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "type",
+                "value": "container",
+                "type": "query",
+                "description": "(Optional) Filter Artefacts by type."
+              },
+              {
+                "name": "name",
+                "value": "registry.humanitec.io/public/sample-app",
+                "type": "query",
+                "description": "(Optional) Filter Artefacts by name."
+              }
+            ]
+          },
+          "docs": "Returns the Artefacts registered with your organization. If no elements are found, an empty list is returned."
+        },
+        {
+          "info": {
+            "name": "Delete Artefact and all related Artefact Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/artefacts/:artefactId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The organization ID."
+              },
+              {
+                "name": "artefactId",
+                "value": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
+                "type": "path",
+                "description": "The Artefact ID."
+              }
+            ]
+          },
+          "docs": "The specified Artefact and its Artefact Versions will be permanently deleted. Only Administrators can delete an Artefact."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

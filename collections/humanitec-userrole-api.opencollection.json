@@ -1,0 +1,484 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType UserRole API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "UserRole",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Users or Groups with roles in an App",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/users",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of Subject. Either User or Group"
+              }
+            ]
+          },
+          "docs": "List Users or Groups with roles in an App"
+        },
+        {
+          "info": {
+            "name": "Adds a User or a Group to an Application with a Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/users",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a User or a Group to an Application with a Role"
+        },
+        {
+          "info": {
+            "name": "Get the role of a User or a Group on an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ]
+          },
+          "docs": "Get the role of a User or a Group on an Application"
+        },
+        {
+          "info": {
+            "name": "Update the role of a User or a Group on an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the role of a User or a Group on an Application"
+        },
+        {
+          "info": {
+            "name": "Remove the role of a User or a Group on an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ]
+          },
+          "docs": "Remove the role of a User or a Group on an Application"
+        },
+        {
+          "info": {
+            "name": "List Users and Groups with roles in an Environment Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types/:envType/users",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "envType",
+                "value": "",
+                "type": "path",
+                "description": "The Environment Type."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of Subject. Either User or Group"
+              }
+            ]
+          },
+          "docs": "List Users and Groups with roles in an Environment Type"
+        },
+        {
+          "info": {
+            "name": "Adds a User or a Group to an Environment Type with a Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types/:envType/users",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "envType",
+                "value": "",
+                "type": "path",
+                "description": "The Environment Type."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a User or a Group to an Environment Type with a Role"
+        },
+        {
+          "info": {
+            "name": "Get the role of a User or a Group on an Environment Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types/:envType/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "envType",
+                "value": "",
+                "type": "path",
+                "description": "The Environment Type."
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ]
+          },
+          "docs": "Get the role of a User or a Group on an Environment Type"
+        },
+        {
+          "info": {
+            "name": "Update the role of a User or a Group on an Environment Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types/:envType/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "envType",
+                "value": "",
+                "type": "path",
+                "description": "The Environment Type."
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the role of a User or a Group on an Environment Type"
+        },
+        {
+          "info": {
+            "name": "Remove the role of a User or a Group on an Environment Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/env-types/:envType/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "envType",
+                "value": "",
+                "type": "path",
+                "description": "The Environment Type."
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ]
+          },
+          "docs": "Remove the role of a User or a Group on an Environment Type"
+        },
+        {
+          "info": {
+            "name": "Invites a user to an Organization with a specified role.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/invitations",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invites a user to an Organization with a specified role."
+        },
+        {
+          "info": {
+            "name": "List Users and Groups with roles in an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/users",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of Subject. Either User or Group"
+              }
+            ]
+          },
+          "docs": "List Users and Groups with roles in an Organization"
+        },
+        {
+          "info": {
+            "name": "Get the role of a User or a Group on an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ]
+          },
+          "docs": "Get the role of a User or a Group on an Organization"
+        },
+        {
+          "info": {
+            "name": "Update the role of a User or a Group on an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the role of a User or a Group on an Organization"
+        },
+        {
+          "info": {
+            "name": "Remove the role of a User or a Group on an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/users/:userId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ]
+          },
+          "docs": "Remove the role of a User or a Group on an Organization"
+        },
+        {
+          "info": {
+            "name": "Get the permissions of a User or Group on the objects in an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/users/:userId/perms",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "userId",
+                "value": "61048226-642c-438e-974f-ce5c013d94f8",
+                "type": "path",
+                "description": "The User or Group Id."
+              }
+            ]
+          },
+          "docs": "Get the permissions of a User or Group on the objects in an Organization"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

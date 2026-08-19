@@ -1,0 +1,1041 @@
+{
+  "item": [
+    {
+      "id": "b356f940-89f2-4f29-9b6e-c42d619dc8e2",
+      "name": "ResourceDefinitionVersion",
+      "description": {
+        "content": "A Resource Definition Version represents a version of a Resource Definition.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionVersion\" />\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "efe64a6d-0ace-4071-868d-cc3b0bb58dce",
+          "name": "Get Versions of a Resource Definition.",
+          "request": {
+            "name": "Get Versions of a Resource Definition.",
+            "description": {
+              "content": "First 50 Versions are kept along with all the Versions referenced by an Active Resource.\n\n To obtain Versions of a deleted Resource Definition, the `deleted` parameter needs to be used.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "resources",
+                "defs",
+                ":defId",
+                "versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "deleted",
+                  "value": "false",
+                  "description": "If to show also deleted records in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "50",
+                  "description": "The maximum number of items to return in a page of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<string>",
+                  "description": "The page token to request from"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "defId",
+                  "description": "(Required) The Resource Definition ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d5426847-e32d-47d9-976c-31a8e2e73ee8",
+              "name": "A list or Resource Definition Version.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "deleted",
+                      "value": "true"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "50"
+                    },
+                    {
+                      "key": "page",
+                      "value": "AAAAAAAAAA=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "A list of request links, optionally including a \"next\" page link for pagination.",
+                  "key": "Link",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"org_id\": \"string\",\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"def_id\": \"string\",\n    \"type\": \"string\",\n    \"driver_type\": \"string\",\n    \"driver_account\": \"string\",\n    \"driver_inputs\": {\n      \"secret_refs\": {\n        \"credentials\": {\n          \"password\": {\n            \"value\": \"<secret>\"\n          },\n          \"user\": {\n            \"ref\": \"vault/path/to/data/secrets/user\",\n            \"store\": \"my-external-vault\",\n            \"version\": \"1\"\n          }\n        }\n      },\n      \"secrets\": {\n        \"password\": \"vault/path/to/data/.secrets/password\",\n        \"user\": \"vault/path/to/data/.secrets/user\"\n      },\n      \"values\": {\n        \"host\": \"127.0.0.1\",\n        \"name\": \"my-database\"\n      }\n    },\n    \"provision\": {\n      \"key_0\": {\n        \"is_dependent\": false,\n        \"match_dependents\": true,\n        \"params\": {\n          \"key_0\": 2428,\n          \"key_1\": true\n        }\n      }\n    },\n    \"action\": \"string\",\n    \"archived\": false,\n    \"active\": true,\n    \"proposed\": false,\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\"\n  },\n  {\n    \"org_id\": \"string\",\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"def_id\": \"string\",\n    \"type\": \"string\",\n    \"driver_type\": \"string\",\n    \"driver_account\": \"string\",\n    \"driver_inputs\": {\n      \"secret_refs\": {\n        \"credentials\": {\n          \"password\": {\n            \"value\": \"<secret>\"\n          },\n          \"user\": {\n            \"ref\": \"vault/path/to/data/secrets/user\",\n            \"store\": \"my-external-vault\",\n            \"version\": \"1\"\n          }\n        }\n      },\n      \"secrets\": {\n        \"password\": \"vault/path/to/data/.secrets/password\",\n        \"user\": \"vault/path/to/data/.secrets/user\"\n      },\n      \"values\": {\n        \"host\": \"127.0.0.1\",\n        \"name\": \"my-database\"\n      }\n    },\n    \"provision\": {\n      \"key_0\": {\n        \"is_dependent\": true,\n        \"match_dependents\": true,\n        \"params\": {\n          \"key_0\": \"string\"\n        }\n      }\n    },\n    \"action\": \"string\",\n    \"archived\": false,\n    \"active\": true,\n    \"proposed\": false,\n    \"created_at\": \"2020-06-22T09:37:23.523Z\",\n    \"created_by\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b8c44d7-cd68-441d-af06-4e7441182533",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "deleted",
+                      "value": "true"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "50"
+                    },
+                    {
+                      "key": "page",
+                      "value": "AAAAAAAAAA=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "efea8d30-54fd-4ec1-958f-ea264687fe34",
+              "name": "The Resource Definition is not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "deleted",
+                      "value": "true"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "50"
+                    },
+                    {
+                      "key": "page",
+                      "value": "AAAAAAAAAA=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4e85995f-6f6e-4963-b550-d47106379717",
+          "name": "Get a Resource Definition Version.",
+          "request": {
+            "name": "Get a Resource Definition Version.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "resources",
+                "defs",
+                ":defId",
+                "versions",
+                ":defVersionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "defId",
+                  "description": "(Required) The Resource Definition ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "defVersionId",
+                  "description": "(Required) The Resource Definition Version ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "90c11877-7c2b-40be-9e64-4bf8bae07412",
+              "name": "The Resource Definition Version with the specified ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions",
+                    ":defVersionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defVersionId",
+                      "description": "(Required) The Resource Definition Version ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"org_id\": \"string\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"def_id\": \"string\",\n  \"type\": \"string\",\n  \"driver_type\": \"string\",\n  \"driver_account\": \"string\",\n  \"driver_inputs\": {\n    \"secret_refs\": {\n      \"credentials\": {\n        \"password\": {\n          \"value\": \"<secret>\"\n        },\n        \"user\": {\n          \"ref\": \"vault/path/to/data/secrets/user\",\n          \"store\": \"my-external-vault\",\n          \"version\": \"1\"\n        }\n      }\n    },\n    \"secrets\": {\n      \"password\": \"vault/path/to/data/.secrets/password\",\n      \"user\": \"vault/path/to/data/.secrets/user\"\n    },\n    \"values\": {\n      \"host\": \"127.0.0.1\",\n      \"name\": \"my-database\"\n    }\n  },\n  \"provision\": {\n    \"key_0\": {\n      \"is_dependent\": false,\n      \"match_dependents\": false,\n      \"params\": {\n        \"key_0\": \"string\",\n        \"key_1\": 384\n      }\n    },\n    \"key_1\": {\n      \"is_dependent\": true,\n      \"match_dependents\": true,\n      \"params\": {\n        \"key_0\": 3132,\n        \"key_1\": 8923\n      }\n    },\n    \"key_2\": {\n      \"is_dependent\": true,\n      \"match_dependents\": false,\n      \"params\": {\n        \"key_0\": true\n      }\n    },\n    \"key_3\": {\n      \"is_dependent\": true,\n      \"match_dependents\": false,\n      \"params\": {\n        \"key_0\": 4914,\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      }\n    }\n  },\n  \"action\": \"string\",\n  \"archived\": true,\n  \"active\": false,\n  \"proposed\": false,\n  \"created_at\": \"2020-06-22T09:37:23.523Z\",\n  \"created_by\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "910cda87-fe3f-4cb0-9e68-ef4d1c6b3c65",
+              "name": "The Resource Definition Version is not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions",
+                    ":defVersionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defVersionId",
+                      "description": "(Required) The Resource Definition Version ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "86f263f8-d0ab-4f92-be69-dc452cb18d4f",
+          "name": "Mark/unmark the Resource Definition Version as archived.",
+          "request": {
+            "name": "Mark/unmark the Resource Definition Version as archived.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "resources",
+                "defs",
+                ":defId",
+                "versions",
+                ":defVersionId",
+                "actions",
+                "archive"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "defId",
+                  "description": "(Required) The Resource Definition ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "defVersionId",
+                  "description": "(Required) The Resource Definition Version ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"archived\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "820e8e1c-2036-4442-b9d3-c7bdd115ebec",
+              "name": "The Resource Definition Version's archived status changed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions",
+                    ":defVersionId",
+                    "actions",
+                    "archive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defVersionId",
+                      "description": "(Required) The Resource Definition Version ID."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archive\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "65718f06-c0aa-483b-83de-93137f408037",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions",
+                    ":defVersionId",
+                    "actions",
+                    "archive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defVersionId",
+                      "description": "(Required) The Resource Definition Version ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archive\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1afa1f86-da0d-4cc1-a44b-c63d7e76e1fa",
+              "name": "The Resource Definition Version is not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions",
+                    ":defVersionId",
+                    "actions",
+                    "archive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defVersionId",
+                      "description": "(Required) The Resource Definition Version ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archive\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2c9d6745-5e7f-4113-af16-8022b0eb284a",
+          "name": "Promote the Resource Definition Version as active.",
+          "request": {
+            "name": "Promote the Resource Definition Version as active.",
+            "description": {},
+            "url": {
+              "path": [
+                "orgs",
+                ":orgId",
+                "resources",
+                "defs",
+                ":defId",
+                "versions",
+                ":defVersionId",
+                "actions",
+                "promote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orgId",
+                  "description": "(Required) The Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "defId",
+                  "description": "(Required) The Resource Definition ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "defVersionId",
+                  "description": "(Required) The Resource Definition Version ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "aa57e1af-95c6-4e5f-8277-4c0113f09fda",
+              "name": "The Resource Definition Version became active.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions",
+                    ":defVersionId",
+                    "actions",
+                    "promote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defVersionId",
+                      "description": "(Required) The Resource Definition Version ID."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8ba41889-65b9-4f75-9133-aa9f3a9f81e8",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions",
+                    ":defVersionId",
+                    "actions",
+                    "promote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defVersionId",
+                      "description": "(Required) The Resource Definition Version ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0ab4586-6f3b-4325-b841-d4992fa7e06a",
+              "name": "The Resource Definition Version is not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgId",
+                    "resources",
+                    "defs",
+                    ":defId",
+                    "versions",
+                    ":defVersionId",
+                    "actions",
+                    "promote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orgId",
+                      "description": "(Required) The Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defId",
+                      "description": "(Required) The Resource Definition ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "defVersionId",
+                      "description": "(Required) The Resource Definition Version ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"API-000\",\n  \"message\": \"Could not validate token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.humanitec.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b98b1e4b-a59c-4cde-8e74-0f14a1e1d0b0",
+    "name": "Humanitec AccountType ResourceDefinitionVersion API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n\n\nContact Support:\n Name: Humanitec Support\n Email: support@humanitec.com",
+      "type": "text/plain"
+    }
+  }
+}

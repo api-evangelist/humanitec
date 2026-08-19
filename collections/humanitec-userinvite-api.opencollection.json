@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType UserInvite API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "UserInvite",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List the invites issued for the organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/invitations",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ]
+          },
+          "docs": "List the invites issued for the organization."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

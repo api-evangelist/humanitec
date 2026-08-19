@@ -1,0 +1,291 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType WorkloadProfile API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "WorkloadProfile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List workload profiles available to the organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profiles",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "deprecated",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to include deprecated profiles"
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "List workload profiles available to the organization."
+        },
+        {
+          "info": {
+            "name": "Create new Workload Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profiles",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create new Workload Profile"
+        },
+        {
+          "info": {
+            "name": "Get a Workload Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profiles/:profileQid",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "profileQid",
+                "value": "",
+                "type": "path",
+                "description": "The Workload Profile ID."
+              }
+            ]
+          },
+          "docs": "Get a Workload Profile"
+        },
+        {
+          "info": {
+            "name": "Update a Workload Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profiles/:profileQid",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "profileQid",
+                "value": "",
+                "type": "path",
+                "description": "The Workload Profile ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Workload Profile"
+        },
+        {
+          "info": {
+            "name": "Delete a Workload Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profiles/:profileQid",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "profileQid",
+                "value": "",
+                "type": "path",
+                "description": "The Workload Profile ID."
+              }
+            ]
+          },
+          "docs": "This will also delete all versions of a workload profile.\n\nIt is not possible to delete profiles of other organizations."
+        },
+        {
+          "info": {
+            "name": "List versions of the given workload profile.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profiles/:profileQid/versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "profileQid",
+                "value": "",
+                "type": "path",
+                "description": "The Workload Profile ID."
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              }
+            ]
+          },
+          "docs": "List versions of the given workload profile."
+        },
+        {
+          "info": {
+            "name": "Latest version of the given workload profile with optional constraint.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profiles/:profileQid/versions/latest",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "profileQid",
+                "value": "",
+                "type": "path",
+                "description": "The Workload Profile ID."
+              }
+            ]
+          },
+          "docs": "Latest version of the given workload profile with optional constraint."
+        },
+        {
+          "info": {
+            "name": "Workload Profile Chart Versions for the given organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profile-chart-versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filter Chart Versions by Chart Version ID."
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Filter Chart Versions by Chart Version."
+              }
+            ]
+          },
+          "docs": "Returns all Workload Profile Chart Versions for the given organization."
+        },
+        {
+          "info": {
+            "name": "Add new Workload Profile Chart Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/workload-profile-chart-versions",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a Workload Profile Chart Version from the uploaded Helm chart. The name and version is retrieved from the chart's metadata (Charts.yaml file).\n\nThe request has content type `multipart/form-data` and the request body includes one part:\n\n1. `file` with `application/x-gzip` content type which is an archive containing a Helm chart.\n\nRequest body example:\n\n\tContent-Type: multipart/form-data; boundary=----boundary \t----boundary \tContent-Disposition: form-data; name=\"file\"; filename=\"my-workloa"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

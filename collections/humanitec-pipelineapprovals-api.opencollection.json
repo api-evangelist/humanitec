@@ -1,0 +1,220 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType PipelineApprovals API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PipelineApprovals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List of the approval requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/approvals",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "per_page",
+                "value": "50",
+                "type": "query",
+                "description": "The maximum number of items to return in a page of results"
+              },
+              {
+                "name": "page",
+                "value": "AAAAAAAAAA==",
+                "type": "query",
+                "description": "The page token to request from"
+              },
+              {
+                "name": "pipeline",
+                "value": "",
+                "type": "query",
+                "description": "An optional list of Pipeline IDs."
+              },
+              {
+                "name": "run",
+                "value": "",
+                "type": "query",
+                "description": "An optional Pipeline Run ID."
+              },
+              {
+                "name": "status",
+                "value": "denied",
+                "type": "query",
+                "description": "Optional filter by status."
+              }
+            ]
+          },
+          "docs": "List of the approval requests with in an app.\n"
+        },
+        {
+          "info": {
+            "name": "Get an approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId/jobs/:jobId/approvals/:approvalId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              },
+              {
+                "name": "jobId",
+                "value": "deploy",
+                "type": "path",
+                "description": "The Job ID"
+              },
+              {
+                "name": "approvalId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Approval ID"
+              }
+            ]
+          },
+          "docs": "Get an approval request."
+        },
+        {
+          "info": {
+            "name": "Approve the approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId/jobs/:jobId/approvals/:approvalId/approve",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              },
+              {
+                "name": "jobId",
+                "value": "deploy",
+                "type": "path",
+                "description": "The Job ID"
+              },
+              {
+                "name": "approvalId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Approval ID"
+              }
+            ]
+          },
+          "docs": "Approve the approval requested."
+        },
+        {
+          "info": {
+            "name": "Deny the approval request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/pipelines/:pipelineId/runs/:runId/jobs/:jobId/approvals/:approvalId/deny",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "pipelineId",
+                "value": "sample-pipeline",
+                "type": "path",
+                "description": "The Pipeline ID"
+              },
+              {
+                "name": "runId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Run ID"
+              },
+              {
+                "name": "jobId",
+                "value": "deploy",
+                "type": "path",
+                "description": "The Job ID"
+              },
+              {
+                "name": "approvalId",
+                "value": "01234567-89ab-cdef-0123-456789abcdef",
+                "type": "path",
+                "description": "The Approval ID"
+              }
+            ]
+          },
+          "docs": "Deny the approval requested."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

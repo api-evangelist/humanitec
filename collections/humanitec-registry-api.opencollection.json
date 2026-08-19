@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType Registry API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Registry",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lists available registries for the organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/registries",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) organization identifier.\n\n"
+              }
+            ]
+          },
+          "docs": "Lists available registries for the organization."
+        },
+        {
+          "info": {
+            "name": "Creates a new registry record.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.humanitec.io/orgs/:orgId/registries",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) organization identifier.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new registry record."
+        },
+        {
+          "info": {
+            "name": "Loads a registry record details.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/registries/:regId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) organization identifier.\n\n"
+              },
+              {
+                "name": "regId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) registry identifier.\n\n"
+              }
+            ]
+          },
+          "docs": "Loads a registry record details."
+        },
+        {
+          "info": {
+            "name": "Updates (patches) an existing registry record.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.humanitec.io/orgs/:orgId/registries/:regId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) organization identifier.\n\n"
+              },
+              {
+                "name": "regId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) registry identifier.\n\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates (patches) an existing registry record."
+        },
+        {
+          "info": {
+            "name": "Deletes an existing registry record and all associated credentials and secrets.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.humanitec.io/orgs/:orgId/registries/:regId",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) organization identifier.\n\n"
+              },
+              {
+                "name": "regId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) registry identifier.\n\n"
+              }
+            ]
+          },
+          "docs": "_Deletions are currently irreversible._"
+        },
+        {
+          "info": {
+            "name": "Returns current account credentials or secret details for the registry.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.humanitec.io/orgs/:orgId/registries/:regId/creds",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) organization identifier.\n\n"
+              },
+              {
+                "name": "regId",
+                "value": "",
+                "type": "path",
+                "description": "Unique (alpha-numerical) registry identifier.\n\n"
+              }
+            ]
+          },
+          "docs": "Returns current account credentials or secret details for the registry."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

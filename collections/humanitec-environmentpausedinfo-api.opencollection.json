@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Humanitec AccountType EnvironmentPausedInfo API",
+    "version": "0.28.24"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "EnvironmentPausedInfo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Pause / Resume an environment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.humanitec.io/orgs/:orgId/apps/:appId/envs/:envId/runtime/paused",
+            "params": [
+              {
+                "name": "orgId",
+                "value": "sample-org",
+                "type": "path",
+                "description": "The Organization ID"
+              },
+              {
+                "name": "appId",
+                "value": "sample-app",
+                "type": "path",
+                "description": "The Application ID"
+              },
+              {
+                "name": "envId",
+                "value": "development",
+                "type": "path",
+                "description": "The Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "On pause requests, all the Kubernetes Deployment resources are scaled down to 0 replicas. On resume requests, all the Kubernetes Deployment resources are scaled up to the number of replicas running before the environment was paused. When an environment is paused, it is not possible to:```\n  - Deploy the environment within Humanitec.\n  - Scale the number of replicas running of any workload.\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
