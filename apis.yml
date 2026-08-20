@@ -20,6 +20,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/humanitec.png
 tags:
+  - Deployment
+  - DevOps
+  - Internal Developer Platform
+  - Platform Engineering
+  - Platform Orchestrator
+tags_raw:
   - Deployments
   - DevOps
   - Internal Developer Platform
@@ -188,6 +194,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - Audit Logs
+  tags_raw:
   - AuditLogs
   properties:
   - type: OpenAPI
@@ -210,6 +218,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - Automation Rule
+  tags_raw:
   - AutomationRule
   properties:
   - type: OpenAPI
@@ -392,6 +402,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - Environment Type
+  tags_raw:
   - EnvironmentType
   properties:
   - type: OpenAPI
@@ -623,6 +635,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - Pipeline Runs
+  tags_raw:
   - PipelineRuns
   properties:
   - type: OpenAPI
@@ -664,6 +678,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - Public
+  tags_raw:
   - public
   properties:
   - type: OpenAPI
@@ -780,6 +796,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - Resource Class
+  tags_raw:
   - ResourceClass
   properties:
   - type: OpenAPI
@@ -926,6 +944,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - Secret Store
+  tags_raw:
   - SecretStore
   properties:
   - type: OpenAPI
@@ -1050,6 +1070,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - User Profile
+  tags_raw:
   - UserProfile
   properties:
   - type: OpenAPI
