@@ -91,19 +91,16 @@ apis:
   - type: Rules
     url: >-
       https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
-- aid: humanitec:humanitec-userrole-api
-  name: Humanitec UserRole API
-  description: >-
-    Holds the mapping of role for a subject on a particular object.
-
-    <SchemaDefinition schemaRef="#/components/schemas/UserRoleRequest" />
+- aid: humanitec:humanitec-user-role-api
+  name: Humanitec User Role API
+  description: Holds the mapping of role for a subject on a particular object.
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
-  - UserRole
+  - User Role
   properties:
   - type: OpenAPI
-    url: openapi/humanitec-userrole-api-openapi.yml
+    url: openapi/humanitec-user-role-api-openapi.yml
   - type: Documentation
     url: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   - type: GettingStarted
