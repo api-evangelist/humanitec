@@ -1,81 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Humanitec AccountType Agents API
+  title: Humanitec Agents API
   version: 0.28.24
   description: '# Introduction
 
-    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.
-
-    The API is a REST based API. It is based around a set of concepts:
-
-
-    * Core
-
-    * External Resources
-
-    * Sets and Deltas
-
-
-    ## Authentication
-
-
-    Almost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.
-
-
-    ## Content Types
-
-    The Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.
-
-
-    ## Response Codes
-
-    ### Success
-
-    Any response code in the `2xx` range should be regarded as success.
-
-
-    | **Code** | **Meaning**                         |
-
-    |----------|-------------------------------------|
-
-    | `200`    | Success                             |
-
-    | `201`    | Success, a new resource was created |
-
-    | `204`    | Success, but no content in response |
-
-
-    _Note: We plan to simplify the interface by replacing 201 with 200 status codes._
-
-
-    ### Failure
-
-    Any response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.
-
-
-    | **Code** | **Meaning**                                                                                                           |
-
-    |----------|-----------------------------------------------------------------------------------------------------------------------|
-
-    | `400`    | General error. (Body will contain details)                                                                            |
-
-    | `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |
-
-    | `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |
-
-    | `404`    | Resource not found.                                                                                                   |
-
-    | `405`    | Method not allowed                                                                                                    |
-
-    | `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |
-
-    | `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |
-
-    | `429`    | Too many requests - request rate limit has been reached.                                                              |
-
-    | `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |
-
-    '
+    The *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.'
   contact:
     name: Humanitec Support
     email: support@humanitec.com
@@ -87,18 +16,14 @@ servers:
 tags:
 - name: Agents
   x-displayName: Agents
-  description: 'An object containing the details of an Agent.
-
-    <SchemaDefinition schemaRef="#/components/schemas/Agent" />
-
-    '
+  description: An object containing the details of an Agent.
 paths:
   /orgs/{orgId}/agents:
     post:
       tags:
       - Agents
       operationId: createAgent
-      summary: Register a new Agent under an Organization.
+      summary: Register a new Agent under an Organization
       parameters:
       - $ref: '#/components/parameters/orgIdPathParam'
       requestBody:
@@ -122,7 +47,7 @@ paths:
       tags:
       - Agents
       operationId: listAgents
-      summary: List all the agents in an Organization.
+      summary: List all the agents in an Organization
       parameters:
       - $ref: '#/components/parameters/orgIdPathParam'
       - $ref: '#/components/parameters/fingerprintQueryParam'
@@ -140,7 +65,7 @@ paths:
       tags:
       - Agents
       operationId: deleteAgent
-      summary: Delete an Agent (and its keys) stored under an Organization.
+      summary: Delete an Agent (and its keys) stored under an Organization
       parameters:
       - $ref: '#/components/parameters/orgIdPathParam'
       - $ref: '#/components/parameters/agentIdPathParam'
@@ -153,7 +78,7 @@ paths:
       tags:
       - Agents
       operationId: patchAgent
-      summary: Update the description of an Agent.
+      summary: Update the description of an Agent
       parameters:
       - $ref: '#/components/parameters/orgIdPathParam'
       - $ref: '#/components/parameters/agentIdPathParam'
@@ -179,7 +104,7 @@ paths:
       tags:
       - Agents
       operationId: listKeysInAgent
-      summary: List all the keys registered under an Agent in an Organization.
+      summary: List all the keys registered under an Agent in an Organization
       parameters:
       - $ref: '#/components/parameters/orgIdPathParam'
       - $ref: '#/components/parameters/agentIdPathParam'
@@ -198,7 +123,7 @@ paths:
       tags:
       - Agents
       operationId: createKey
-      summary: Register a new Key under an Agent in an Organization.
+      summary: Register a new Key under an Agent in an Organization
       parameters:
       - $ref: '#/components/parameters/orgIdPathParam'
       - $ref: '#/components/parameters/agentIdPathParam'
@@ -226,7 +151,7 @@ paths:
       tags:
       - Agents
       operationId: deleteKeyInAgent
-      summary: Delete a key registered under a Agent.
+      summary: Delete a key registered under a Agent
       parameters:
       - $ref: '#/components/parameters/orgIdPathParam'
       - $ref: '#/components/parameters/agentIdPathParam'
@@ -237,6 +162,29 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
 components:
+  responses:
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    409Conflict:
+      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
+
+        More detail can be found in the error body.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
   parameters:
     agentIdPathParam:
       name: agentId
@@ -246,12 +194,11 @@ components:
       required: true
       schema:
         type: string
-    fingerprintPathParam:
+    fingerprintQueryParam:
       name: fingerprint
-      in: path
+      in: query
       description: The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).
       example: 9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d
-      required: true
       schema:
         type: string
     orgIdPathParam:
@@ -264,23 +211,68 @@ components:
         type: string
         pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
         maxLength: 50
-    fingerprintQueryParam:
+    fingerprintPathParam:
       name: fingerprint
-      in: query
+      in: path
       description: The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).
       example: 9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d
+      required: true
       schema:
         type: string
   schemas:
-    KeyCreateBody:
+    AgentPatchBody:
+      description: An object containing data to update the description field of an Agent.
       properties:
+        description:
+          type: string
+          description: A description to show future users. It can be empty.
+          example: One of my agents.
+      required:
+      - description
+    Agent:
+      description: An object containing the details of an Agent.
+      properties:
+        id:
+          type: string
+          description: The Agent id.
+          example: agent-id
+        description:
+          type: string
+          description: A description to show future users. It can be empty.
+          example: One of my agents.
+        created_at:
+          type: string
+          example: '2020-06-22T09:37:23.523Z'
+          format: date-time
+          description: Time of the Agent being registered.
+        created_by:
+          type: string
+          description: User ID of user that added the Agent.
+          example: 00000000-0000-0000-0000-000000000000
+      required:
+      - id
+      - created_at
+      - created_by
+    AgentCreateBody:
+      description: An object containing data needed to register an Agent.
+      properties:
+        id:
+          type: string
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+          description: The Agent id. It can't be empty and should contain only url safe characters.
+          example: agent-id
         public_key:
           type: string
           description: A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
           example: '-----BEGIN PUBLIC KEY-----
 
             ...-----END PUBLIC KEY-----'
+        description:
+          type: string
+          description: An optional description to show future users.
+          example: One of my agents.
       required:
+      - id
       - public_key
     HumanitecErrorResponse:
       description: HumanitecError represents a standard Humanitec Error
@@ -304,15 +296,16 @@ components:
       example:
         error: API-000
         message: Could not validate token.
-    AgentPatchBody:
-      description: An object containing data to update the description field of an Agent.
+    KeyCreateBody:
       properties:
-        description:
+        public_key:
           type: string
-          description: A description to show future users. It can be empty.
-          example: One of my agents.
+          description: A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
+          example: '-----BEGIN PUBLIC KEY-----
+
+            ...-----END PUBLIC KEY-----'
       required:
-      - description
+      - public_key
     Key:
       description: An object containing the details of a Key.
       properties:
@@ -351,74 +344,6 @@ components:
       - created_by
       - expired_at
       - is_authorized
-    AgentCreateBody:
-      description: An object containing data needed to register an Agent.
-      properties:
-        id:
-          type: string
-          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
-          description: The Agent id. It can't be empty and should contain only url safe characters.
-          example: agent-id
-        public_key:
-          type: string
-          description: A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
-          example: '-----BEGIN PUBLIC KEY-----
-
-            ...-----END PUBLIC KEY-----'
-        description:
-          type: string
-          description: An optional description to show future users.
-          example: One of my agents.
-      required:
-      - id
-      - public_key
-    Agent:
-      description: An object containing the details of an Agent.
-      properties:
-        id:
-          type: string
-          description: The Agent id.
-          example: agent-id
-        description:
-          type: string
-          description: A description to show future users. It can be empty.
-          example: One of my agents.
-        created_at:
-          type: string
-          example: '2020-06-22T09:37:23.523Z'
-          format: date-time
-          description: Time of the Agent being registered.
-        created_by:
-          type: string
-          description: User ID of user that added the Agent.
-          example: 00000000-0000-0000-0000-000000000000
-      required:
-      - id
-      - created_at
-      - created_by
-  responses:
-    409Conflict:
-      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
-
-        More detail can be found in the error body.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HumanitecErrorResponse'
-    400BadRequest:
-      description: The request was invalid. More detail can be found in the error body.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HumanitecErrorResponse'
-    404NotFound:
-      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HumanitecErrorResponse'
 externalDocs:
   description: Find out more about how to use Humanitec in your every-day development work.
   url: https://developer.humanitec.com/
