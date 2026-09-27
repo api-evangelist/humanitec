@@ -71,7 +71,7 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml
 - aid: humanitec:humanitec-public-api
-  name: Humanitec public API
+  name: Humanitec Public API
   description: The public API from Humanitec — 141 operation(s) for public.
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
@@ -97,8 +97,6 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
-  - UserRole
-  tags_raw:
   - User Role
   properties:
   - type: OpenAPI

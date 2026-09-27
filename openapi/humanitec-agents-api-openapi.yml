@@ -162,63 +162,6 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
 components:
-  responses:
-    400BadRequest:
-      description: The request was invalid. More detail can be found in the error body.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HumanitecErrorResponse'
-    404NotFound:
-      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HumanitecErrorResponse'
-    409Conflict:
-      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
-
-        More detail can be found in the error body.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HumanitecErrorResponse'
-  parameters:
-    agentIdPathParam:
-      name: agentId
-      in: path
-      description: The Agent id.
-      example: my-agent
-      required: true
-      schema:
-        type: string
-    fingerprintQueryParam:
-      name: fingerprint
-      in: query
-      description: The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).
-      example: 9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d
-      schema:
-        type: string
-    orgIdPathParam:
-      name: orgId
-      in: path
-      description: The Organization ID
-      example: sample-org
-      required: true
-      schema:
-        type: string
-        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
-        maxLength: 50
-    fingerprintPathParam:
-      name: fingerprint
-      in: path
-      description: The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).
-      example: 9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d
-      required: true
-      schema:
-        type: string
   schemas:
     AgentPatchBody:
       description: An object containing data to update the description field of an Agent.
@@ -229,6 +172,49 @@ components:
           example: One of my agents.
       required:
       - description
+    HumanitecErrorResponse:
+      description: HumanitecError represents a standard Humanitec Error
+      properties:
+        details:
+          additionalProperties: true
+          type: object
+          description: (Optional) Additional information is enclosed here.
+        error:
+          type: string
+          example: API-000
+          description: A short code to help with error identification.
+        message:
+          type: string
+          example: Could not validate token
+          description: A Human readable message about the error.
+      required:
+      - error
+      - message
+      type: object
+      example:
+        error: API-000
+        message: Could not validate token.
+    AgentCreateBody:
+      description: An object containing data needed to register an Agent.
+      properties:
+        id:
+          type: string
+          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+          description: The Agent id. It can't be empty and should contain only url safe characters.
+          example: agent-id
+        public_key:
+          type: string
+          description: A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
+          example: '-----BEGIN PUBLIC KEY-----
+
+            ...-----END PUBLIC KEY-----'
+        description:
+          type: string
+          description: An optional description to show future users.
+          example: One of my agents.
+      required:
+      - id
+      - public_key
     Agent:
       description: An object containing the details of an Agent.
       properties:
@@ -253,49 +239,6 @@ components:
       - id
       - created_at
       - created_by
-    AgentCreateBody:
-      description: An object containing data needed to register an Agent.
-      properties:
-        id:
-          type: string
-          pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
-          description: The Agent id. It can't be empty and should contain only url safe characters.
-          example: agent-id
-        public_key:
-          type: string
-          description: A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
-          example: '-----BEGIN PUBLIC KEY-----
-
-            ...-----END PUBLIC KEY-----'
-        description:
-          type: string
-          description: An optional description to show future users.
-          example: One of my agents.
-      required:
-      - id
-      - public_key
-    HumanitecErrorResponse:
-      description: HumanitecError represents a standard Humanitec Error
-      properties:
-        details:
-          additionalProperties: true
-          type: object
-          description: (Optional) Additional information is enclosed here.
-        error:
-          type: string
-          example: API-000
-          description: A short code to help with error identification.
-        message:
-          type: string
-          example: Could not validate token
-          description: A Human readable message about the error.
-      required:
-      - error
-      - message
-      type: object
-      example:
-        error: API-000
-        message: Could not validate token.
     KeyCreateBody:
       properties:
         public_key:
@@ -344,6 +287,63 @@ components:
       - created_by
       - expired_at
       - is_authorized
+  responses:
+    400BadRequest:
+      description: The request was invalid. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    404NotFound:
+      description: Either the resource or a related resource could not be found. More detail can be found in the error body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+    409Conflict:
+      description: 'The request itself is valid however it could not be applied based on the current state of the resource.
+
+        More detail can be found in the error body.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HumanitecErrorResponse'
+  parameters:
+    agentIdPathParam:
+      name: agentId
+      in: path
+      description: The Agent id.
+      example: my-agent
+      required: true
+      schema:
+        type: string
+    fingerprintPathParam:
+      name: fingerprint
+      in: path
+      description: The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).
+      example: 9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d
+      required: true
+      schema:
+        type: string
+    fingerprintQueryParam:
+      name: fingerprint
+      in: query
+      description: The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).
+      example: 9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d
+      schema:
+        type: string
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
 externalDocs:
   description: Find out more about how to use Humanitec in your every-day development work.
   url: https://developer.humanitec.com/
