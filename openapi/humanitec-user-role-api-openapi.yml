@@ -56,6 +56,27 @@ components:
           schema:
             $ref: '#/components/schemas/HumanitecErrorResponse'
   schemas:
+    SubjectPermissions:
+      description: Maps of objects and permissions the subject holds on them.
+      type: object
+      properties:
+        objects:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Permissions'
+      required:
+      - objects
+      additionalProperties: false
+    Permissions:
+      description: List of permissions.
+      properties:
+        permissions:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+      required:
+      - permissions
     HumanitecErrorResponse:
       description: HumanitecError represents a standard Humanitec Error
       properties:
@@ -78,27 +99,6 @@ components:
       example:
         error: API-000
         message: Could not validate token.
-    SubjectPermissions:
-      description: Maps of objects and permissions the subject holds on them.
-      type: object
-      properties:
-        objects:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Permissions'
-      required:
-      - objects
-      additionalProperties: false
-    Permissions:
-      description: List of permissions.
-      properties:
-        permissions:
-          type: array
-          items:
-            type: string
-      additionalProperties: false
-      required:
-      - permissions
   parameters:
     orgIdPathParam:
       name: orgId
