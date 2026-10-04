@@ -55,18 +55,27 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/HumanitecErrorResponse'
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    userIdPathParam:
+      name: userId
+      in: path
+      description: The User or Group Id.
+      required: true
+      example: 61048226-642c-438e-974f-ce5c013d94f8
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
   schemas:
-    SubjectPermissions:
-      description: Maps of objects and permissions the subject holds on them.
-      type: object
-      properties:
-        objects:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Permissions'
-      required:
-      - objects
-      additionalProperties: false
     Permissions:
       description: List of permissions.
       properties:
@@ -99,26 +108,17 @@ components:
       example:
         error: API-000
         message: Could not validate token.
-  parameters:
-    orgIdPathParam:
-      name: orgId
-      in: path
-      description: The Organization ID
-      example: sample-org
-      required: true
-      schema:
-        type: string
-        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
-        maxLength: 50
-    userIdPathParam:
-      name: userId
-      in: path
-      description: The User or Group Id.
-      required: true
-      example: 61048226-642c-438e-974f-ce5c013d94f8
-      schema:
-        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
-        type: string
+    SubjectPermissions:
+      description: Maps of objects and permissions the subject holds on them.
+      type: object
+      properties:
+        objects:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Permissions'
+      required:
+      - objects
+      additionalProperties: false
 externalDocs:
   description: Find out more about how to use Humanitec in your every-day development work.
   url: https://developer.humanitec.com/
