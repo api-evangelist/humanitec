@@ -1,0 +1,38 @@
+slug: humanitec
+provider: Humanitec
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Public
+  spec_file: humanitec-public-api-openapi.yml
+  capability_id: BC-4210
+  capability_id_l1: BC-4210
+  capability_name: Software Release & Deployment Management
+  confidence: 0.85
+  evidence: POST /orgs/{orgId}/apps/{appId}/envs createEnvironment Add a new Environment to an Application;
+    POST /orgs/{orgId}/apps/{appId}/envs/{envId}/deploys createDeployment Start a new Deployment
+  reason: The surface manages applications, environments and deployments in an Internal Developer Platform
+    — software release and deployment management; spans environment management and deployment orchestration
+    so held at L1.
+- tag: User Role
+  spec_file: humanitec-user-role-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /orgs/{orgId}/users/{userId}/perms — "Get the permissions of a User or Group on the objects
+    in an Organization"; schemas SubjectPermissions, Permissions
+  reason: The single operation resolves a user's or group's permissions on organisation objects, i.e.
+    access-rights inspection. That is identity & access management plumbing exposed as an API; the tag
+    is not about HR roles. Some chance this is better read as pure platform-admin config, hence moderate
+    confidence.
