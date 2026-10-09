@@ -1,18 +1,19 @@
-generated: '2026-07-15'
+generated: '2026-09-23'
 method: generated
-source: openapi/humanitec-openapi.yml
+source: openapi/humanitec-agents-api-openapi.yml, openapi/humanitec-public-api-openapi.yml,
+  openapi/humanitec-user-role-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
   operations: 221
   by_action_class:
-    acting: 119
-    connected: 102
+    acting: 118
+    connected: 103
   by_consequence:
-    write: 112
-    read: 102
-    physical: 6
+    write: 113
+    read: 103
+    physical: 4
     safety-critical: 1
   human_in_the_loop_required: 1
 operations:
@@ -810,6 +811,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/jobs
   method: delete
+  operationId: deleteOrgsByOrgIdAppsByAppIdJobs
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -825,6 +827,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/webhooks
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdWebhooks
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -834,6 +837,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/webhooks
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdWebhooks
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -849,6 +853,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/webhooks/{jobId}
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdWebhooksByJobId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -858,6 +863,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/webhooks/{jobId}
   method: delete
+  operationId: deleteOrgsByOrgIdAppsByAppIdWebhooksByJobId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -873,6 +879,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/webhooks/{jobId}
   method: patch
+  operationId: patchOrgsByOrgIdAppsByAppIdWebhooksByJobId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -888,6 +895,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/events
   method: get
+  operationId: getOrgsByOrgIdEvents
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -959,6 +967,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/logs
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdEnvsByEnvIdLogs
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1350,6 +1359,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/registries
   method: get
+  operationId: getOrgsByOrgIdRegistries
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1359,6 +1369,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/registries
   method: post
+  operationId: postOrgsByOrgIdRegistries
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -1374,6 +1385,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/registries/{regId}
   method: get
+  operationId: getOrgsByOrgIdRegistriesByRegId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1383,6 +1395,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/registries/{regId}
   method: delete
+  operationId: deleteOrgsByOrgIdRegistriesByRegId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -1398,6 +1411,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/registries/{regId}
   method: patch
+  operationId: patchOrgsByOrgIdRegistriesByRegId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -1413,6 +1427,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/registries/{regId}/creds
   method: get
+  operationId: getOrgsByOrgIdRegistriesByRegIdCreds
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -1434,32 +1449,22 @@ operations:
   method: post
   operationId: queryResourceGraph
   x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs
   method: post
   operationId: createDependencyGraph
   x-agentic-access:
     action-class: acting
-    consequence: physical
+    consequence: write
     subject: required
     audience: null
     token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
+      max-ttl: 900
     escalation:
       human-in-the-loop: conditional
       triggers:
@@ -2078,6 +2083,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/secretstores
   method: get
+  operationId: getOrgsByOrgIdSecretstores
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2087,6 +2093,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/secretstores
   method: post
+  operationId: postOrgsByOrgIdSecretstores
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2102,6 +2109,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/secretstores/{storeId}
   method: get
+  operationId: getOrgsByOrgIdSecretstoresByStoreId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2111,6 +2119,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/secretstores/{storeId}
   method: delete
+  operationId: deleteOrgsByOrgIdSecretstoresByStoreId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2126,6 +2135,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/secretstores/{storeId}
   method: patch
+  operationId: patchOrgsByOrgIdSecretstoresByStoreId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2431,16 +2441,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /orgs/{orgId}/users/{userId}/perms
-  method: get
-  operationId: getSubjectPermsInOrg
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /users/{userId}/tokens
   method: get
   operationId: listUserTokens
@@ -2495,6 +2495,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdEnvsByEnvIdValueSetVersions
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2504,6 +2505,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdEnvsByEnvIdValueSetVersionsByValueSetVersionId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2513,6 +2515,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/purge/{key}
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdEnvsByEnvIdValueSetVersionsByValueSetVersionIdPurgeByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2528,6 +2531,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdEnvsByEnvIdValueSetVersionsByValueSetVersionIdRestore
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2543,6 +2547,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore/{key}
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdEnvsByEnvIdValueSetVersionsByValueSetVersionIdRestoreByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2558,6 +2563,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/values
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdEnvsByEnvIdValues
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2567,6 +2573,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/values
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdEnvsByEnvIdValues
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2582,6 +2589,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/values
   method: delete
+  operationId: deleteOrgsByOrgIdAppsByAppIdEnvsByEnvIdValues
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2597,6 +2605,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}
   method: put
+  operationId: putOrgsByOrgIdAppsByAppIdEnvsByEnvIdValuesByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2612,6 +2621,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}
   method: delete
+  operationId: deleteOrgsByOrgIdAppsByAppIdEnvsByEnvIdValuesByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2627,6 +2637,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}
   method: patch
+  operationId: patchOrgsByOrgIdAppsByAppIdEnvsByEnvIdValuesByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2642,6 +2653,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/value-set-versions
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdValueSetVersions
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2651,6 +2663,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdValueSetVersionsByValueSetVersionId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2660,6 +2673,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/purge/{key}
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdValueSetVersionsByValueSetVersionIdPurgeByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2675,6 +2689,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdValueSetVersionsByValueSetVersionIdRestore
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2690,6 +2705,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore/{key}
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdValueSetVersionsByValueSetVersionIdRestoreByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2705,6 +2721,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/values
   method: get
+  operationId: getOrgsByOrgIdAppsByAppIdValues
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -2714,6 +2731,7 @@ operations:
     audit: none
 - path: /orgs/{orgId}/apps/{appId}/values
   method: post
+  operationId: postOrgsByOrgIdAppsByAppIdValues
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2729,6 +2747,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/values
   method: delete
+  operationId: deleteOrgsByOrgIdAppsByAppIdValues
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2744,6 +2763,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/values/{key}
   method: put
+  operationId: putOrgsByOrgIdAppsByAppIdValuesByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2759,6 +2779,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/values/{key}
   method: delete
+  operationId: deleteOrgsByOrgIdAppsByAppIdValuesByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2774,6 +2795,7 @@ operations:
     audit: required
 - path: /orgs/{orgId}/apps/{appId}/values/{key}
   method: patch
+  operationId: patchOrgsByOrgIdAppsByAppIdValuesByKey
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -2904,6 +2926,16 @@ operations:
 - path: /orgs/{orgId}/workload-profile-chart-versions
   method: get
   operationId: listWorkloadProfileChartVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /orgs/{orgId}/users/{userId}/perms
+  method: get
+  operationId: getSubjectPermsInOrg
   x-agentic-access:
     action-class: connected
     consequence: read
