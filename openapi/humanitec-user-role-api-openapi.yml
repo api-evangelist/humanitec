@@ -55,26 +55,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/HumanitecErrorResponse'
-  parameters:
-    orgIdPathParam:
-      name: orgId
-      in: path
-      description: The Organization ID
-      example: sample-org
-      required: true
-      schema:
-        type: string
-        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
-        maxLength: 50
-    userIdPathParam:
-      name: userId
-      in: path
-      description: The User or Group Id.
-      required: true
-      example: 61048226-642c-438e-974f-ce5c013d94f8
-      schema:
-        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
-        type: string
   schemas:
     Permissions:
       description: List of permissions.
@@ -119,6 +99,26 @@ components:
       required:
       - objects
       additionalProperties: false
+  parameters:
+    orgIdPathParam:
+      name: orgId
+      in: path
+      description: The Organization ID
+      example: sample-org
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        maxLength: 50
+    userIdPathParam:
+      name: userId
+      in: path
+      description: The User or Group Id.
+      required: true
+      example: 61048226-642c-438e-974f-ce5c013d94f8
+      schema:
+        pattern: ^[a-z0-9](?:-?[a-z0-9]+)+$
+        type: string
 externalDocs:
   description: Find out more about how to use Humanitec in your every-day development work.
   url: https://developer.humanitec.com/
