@@ -97,6 +97,8 @@ apis:
   humanURL: https://developer.humanitec.com/platform-orchestrator/reference/api-references/
   baseURL: https://api.humanitec.io
   tags:
+  - UserRole
+  tags_raw:
   - User Role
   properties:
   - type: OpenAPI
