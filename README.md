@@ -1,4 +1,4 @@
-# Humanitec (humanitec)
+# Humanitec
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,66 +66,143 @@
 
 Humanitec is a platform engineering company that provides an Internal Developer Platform (IDP) for managing applications, deployments, environments, and resources through self-service developer workflows. The Humanitec Platform Orchestrator API enables teams to programmatically manage organizations, applications, environments, deployments, workloads, resources, and integrations.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/apis.yml)
+**Areas:** Deployment · DevOps · Internal Developer Platform · Platform Engineering · Platform Orchestrator
 
-## Scope
+## Humanitec on APIs.io
 
-- **Type:** Index
+Everything profiled for Humanitec is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/humanitec/](https://apis.io/providers/humanitec/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (3)
 
-- Deployments
-- DevOps
-- Internal Developer Platform
-- Platform Engineering
-- Platform Orchestrator
+- [Humanitec Agents API](https://apis.io/apis/humanitec/humanitec-agents-api/) — An object containing the details of an Agent. <SchemaDefinition schemaRef="#/components/schemas/Agent" />
+- [Humanitec Public API](https://apis.io/apis/humanitec/humanitec-public-api/) — The public API from Humanitec — 141 operation(s) for public.
+- [Humanitec User Role API](https://apis.io/apis/humanitec/humanitec-user-role-api/) — Holds the mapping of role for a subject on a particular object.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-16
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### Humanitec Platform Orchestrator API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-The Humanitec Platform Orchestrator API provides programmatic access to manage organizations, applications, environments, deployments, workloads, resources, integrations, pipelines, and other platform components within the Humanitec Internal Developer Platform.
+- [Humanitec Agentic Access](https://apis.io/agentic-access/humanitec/humanitec-agentic-access/)
 
-- **Human URL:** [https://developer.humanitec.com/platform-orchestrator/reference/api-references/](https://developer.humanitec.com/platform-orchestrator/reference/api-references/)
-- **Base URL:** `https://api.humanitec.io`
+#### Collections (46)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Deployments
-- Environments
-- Platform Engineering
-- Resources
-- Workloads
+- [Humanitec API](https://apis.io/collections/humanitec/open-humanitec/)
+- [Humanitec AccountType API](https://apis.io/collections/humanitec/open-humanitec-accounttype-api/)
+- [Humanitec AccountType ActiveResource API](https://apis.io/collections/humanitec/open-humanitec-activeresource-api/)
+- [Humanitec AccountType Agents API](https://apis.io/collections/humanitec/open-humanitec-agents-api/)
+- [Humanitec AccountType Application API](https://apis.io/collections/humanitec/open-humanitec-application-api/)
+- [Humanitec AccountType Artefact API](https://apis.io/collections/humanitec/open-humanitec-artefact-api/)
+- [Humanitec AccountType ArtefactVersion API](https://apis.io/collections/humanitec/open-humanitec-artefactversion-api/)
+- [Humanitec AccountType AuditLogs API](https://apis.io/collections/humanitec/open-humanitec-auditlogs-api/)
+- [Humanitec AccountType AutomationRule API](https://apis.io/collections/humanitec/open-humanitec-automationrule-api/)
+- [Humanitec AccountType Delta API](https://apis.io/collections/humanitec/open-humanitec-delta-api/)
+- [Humanitec AccountType Deployment API](https://apis.io/collections/humanitec/open-humanitec-deployment-api/)
+- [Humanitec AccountType DriverDefinition API](https://apis.io/collections/humanitec/open-humanitec-driverdefinition-api/)
+- [Humanitec AccountType Environment API](https://apis.io/collections/humanitec/open-humanitec-environment-api/)
+- [Humanitec AccountType EnvironmentPausedInfo API](https://apis.io/collections/humanitec/open-humanitec-environmentpausedinfo-api/)
+- [Humanitec AccountType EnvironmentType API](https://apis.io/collections/humanitec/open-humanitec-environmenttype-api/)
+- [Humanitec AccountType Event API](https://apis.io/collections/humanitec/open-humanitec-event-api/)
+- [Humanitec AccountType Group API](https://apis.io/collections/humanitec/open-humanitec-group-api/)
+- [Humanitec AccountType HumanitecPublicKeys API](https://apis.io/collections/humanitec/open-humanitec-humanitecpublickeys-api/)
+- [Humanitec AccountType Image API](https://apis.io/collections/humanitec/open-humanitec-image-api/)
+- [Humanitec AccountType Logs API](https://apis.io/collections/humanitec/open-humanitec-logs-api/)
+- [Humanitec AccountType MatchingCriteria API](https://apis.io/collections/humanitec/open-humanitec-matchingcriteria-api/)
+- [Humanitec AccountType Organization API](https://apis.io/collections/humanitec/open-humanitec-organization-api/)
+- [Humanitec AccountType PipelineApprovals API](https://apis.io/collections/humanitec/open-humanitec-pipelineapprovals-api/)
+- [Humanitec AccountType PipelineRuns API](https://apis.io/collections/humanitec/open-humanitec-pipelineruns-api/)
+- [Humanitec AccountType Pipelines API](https://apis.io/collections/humanitec/open-humanitec-pipelines-api/)
+- …and 21 more published on APIs.io
 
-#### Properties
+#### Security (1)
 
-- [Documentation](https://developer.humanitec.com/platform-orchestrator/reference/api-references/)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/openapi/humanitec-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Getting Started](https://developer.humanitec.com/introduction/overview/)
-- [Authentication](https://developer.humanitec.com/platform-orchestrator/security/api-tokens/)
-- [Rules](https://raw.githubusercontent.com/api-evangelist/humanitec/refs/heads/main/humanitec-rules.yml)
-- [Postman Collection](collections/humanitec.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/humanitec.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Authentication, trust centre, and vulnerability disclosure.
 
-## Common Properties
+- [Humanitec Domain Security](https://apis.io/security/humanitec/humanitec-domain-security/)
 
-- [LinkedIn](https://www.linkedin.com/company/humanitec)
-- [Portal](https://developer.humanitec.com/)
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Humanitec Plans Pricing](https://apis.io/plans/humanitec/humanitec-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Humanitec Rate Limits](https://apis.io/rate-limits/humanitec/humanitec-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Humanitec Finops](https://apis.io/finops/humanitec/humanitec-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://humanitec.com/)
 - [Documentation](https://developer.humanitec.com/)
-- [Sign Up](https://app.humanitec.io/sign-up)
 - [Blog](https://humanitec.com/blog)
-- [GitHub Organization](https://github.com/humanitec)
-- [Terms of Service](https://humanitec.com/terms-of-service)
-- [Privacy Policy](https://humanitec.com/privacy-policy)
-- [Integrations](https://humanitec.com/integrations)
+- [Terms of service](https://humanitec.com/terms-of-service)
+- [Privacy policy](https://humanitec.com/privacy-policy)
+- [GitHub](https://github.com/humanitec)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 31.3** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 43.7 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 33.3 |
+| Access clarity | 31.6 |
+
+**Agent readiness 37.2** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | verified |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | yes |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 15.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/humanitec/](https://apis.io/providers/humanitec/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Humanitec: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/humanitec/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
